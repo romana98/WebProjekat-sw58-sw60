@@ -1,5 +1,7 @@
 package classes;
 
+import enums.Uloga;
+
 public class Korisnik {
 	private String email; //key
 	private String ime;
@@ -55,6 +57,12 @@ public class Korisnik {
 
 	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
+	}
+
+	@Override
+	public String toString() {
+		return "Korisnik [email=" + email + ", ime=" + ime + ", prezime=" + prezime + ", organizacija=" + organizacija
+				+ ", uloga=" + uloga + "]";
 	}
 	
 	

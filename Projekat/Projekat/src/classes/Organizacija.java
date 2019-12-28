@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Organizacija {
-	private String ime;
+	private String ime; //key
 	private String opis;
 	private BufferedImage logo;
 	private ArrayList<String> korisnici;
@@ -59,6 +59,12 @@ public class Organizacija {
 
 	public void setResursi(ArrayList<String> resursi) {
 		this.resursi = resursi;
+	}
+
+	@Override
+	public String toString() {
+		return "Organizacija [ime=" + ime + ", opis=" + opis + ", logo=" + logo + ", korisnici=" + korisnici
+				+ ", resursi=" + resursi + "]";
 	}
 	
 	
