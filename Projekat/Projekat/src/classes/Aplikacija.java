@@ -3,8 +3,6 @@ package classes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Aplikacija {
 	private HashMap<String, Korisnik> korisnici = new HashMap<>();
 	private ArrayList<Korisnik> korisniciList = new ArrayList<>();
@@ -20,7 +18,6 @@ public class Aplikacija {
 		this.korisnici = korisnici;
 	}
 	
-	@JsonProperty("Korisnici")
 	public ArrayList<Korisnik> getKorisniciList() {
 		return korisniciList;
 	}
@@ -37,7 +34,6 @@ public class Aplikacija {
 		return organizacijeList;
 	}
 	
-	@JsonProperty("Organizacije")
 	public void setOrganizacijeList(ArrayList<Organizacija> organizacijeList) {
 		this.organizacijeList = organizacijeList;
 	}

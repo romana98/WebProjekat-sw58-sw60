@@ -1,5 +1,9 @@
 package enums;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum Uloga {
-	SuperAdmin, Admin, Korisnik
+	@SerializedName("superadmin")SuperAdmin, 
+	@SerializedName("admin")Admin, 
+	@SerializedName("korisnik")Korisnik
 }

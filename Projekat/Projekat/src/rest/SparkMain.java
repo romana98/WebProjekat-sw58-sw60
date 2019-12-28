@@ -13,6 +13,8 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 
+import classes.Files;
+
 public class SparkMain {
 	
 	private static Gson g = new Gson();
@@ -21,6 +23,14 @@ public class SparkMain {
 		port(8080);
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
+		
+		get("/test", (req, res) -> {
+			return "Works";
+		});
+		
+		Files f = new Files();
+		
+		f.Ucitavanje();
 		
 		
 		
