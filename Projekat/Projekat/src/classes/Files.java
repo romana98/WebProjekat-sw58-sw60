@@ -11,9 +11,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class Files {
-	private Gson gson = new Gson();
+	private static Gson gson = new Gson();
 	
-	public Aplikacija Ucitavanje()
+	public static Aplikacija Ucitavanje()
 	{
 		Aplikacija app = new Aplikacija();
 		
@@ -24,7 +24,7 @@ public class Files {
 		//TODO dodati za ostale entitete
 		
 		
-		System.out.println(app.getKorisniciList().get(0));
+		app.popuniMape();
 		
 		} catch (IOException e) {
 			System.out.println("Error pri ucitavanju iz fajlova!");
@@ -33,7 +33,7 @@ public class Files {
 		return app;
 	}
 	
-	public void UpisKorisnik(ArrayList<Korisnik> korisnici)
+	public static void UpisKorisnik(ArrayList<Korisnik> korisnici)
 	{
 		try (Writer writer = new FileWriter("./files/korisnici.json")) {
 		    gson = new GsonBuilder().create();
@@ -44,7 +44,7 @@ public class Files {
 		}
 	}
 	
-	public void UpisOrganizacija(ArrayList<Organizacija> organizacije)
+	public static void UpisOrganizacija(ArrayList<Organizacija> organizacije)
 	{
 		try (Writer writer = new FileWriter("./files/organizacije.json")) {
 		    gson = new GsonBuilder().create();
@@ -56,17 +56,17 @@ public class Files {
 	}
 	
 	//TODO upis za ostale entitete
-	public void UpisVM()
+	public static void UpisVM()
 	{
 		
 	}
 	
-	public void UpisDisk()
+	public static void UpisDisk()
 	{
 		
 	}
 	
-	public void UpisKategorija()
+	public static void UpisKategorija()
 	{
 		
 	}

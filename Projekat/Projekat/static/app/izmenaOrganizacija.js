@@ -9,7 +9,7 @@ Vue.component("izmena-organizacija", {
 	}
 	template:`
 	<div>
-		<table>
+		<table class="tabela">
 			<tr>
 				<td>Ime:<td>
 				<td>{{org.ime}}<td>
@@ -28,6 +28,13 @@ Vue.component("izmena-organizacija", {
 			</tr>
 			<tr>
 				<td>Resursi:<td>
+				<td>
+					<select>
+					</select>
+				</td>
+				
+				
+				
 				<td>{{org.resursi}}<td>
 			</tr>
 		</table>
