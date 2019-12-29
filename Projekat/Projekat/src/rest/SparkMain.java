@@ -26,6 +26,8 @@ public class SparkMain {
 	public static void main(String[] args) throws IOException {
 		port(8080);
 		
+		app = new Aplikacija();
+		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 		app = Files.Ucitavanje();
 		

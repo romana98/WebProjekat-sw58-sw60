@@ -8,15 +8,31 @@ public class Aplikacija {
 	private ArrayList<Korisnik> korisniciList = new ArrayList<>();
 	private HashMap<String, Organizacija> organizacije = new HashMap<>();
 	private ArrayList<Organizacija> organizacijeList = new ArrayList<>();
+
 	
+	public Aplikacija() {
+		super();
+	}
+
 	public void popuniMape() {
 		
-		for (int i = 0; i < korisniciList.size(); i++) {
-			korisnici.put(korisniciList.get(i).getEmail(), korisniciList.get(i));
-		}
 		
-		for (int i = 0; i < organizacijeList.size(); i++) {
-			organizacije.put(organizacijeList.get(i).getIme(), organizacijeList.get(i));
+		if(korisniciList != null){
+			for (int i = 0; i < korisniciList.size(); i++) {
+						korisnici.put(korisniciList.get(i).getEmail(), korisniciList.get(i));
+			}
+		}
+		else{
+			korisniciList = new ArrayList<Korisnik>();
+		}
+
+		if(organizacijeList != null){
+			for (int i = 0; i < organizacijeList.size(); i++) {
+				organizacije.put(organizacijeList.get(i).getIme(), organizacijeList.get(i));
+			}
+		}
+		else{
+			organizacijeList = new ArrayList<Organizacija>();
 		}
 		// TODO za ostale entitete
 		

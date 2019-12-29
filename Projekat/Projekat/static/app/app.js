@@ -12,7 +12,7 @@ const router = new VueRouter({
 	    { path: '/', component: logIn},
 	    { path: '/IzOrg', component: izmenaOrganizacija }
 	    { path: '/IzBrKor', component izmenaBrisanjeKorisnika }
-	    { patj: '/IzProf', component izmenaProfila }
+	    { path: '/IzProf', component izmenaProfila }
 	  ]
 });
 
