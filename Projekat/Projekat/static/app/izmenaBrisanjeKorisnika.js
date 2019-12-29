@@ -53,6 +53,7 @@ Vue.component("izmena-bisanje-korisnik", {
 		</form>
 	</div>
 	`	
+	,
 	methods: {
 		sacuvaj : function()
 		{
@@ -67,7 +68,7 @@ Vue.component("izmena-bisanje-korisnik", {
 			else
 			{
 				axios
-				.post('rest/kosiniciIzmena', {this.kor})
+				.post('rest/kosiniciIzmena', {kor})
 				//.then(response => (toast())) toast
 				
 			}
@@ -77,15 +78,15 @@ Vue.component("izmena-bisanje-korisnik", {
 		ponisti : function()
 		{
 			axios
-			.post('rest/kosinici/Izmena', {this.korOld})
+			.post('rest/kosinici/Izmena', {korOld})
 				//.then(response => (toast())) toast
-		}
+		},
 		
 		obrisi : function()
 		{
 			//toast za potvrdu
 			axios
-			.post('rest/kosinici/Brisanje', {this.korOld})
+			.post('rest/kosinici/Brisanje', {korOld})
 				//.then(response => (toast())) toast
 		}
 		

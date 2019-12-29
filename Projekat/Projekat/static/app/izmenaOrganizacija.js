@@ -54,24 +54,26 @@ Vue.component("izmena-organizacija", {
 		<p>Nov logo:</p>
 	</div>
 	`	
+	,
 	methods: {
 		onImg(event)
 		{
 			//dodati if else u odnosu na korisnika
 			const file = event.target.files;
 			this.createImg(file[0]);
-		}
+		},
 		
 		createImg(file)
 		{
 			let image = new Image();
 			let reader = new FileReader();
 			
-			reader.onload(event) =>{
+			reader.onload = function(event) {
 				this.org.img = e.target.result;
 			};
+			
 			reader.eradAsDataURL(file);
-		}
+		},
 		
 		sacuvaj : function()
 		{
@@ -82,7 +84,7 @@ Vue.component("izmena-organizacija", {
 			else
 			{
 				axios
-				.post('rest/organizacije/Izmena', {this.org})
+				.post('rest/organizacije/Izmena', {org})
 				//.then(response => (toast())) toast
 				
 			}
@@ -92,7 +94,7 @@ Vue.component("izmena-organizacija", {
 		ponisti : function()
 		{
 			axios
-				.post('rest/organizacije/Izmena', {this.orgOld})
+				.post('rest/organizacije/Izmena', {orgOld})
 				//.then(response => (toast())) toast
 				
 		}

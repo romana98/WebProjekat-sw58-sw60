@@ -51,6 +51,7 @@ Vue.component("izmena-profila", {
 		</form>
 	</div>
 	`	
+	,
 	methods: {
 		sacuvaj : function()
 		{
@@ -61,7 +62,7 @@ Vue.component("izmena-profila", {
 			else
 			{
 				axios
-				.post('rest/kosiniciIzmena', {this.kor})
+				.post('rest/kosiniciIzmena', {kor})
 				//.then(response => (toast())) toast
 				
 			}
@@ -71,7 +72,7 @@ Vue.component("izmena-profila", {
 		ponisti : function()
 		{
 			axios
-			.post('rest/kosinici/Izmena', {this.korOld})
+			.post('rest/kosinici/Izmena', {korOld})
 				//.then(response => (toast())) toast
 		}
 
