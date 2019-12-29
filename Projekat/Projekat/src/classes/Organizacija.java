@@ -1,18 +1,17 @@
 package classes;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Organizacija {
 	private String ime; //key
 	private String opis;
-	private BufferedImage logo;
+	private String logo;
 	private ArrayList<String> korisnici;
 	private ArrayList<String> resursi;
 	
 	public Organizacija() {}
 	
-	public Organizacija(String ime, String opis, BufferedImage logo, ArrayList<String> korisnici,
+	public Organizacija(String ime, String opis, String logo, ArrayList<String> korisnici,
 			ArrayList<String> resursi) {
 		this.ime = ime;
 		this.opis = opis;
@@ -37,11 +36,11 @@ public class Organizacija {
 		this.opis = opis;
 	}
 
-	public BufferedImage getLogo() {
+	public String getLogo() {
 		return logo;
 	}
 
-	public void setLogo(BufferedImage logo) {
+	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 
@@ -67,10 +66,4 @@ public class Organizacija {
 				+ ", resursi=" + resursi + "]";
 	}
 	
-	
-/*
-Napomena kako koristiti: 	
-String imagePath = "path/to/your/image.jpg";
-BufferedImage myPicture = ImageIO.read(new File(imagePath));
-*/
 }

@@ -22,6 +22,28 @@ public class Aplikacija {
 		
 	}
 	
+	public void editOrganizacija(Organizacija o)
+	{
+		organizacije.put(o.getIme(), o);
+		int index = organizacijeList.indexOf(o);
+		organizacijeList.set(index, o);
+		
+	}
+	
+	public void editKorisnik(Korisnik k)
+	{
+		korisnici.put(k.getEmail(), k);
+		int index = korisniciList.indexOf(k);
+		korisniciList.set(index, k);
+	}
+	
+	public void removeKorisnik(Korisnik k)
+	{
+		korisniciList.remove(k);
+		korisnici.remove(k.getEmail());
+	}
+	
+	
 	//Get/Set by ID
 	
 	public Korisnik getKorisnikID(String id) {
