@@ -13,8 +13,6 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 
-import classes.Files;
-
 public class SparkMain {
 	
 	private static Gson g = new Gson();
@@ -27,13 +25,6 @@ public class SparkMain {
 		get("/test", (req, res) -> {
 			return "Works";
 		});
-		
-		Files f = new Files();
-		
-		f.Ucitavanje();
-		
-		
-		
 		
 
 	}

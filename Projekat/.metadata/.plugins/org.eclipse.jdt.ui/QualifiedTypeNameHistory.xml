@@ -12,4 +12,11 @@
 <fullyQualifiedTypeName name="com.fasterxml.jackson.core.type.TypeReference"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="classes.Organizacija"/>
+<fullyQualifiedTypeName name="com.google.gson.GsonBuilder"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
+<fullyQualifiedTypeName name="java.io.Writer"/>
+<fullyQualifiedTypeName name="java.io.FileReader"/>
+<fullyQualifiedTypeName name="com.google.gson.reflect.TypeToken"/>
+<fullyQualifiedTypeName name="classes.Files"/>
+<fullyQualifiedTypeName name="com.google.gson.annotations.SerializedName"/>
 </qualifiedTypeNameHistroy>
