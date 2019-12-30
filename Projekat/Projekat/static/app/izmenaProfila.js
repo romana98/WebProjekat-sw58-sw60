@@ -2,6 +2,7 @@ Vue.component("izmena-profila", {
 	data: function (){
 		return {
 		kor: null,
+		loz: '',
 		uloge: ['superadmin', 'admin', 'korisnik']
 		}
 	},
@@ -21,6 +22,14 @@ Vue.component("izmena-profila", {
 				<td><input v-model=kor.prezime></input></td>
 			</tr>
 			<tr>
+				<td>Lozinka:</td>
+				<td><input v-model=kor.lozinka></input></td>
+			</tr>
+			<tr>
+				<td>Lozinka ponovi:</td>
+				<td><input v-model=loz></input></td>
+			</tr>
+			<tr>
 				<td>Organizacija:</td>
 				<td >{{kor.organizacija.ime}}</td>
 			</tr>
@@ -34,7 +43,7 @@ Vue.component("izmena-profila", {
 			</tr>
 		</table>
 		<br/>
-		<form action="#/korisnici" @submit="sacuvaj(kor)" methods="post">
+		<form action="#/korisnici" @submit="sacuvaj(kor, loz)" methods="post">
 			<input type="submit" value="Sacuvaj"></input>
 		</form>
 		<form action="#/korisnici" @submit="ponisti()" methods="post">
@@ -44,20 +53,26 @@ Vue.component("izmena-profila", {
 	`	
 	,
 	methods: {
-		sacuvaj : function(kor)
+		sacuvaj : function(kor, loz)
 		{
-			if(kor.ime.length === 0 || kor.prezime.lenght === 0)
+			if(kor.ime.length === 0 || kor.prezime.lenght === 0 || kor.lozinka.lenght === 0)
 			{
 				//toast-bootstrap
 			}
 			else
 			{
-				axios
-				.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "uloga":''+kor.uloga})
-				//.then(response => (toast())) toast
+				if(kor.lozinka !== loz)
+				{
+					axios
+					.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga})
+					//.then(response => (toast())) toast
+									
+				}
+				else
+				{
 				
-			}
-			
+				}	
+			}	
 		},
 		
 		ponisti : function()

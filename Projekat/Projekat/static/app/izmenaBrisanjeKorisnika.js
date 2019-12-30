@@ -56,7 +56,7 @@ Vue.component("izmena-bisanje-korisnika", {
 	methods: {
 		sacuvaj : function(kor)
 		{
-			if(kor.ime.length === 0 || kor.prezime.lenght === 0)
+			if(kor.ime.length === 0 || kor.prezime.lenght === 0 || kor.lozinka.lenght === 0)
 			{
 				//toast-bootstrap
 			}
