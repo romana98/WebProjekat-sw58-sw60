@@ -1,8 +1,8 @@
 Vue.component("izmena-organizacija", {
 	data: function (){
 		return {
-		org: null,
-		orgOld:null,
+		org: {},
+		orgOld: {}
 		}
 	},
 	template:`
