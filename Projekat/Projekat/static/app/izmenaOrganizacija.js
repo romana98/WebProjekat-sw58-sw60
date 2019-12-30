@@ -1,4 +1,4 @@
-Vue.component("izmena-organizacija", {
+Vue.component("izmena-ogranizacija", {
 	data: function (){
 		return {
 		org: {},
@@ -7,7 +7,7 @@ Vue.component("izmena-organizacija", {
 	},
 	template:`
 	<div class="poravnaj">
-		<table class="tabela">
+		<table class="tabela" border="1">
 			<tr>
 				<td>Ime:</td>
 				<td><intput v-model=org>{{org.ime}}</td>
