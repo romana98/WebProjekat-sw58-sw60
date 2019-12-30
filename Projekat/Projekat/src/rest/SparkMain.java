@@ -39,7 +39,7 @@ public class SparkMain {
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");
-			Organizacija o = app.getOrganizacijaID(req.params("ime"));
+			Organizacija o = app.getOrganizacijaID("FTN");
 			if(o == null)
 			{
 				o = new Organizacija();
@@ -62,7 +62,7 @@ public class SparkMain {
 		//KORISNICI
 		get("rest/korisnici/getKorisnik", (req, res) -> {
 			res.type("application/json");
-			Korisnik k = app.getKorisnikID("romana@super.com");
+			Korisnik k = app.getKorisnikID(req.params("email"));
 			if(k == null)
 			{
 				k = new Korisnik();

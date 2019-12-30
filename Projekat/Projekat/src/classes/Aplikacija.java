@@ -41,8 +41,17 @@ public class Aplikacija {
 	public void editOrganizacija(Organizacija o)
 	{
 		organizacije.put(o.getIme(), o);
-		int index = organizacijeList.indexOf(o);
-		organizacijeList.set(index, o);
+		int index = -1;
+		for (int i = 0; i < organizacijeList.size(); i++) {
+			if(organizacijeList.get(i).getIme().contentEquals(o.getIme()))
+			{
+				index = i;
+				break;
+			}
+		}
+		organizacijeList.get(index).setIme(o.getIme());
+		organizacijeList.get(index).setOpis(o.getOpis());
+		organizacijeList.get(index).setLogo(o.getLogo());
 		
 	}
 	
@@ -62,6 +71,7 @@ public class Aplikacija {
 		korisniciList.get(index).setIme(k.getIme());
 		korisniciList.get(index).setPrezime(k.getPrezime());
 		korisniciList.get(index).setUloga(k.getUloga());
+		korisniciList.get(index).setLozinka(k.getLozinka());
 	}
 	
 	public void removeKorisnik(Korisnik k)
