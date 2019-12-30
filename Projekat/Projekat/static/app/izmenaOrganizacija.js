@@ -16,8 +16,7 @@ Vue.component("izmena-organizacija", {
 				<td><input type="text" name="opis" v-model="org.opis"></input></td>
 			</tr>
 			<tr>
-				<td>Logo:{{org.logo
-				}}</td>
+				<td>Logo:</td>
 				<td>
 					<output>
 				      <img :src="org.logo" v-if="org.logo !== 'none'">
