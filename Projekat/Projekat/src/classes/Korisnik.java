@@ -5,16 +5,24 @@ import enums.Uloga;
 public class Korisnik {
 	private String email; //key
 	private String ime;
+	private String lozinka;
 	private String prezime;
 	private Organizacija organizacija;
 	private Uloga uloga;
 	
-	public Korisnik() {}
+	public Korisnik() {
+		email = "none";
+		ime = "none";
+		lozinka = "none";
+		prezime = "none";
+		organizacija = new Organizacija();
+	}
 	
-	public Korisnik(String email, String ime, String prezime, Organizacija organizacija, Uloga uloga) {
+	public Korisnik(String email, String ime, String prezime, String lozinka, Organizacija organizacija, Uloga uloga) {
 		this.email = email;
 		this.ime = ime;
 		this.prezime = prezime;
+		this.lozinka = lozinka;
 		this.organizacija = organizacija;
 		this.uloga = uloga;
 	}
@@ -59,13 +67,20 @@ public class Korisnik {
 		this.uloga = uloga;
 	}
 
+	public String getLozinka() {
+		return lozinka;
+	}
+
+	public void setLozinka(String lozinka) {
+		this.lozinka = lozinka;
+	}
+
 	@Override
 	public String toString() {
-		return "Korisnik [email=" + email + ", ime=" + ime + ", prezime=" + prezime + ", organizacija=" + organizacija
-				+ ", uloga=" + uloga + "]";
+		return "Korisnik [email=" + email + ", ime=" + ime + ", lozinka=" + lozinka + ", prezime=" + prezime
+				+ ", organizacija=" + organizacija + ", uloga=" + uloga + "]";
 	}
-	
-	
+
 	
 
 }

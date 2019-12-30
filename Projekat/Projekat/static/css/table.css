@@ -1,8 +1,8 @@
-table.tabela
+table, tr, td
 {
-	border:1;
-	margin-left:auto; 
-    margin-right:auto;
+	border:1px solid black;
+	text-align: center;
+	
 }
 
 div.poravnaj
@@ -11,8 +11,13 @@ div.poravnaj
   	width: 60%;
 }
 
-img.
+img
 {
 	width: 200px;
 	height: 100px;
+}
+
+form {
+ /* Float both forms to the left */
+ float: left; 
 }

@@ -48,14 +48,33 @@ public class Aplikacija {
 	
 	public void editKorisnik(Korisnik k)
 	{
+		
 		korisnici.put(k.getEmail(), k);
-		int index = korisniciList.indexOf(k);
-		korisniciList.set(index, k);
+		
+		int index = -1;
+		for (int i = 0; i < korisniciList.size(); i++) {
+			if(korisniciList.get(i).getEmail().equals(k.getEmail()))
+			{
+				index = i;
+				break;
+			}
+		}
+		korisniciList.get(index).setIme(k.getIme());
+		korisniciList.get(index).setPrezime(k.getPrezime());
+		korisniciList.get(index).setUloga(k.getUloga());
 	}
 	
 	public void removeKorisnik(Korisnik k)
 	{
-		korisniciList.remove(k);
+		int index = -1;
+		for (int i = 0; i < korisniciList.size(); i++) {
+			if(korisniciList.get(i).getEmail().equals(k.getEmail()))
+			{
+				index = i;
+				break;
+			}
+		}
+		korisniciList.remove(index);
 		korisnici.remove(k.getEmail());
 	}
 	

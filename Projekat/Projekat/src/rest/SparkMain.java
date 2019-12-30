@@ -60,9 +60,9 @@ public class SparkMain {
 		
 		
 		//KORISNICI
-		get("/rest/korisnici/getKorisnik", (req, res) -> {
+		get("rest/korisnici/getKorisnik", (req, res) -> {
 			res.type("application/json");
-			Korisnik k = app.getKorisnikID(req.params("email"));
+			Korisnik k = app.getKorisnikID("romana@super.com");
 			if(k == null)
 			{
 				k = new Korisnik();
@@ -74,9 +74,11 @@ public class SparkMain {
 			res.type("application/json");
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
-			app.editKorisnik(k);
-			
-			Files.UpisKorisnik(app.getKorisniciList());
+			if(!k.getEmail().equals(""))
+			{
+				app.editKorisnik(k);	
+				Files.UpisKorisnik(app.getKorisniciList());
+			}
 			return ("OK");
 		});
 		

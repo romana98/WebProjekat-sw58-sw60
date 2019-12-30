@@ -2,23 +2,23 @@ Vue.component("izmena-profila", {
 	data: function (){
 		return {
 		kor: null,
-		korOld:null
+		uloge: ['superadmin', 'admin', 'korisnik']
 		}
 	},
 	template:`
 	<div class="poravnaj">
-		<table class="tabela">
+		<table class="tabela"   v-if="kor">
 			<tr>
 				<td>Email:</td>
 				<td>{{kor.email}}</td>
 			</tr>
 			<tr>
 				<td>Ime:</td>
-				<td><intput v-model=kor>{{kor.ime}}</td>
+				<td><input v-model=kor.ime></input></td>
 			</tr>
 			<tr>
 				<td>Prezime:</td>
-				<td><intput v-model=kor>{{kor.prezime}}</td>
+				<td><input v-model=kor.prezime></input></td>
 			</tr>
 			<tr>
 				<td>Organizacija:</td>
@@ -27,42 +27,33 @@ Vue.component("izmena-profila", {
 			<tr>
 				<td>Uloga:</td>
 				<td>
-					<select v-model="selected">
+					<select v-model="kor.uloga">
 						<option v-for="k in uloge">{{k}}</option>		
 					</select>
 				</td>
-			<tr>
-				<td>
-					<form action="#/korisnici">
-						<button type="submit" v-on:click="sacuvaj">Sacuvaj</button>
-					</form>
-				</td>
-				
-				<td>
-					<form action="#/korisnici">
-						<button type="submit" v-on:click="ponisti" >Ponisti</button>
-					</form>
-				</td>
 			</tr>
 		</table>
-		<br>
-		<form action="#/korisnici">
-			<button type="submit" v-on:click="obrisi" >Obrisi korisnika</button>
+		<br/>
+		<form action="#/korisnici" @submit="sacuvaj(kor)" methods="post">
+			<input type="submit" value="Sacuvaj"></input>
+		</form>
+		<form action="#/korisnici" @submit="ponisti()" methods="post">
+			<input type="submit" value="Ponisti"></input>
 		</form>
 	</div>
 	`	
 	,
 	methods: {
-		sacuvaj : function()
+		sacuvaj : function(kor)
 		{
-			if(this.kor.ime.length === 0 || this.kor.prezime.lenght === 0)
+			if(kor.ime.length === 0 || kor.prezime.lenght === 0)
 			{
 				//toast-bootstrap
 			}
 			else
 			{
 				axios
-				.post('rest/kosiniciIzmena', {kor})
+				.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "uloga":''+kor.uloga})
 				//.then(response => (toast())) toast
 				
 			}
@@ -72,7 +63,7 @@ Vue.component("izmena-profila", {
 		ponisti : function()
 		{
 			axios
-			.post('rest/kosinici/Izmena', {korOld})
+			.post('rest/korisnici/Izmena', {"email":''})
 				//.then(response => (toast())) toast
 		}
 
@@ -82,9 +73,7 @@ Vue.component("izmena-profila", {
 		axios
 			.get('rest/korisnici/getKorisnik')
 			.then(response =>{
-				this.kor = response.data,
-				this.korOld = response.data,
-				this.selected = this.kor.uloga;
+				this.kor = response.data
 			});
 	}
 	
