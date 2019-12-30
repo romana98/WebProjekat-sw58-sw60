@@ -3,11 +3,11 @@ package classes;
 import java.util.ArrayList;
 
 public class Organizacija {
-	private String ime; //key
-	private String opis;
-	private String logo;
-	private ArrayList<String> korisnici;
-	private ArrayList<String> resursi;
+	private String ime = ""; //key
+	private String opis = "";
+	private String logo = "";
+	private ArrayList<String> korisnici = new ArrayList<String>();
+	private ArrayList<String> resursi = new ArrayList<String>();
 	
 	public Organizacija() {}
 	

@@ -1,8 +1,8 @@
-Vue.component("izmena-ogranizacija", {
+Vue.component("izmena-organizacija", {
 	data: function (){
 		return {
-		org: {},
-		orgOld: {}
+		org: null,
+		orgOld: null
 		}
 	},
 	template:`
@@ -10,11 +10,11 @@ Vue.component("izmena-ogranizacija", {
 		<table class="tabela" border="1">
 			<tr>
 				<td>Ime:</td>
-				<td><intput v-model=org>{{org.ime}}</td>
+				<td><input type="text" name="ime" v-model=org>{{org.ime}}</input></td>
 			</tr>
 			<tr>
 				<td>Opis:</td>
-				<td><intput v-model=org>{{org.opis}}</td>
+				<td><input type="text" name="opis" v-model=org>{{org.opis}}</input></td>
 			</tr>
 			<tr>
 				<td>Logo:</td>
@@ -52,6 +52,8 @@ Vue.component("izmena-ogranizacija", {
 		</table>
 		<br>
 		<p>Nov logo:</p>
+		<input type="file" @change="onImg"></input>
+		
 	</div>
 	`	
 	,
@@ -69,10 +71,10 @@ Vue.component("izmena-ogranizacija", {
 			let reader = new FileReader();
 			
 			reader.onload = function(event) {
-				this.org.img = e.target.result;
+				this.org.logo = event.target.result;
 			};
 			
-			reader.eradAsDataURL(file);
+			reader.readAsDataURL(file);
 		},
 		
 		sacuvaj : function()

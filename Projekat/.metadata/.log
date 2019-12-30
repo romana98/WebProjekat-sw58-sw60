@@ -959,3 +959,67 @@ java.nio.file.FileSystemException: D:\FAX\V semestar\Veb programiranje\Projekat\
 
 !ENTRY org.eclipse.wst.jsdt.js.node 4 0 2019-12-30 01:28:49.894
 !MESSAGE Unable to run Node.js program. Verify you have a configured Node.js runtime environment in your system and try again.
+
+!ENTRY org.eclipse.wst.jsdt.js.node 4 0 2019-12-30 01:36:55.982
+!MESSAGE Unable to run Node.js program. Verify you have a configured Node.js runtime environment in your system and try again.
+
+!ENTRY org.eclipse.jdt.debug 2 0 2019-12-30 01:54:51.342
+!MESSAGE Unable to find location of java.lang.Thread.setName() in debuggee JVM, for type java.lang.Thread
+
+!ENTRY org.eclipse.wst.jsdt.js.node 4 0 2019-12-30 01:57:02.949
+!MESSAGE Unable to run Node.js program. Verify you have a configured Node.js runtime environment in your system and try again.
+
+!ENTRY org.eclipse.wst.jsdt.js.node 4 0 2019-12-30 02:03:39.437
+!MESSAGE Unable to run Node.js program. Verify you have a configured Node.js runtime environment in your system and try again.
+
+!ENTRY org.eclipse.wst.jsdt.js.node 4 0 2019-12-30 02:13:52.005
+!MESSAGE Unable to run Node.js program. Verify you have a configured Node.js runtime environment in your system and try again.
+
+!ENTRY org.eclipse.ltk.ui.refactoring 4 10000 2019-12-30 02:20:57.597
+!MESSAGE Internal Error
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while moving resources.
+	at org.eclipse.core.internal.resources.Resource.move(Resource.java:1506)
+	at org.eclipse.ltk.core.refactoring.resource.RenameResourceChange.perform(RenameResourceChange.java:118)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:283)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation$1.run(PerformChangeOperation.java:260)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2322)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:308)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:99)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:219)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2322)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:89)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+Contains: Could not move: D:\FAX\V semestar\Veb programiranje\Projekat\WebProjekat-sw58-sw60\Projekat\Projekat\static\app\izmenaOrganizacija.js.
+!SUBENTRY 1 org.eclipse.core.resources 4 4 2019-12-30 02:20:57.598
+!MESSAGE Problems encountered while moving resources.
+!SUBENTRY 2 org.eclipse.core.filesystem 4 272 2019-12-30 02:20:57.598
+!MESSAGE Could not move: D:\FAX\V semestar\Veb programiranje\Projekat\WebProjekat-sw58-sw60\Projekat\Projekat\static\app\izmenaOrganizacija.js.
+
+!ENTRY org.eclipse.ltk.ui.refactoring 4 10000 2019-12-30 02:21:17.603
+!MESSAGE Internal Error
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while moving resources.
+	at org.eclipse.core.internal.resources.Resource.move(Resource.java:1506)
+	at org.eclipse.ltk.core.refactoring.resource.RenameResourceChange.perform(RenameResourceChange.java:118)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:283)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation$1.run(PerformChangeOperation.java:260)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2322)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:308)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:99)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:219)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2295)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2322)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:89)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+Contains: Could not move: D:\FAX\V semestar\Veb programiranje\Projekat\WebProjekat-sw58-sw60\Projekat\Projekat\static\app\izmenaOrganizacija.js.
+!SUBENTRY 1 org.eclipse.core.resources 4 4 2019-12-30 02:21:17.604
+!MESSAGE Problems encountered while moving resources.
+!SUBENTRY 2 org.eclipse.core.filesystem 4 272 2019-12-30 02:21:17.604
+!MESSAGE Could not move: D:\FAX\V semestar\Veb programiranje\Projekat\WebProjekat-sw58-sw60\Projekat\Projekat\static\app\izmenaOrganizacija.js.
+
+!ENTRY org.eclipse.wst.jsdt.js.node 4 0 2019-12-30 02:27:13.080
+!MESSAGE Unable to run Node.js program. Verify you have a configured Node.js runtime environment in your system and try again.

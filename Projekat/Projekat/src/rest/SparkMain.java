@@ -39,8 +39,12 @@ public class SparkMain {
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");
-			
-			return g.toJson(app.getOrganizacijaID(req.params("ime")));
+			Organizacija o = app.getOrganizacijaID(req.params("ime"));
+			if(o == null)
+			{
+				o = new Organizacija();
+			}
+			return g.toJson(o);
 		});
 	
 		
@@ -58,8 +62,12 @@ public class SparkMain {
 		//KORISNICI
 		get("/rest/korisnici/getKorisnik", (req, res) -> {
 			res.type("application/json");
-			
-			return g.toJson(app.getKorisnikID(req.params("email")));
+			Korisnik k = app.getKorisnikID(req.params("email"));
+			if(k == null)
+			{
+				k = new Korisnik();
+			}
+			return g.toJson(k);
 		});
 
 		post("rest/korisnici/Izmena", (req, res) -> {

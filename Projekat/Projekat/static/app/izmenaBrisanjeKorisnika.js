@@ -16,11 +16,11 @@ Vue.component("izmena-bisanje-korisnik", {
 			</tr>
 			<tr>
 				<td>Ime:</td>
-				<td><intput v-model=kor>{{kor.ime}}</td>
+				<td><input type="text" name="ime" v-model=kor>{{kor.ime}}</input></td>
 			</tr>
 			<tr>
 				<td>Prezime:</td>
-				<td><intput v-model=kor>{{kor.prezime}}</td>
+				<td><input type="text" name="prezime" v-model=kor>{{kor.prezime}}</input></td>
 			</tr>
 			<tr>
 				<td>Organizacija:</td>
