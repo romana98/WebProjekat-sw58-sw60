@@ -1,0 +1,5 @@
+[{"ime":"Disk1","tip" : "ssd", "kapacitet":"4", "mojaVirtualnaMasina":{"ime":"VM1","kategorija" : 
+	{"ime":"PrvaKategorija","br_jezgara" : "5", "RAM":"4", "GPU":"nVidia"},
+	"datumi":[], "diskovi":["Disk1"]}},
+{"ime":"Disk2","TipDiska" : "hdd", "kapacitet":"8", "mojaVirtualnaMasina": null}]
+

@@ -7,7 +7,7 @@ Vue.component("login", {
 		password : '',
 		Validation_email : false,
 		Validation_password : false,
-		returnData : "baba",
+		returnData : "",
 		notification : false
 		}
 	},
@@ -52,12 +52,12 @@ Vue.component("login", {
 														password : this.password
 					
 			}}).then(response =>{
-				if (response.data.toString() == ("200")){
+				if (response.data.toString() === ("200")){
 					this.notification = false;
 					this.returnData = "";
 					window.location.href = "#/VMView";
 				}
-				else if(response.data.toString() == ("201")){
+				else if(response.data.toString() === ("201")){
 					this.notification = false;
 					this.returnData = "";
 				}

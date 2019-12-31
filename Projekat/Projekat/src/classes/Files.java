@@ -21,10 +21,9 @@ public class Files {
 			
 		app.setKorisniciList(gson.fromJson(new FileReader("./files/korisnici.json"), new TypeToken<ArrayList<Korisnik>>(){}.getType()));
 		app.setOrganizacijeList(gson.fromJson(new FileReader("./files/organizacije.json"), new TypeToken<ArrayList<Organizacija>>(){}.getType()));
-		//TODO dodati za ostale entitete
-		
-		
-		app.popuniMape();
+		app.setKategorijeList(gson.fromJson(new FileReader("./files/kategorije.json"), new TypeToken<ArrayList<KategorijaVM>>(){}.getType()));
+		app.setVirtualneList(gson.fromJson(new FileReader("./files/virtualneMasine.json"), new TypeToken<ArrayList<VM>>(){}.getType()));
+		app.setDiskoviList(gson.fromJson(new FileReader("./files/diskovi.json"), new TypeToken<ArrayList<Disk>>(){}.getType()));	
 		
 		} catch (IOException e) {
 			System.out.println("Error pri ucitavanju iz fajlova!");
