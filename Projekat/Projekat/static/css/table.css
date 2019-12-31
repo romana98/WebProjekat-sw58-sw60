@@ -54,4 +54,100 @@ div.login label{
 	
 }
 
+ div.background { 
+    background-color: #F1F1F1;
+    text-align: center;
+    padding: 10px;
+    font-size: xx-large;
+    
+    }
+    div.background p {
+        font-size: 40px;
+        text-align: center;
+        padding: 10px;
+    }
+    div.background form {
+        size: 500px;
+        text-align: center;
+        display: inline-block;
+        
+    }
+
+    div.background input{
+        width: 200px;
+        height: 30px;
+    }
+
+    div.background label{
+        text-align: right;
+        color: blue;
+        font-size: 25px;
+    }
+
+    .navbar {
+    height: 50px;
+    overflow: hidden;
+    background-color: #333 ;
+    
+    }
+
+    .navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 10px 10px;
+    text-decoration: none;
+    }
+
+    .dropdown {
+    float: left;
+    overflow: hidden;
+    background-color: #333;
+    }
+
+    .dropdown .dropbtn {
+        font-size: 18px;  
+        min-width: 130px;
+        align-content: left;
+        vertical-align: middle;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 15px 15px;
+    background-color: #333;
+    font-family: inherit;
+    margin: 0;
+    }
+
+    .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: rgb(105, 103, 103);
+    }
+
+    .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 16px 16px 0px rgba(2, 1, 1, 0.685);
+    }
+
+
+    .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    }
+
+    .dropdown-content a:hover {
+    background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+    display: block;
+    }
+
  

@@ -73,9 +73,7 @@ public class SparkMain {
 			res.type("application/json");
 			Korisnik k = app.getKorisnikID(req.queryMap("email").value());
 			String password = req.queryMap("password").value();
-			System.out.println(app.getKategorijeList().get(0));
-			System.out.println(app.getDiskoviList().get(0).toString());
-			System.out.println(app.getVirtualneList().get(0).toString());
+
 
 			if (password.equals("")) {
 				return("201");
