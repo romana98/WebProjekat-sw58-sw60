@@ -1,2 +1,2 @@
-[{"email":"romana@super.com","ime":"Romana", "prezime":"Erdelji","uloga":"superadmin"},
-{"email":"vukasin@super.com","ime":"Vukasin", "prezime":"Ocokoljic","uloga":"superadmin"}]
+[{"email":"romana@super.com","lozinka" : "romana", "ime":"Romana", "prezime":"Erdelji","uloga":"superadmin"},
+{"email":"vukasin@super.com","lozinka" : "vukasin","ime":"Vukasin", "prezime":"Ocokoljic","uloga":"superadmin"}]

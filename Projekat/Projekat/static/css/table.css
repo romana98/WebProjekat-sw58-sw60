@@ -19,5 +19,39 @@ img
 
 form {
  /* Float both forms to the left */
- float: left; 
+ /*float: left; */
 }
+
+
+div.login h1{ 
+    background-color: #F1F1F1;
+    text-align: center;
+    padding: 50px;
+    font-size: xx-large;
+    }
+div.login p{
+        font-size: 40px;
+        text-align: center;
+        padding: 10px;
+    }
+    
+div.login form.login_form{
+        size: 800px !important; 
+      	text-align: center;
+      
+        
+    }
+
+div.login input{
+        width: 200px;
+        height: 30px;
+        
+    }
+    
+div.login label{
+	color:red;
+	
+	
+}
+
+ 

@@ -58,11 +58,44 @@ public class SparkMain {
 			return ("OK");
 		});
 		
+		get("rest/korisnici/getActiveUser", (req, res) -> {
+			res.type("application/json");
+			Session ss = req.session(true);
+			return ss.attribute("user");
+			
+		});
+		
+		
+		//Vukasinovo za vracanje po emailu
+		get("rest/korisnici/getKorisnikByEmail", (req, res) -> {
+			res.type("application/json");
+			Korisnik k = app.getKorisnikID(req.queryMap("email").value());
+			String password = req.queryMap("password").value();
+			if (password.equals("")) {
+				return("201");
+			}
+			if (k != null) {
+				if (k.getLozinka().equals(password)) {
+					//hocemo da zakacimo usera za sesiju ovde
+					Session ss = req.session(true);
+					ss.attribute("user",k);
+					return("200");
+				}
+				else {
+					return("Password is not correct.");			
+				}
+					
+			}
+			else {
+				return("User with email: " + req.queryMap().value("email") + " doesn't exist!");
+			}
+		});
+		
 		
 		//KORISNICI
 		get("rest/korisnici/getKorisnik", (req, res) -> {
 			res.type("application/json");
-			Korisnik k = app.getKorisnikID(req.params("email"));
+			Korisnik k = app.getKorisnikID(req.params("email"));			
 			if(k == null)
 			{
 				k = new Korisnik();
