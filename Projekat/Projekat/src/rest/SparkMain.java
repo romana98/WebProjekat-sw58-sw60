@@ -37,6 +37,12 @@ public class SparkMain {
 		get("/test", (req, res) -> {
 			return "Works";
 		});
+		//VM
+		get("/rest/virtuelne/VM", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(app.getVirtualneList());
+		});
+		
 		
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {

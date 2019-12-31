@@ -1,11 +1,11 @@
 Vue.component("VMView", {
 	data: function (){
 		return {
-		email: "",
 		user : null
 		}
 	},
 	template:`
+	<div>
 	<div class="background">
             
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
@@ -63,9 +63,16 @@ Vue.component("VMView", {
                   </div>
               </div>
 
+			
             
         </div>
         
+        <label v-for="k in user">{{k.ime}}</label>
+        
+        
+        
+        
+    </div>
 	`	
 	,
 	methods: {
@@ -75,9 +82,10 @@ Vue.component("VMView", {
 	
 	mounted(){
 		axios
-        .get('rest/korisnici/getActiveUser')
+        .get('/rest/virtuelne/VM')
         .then(response => {
       	  this.user = response.data;
+      	  console.log(this.user);      	  
         });
 	}
 	
