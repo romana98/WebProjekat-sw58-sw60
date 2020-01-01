@@ -1,27 +1,16 @@
-table, tr, td
-{
-	border:1px solid black;
-	text-align: center;
-	
-}
-
-div.poravnaj
+.poravnaj
 {
 	margin: auto;
-  	width: 60%;
 }
-
+.dugme
+{
+	width: 100px;
+}
 img
 {
 	width: 200px;
 	height: 100px;
 }
-
-form {
- /* Float both forms to the left */
- /*float: left; */
-}
-
 
 div.login h1{ 
     background-color: #F1F1F1;
@@ -54,13 +43,23 @@ div.login label{
 	
 }
 
+div.background span {
+        font-size: 15px;
+        text-align: left;
+        padding: 10px;
+    }
+    
  div.background { 
     background-color: #F1F1F1;
-    text-align: center;
     padding: 10px;
     font-size: xx-large;
     
     }
+    
+ 	div.background h1
+ 	{
+ 	 text-align: center; 
+ 	}
     div.background p {
         font-size: 40px;
         text-align: center;

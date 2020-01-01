@@ -1,6 +1,5 @@
 const login = {template: '<login></login>'}
 const VMView = {template: '<VMView></VMView>'}
-//TODO dodati za sve funckionalnosti
 const izmenaOrganizacija = {template: '<izmena-organizacija></izmena-organizacija>'}
 const izmenaBrisanjeKorisnika = {template: '<izmena-bisanje-korisnika></izmena-bisanje-korisnika>'}
 const izmenaProfila = {template: '<izmena-profila></izmena-profila>'}

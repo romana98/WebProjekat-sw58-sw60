@@ -9,6 +9,13 @@ public class Disk {
 	int kapacitet;
 	VM mojaVirtualnaMasina;
 	
+	public Disk()
+	{
+		ime = "none";
+		kapacitet = 0;
+		mojaVirtualnaMasina = new VM();
+	}
+	
 	
 	
 	public Disk(String ime, TipDiska tip, int kapacitet, VM mojaVirtualnaMasina) {

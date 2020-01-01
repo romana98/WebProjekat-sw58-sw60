@@ -8,7 +8,6 @@
 <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.core.type.TypeReference"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.google.gson.GsonBuilder"/>
 <fullyQualifiedTypeName name="java.io.FileWriter"/>
 <fullyQualifiedTypeName name="java.io.Writer"/>
@@ -20,4 +19,6 @@
 <fullyQualifiedTypeName name="classes.Files"/>
 <fullyQualifiedTypeName name="classes.Organizacija"/>
 <fullyQualifiedTypeName name="classes.Korisnik"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="classes.KategorijaVM"/>
 </qualifiedTypeNameHistroy>

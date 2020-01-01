@@ -2,91 +2,197 @@ Vue.component("izmena-bisanje-korisnika", {
 	data: function (){
 		return {
 			kor: null,
-			uloge: ['superadmin', 'admin', 'korisnik']
+			uloge: ['superadmin', 'admin', 'korisnik'],
+			validate_name: false,
+			validate_lastname: false,
+			validate_pass: false
 		}
 	},
 	template:`
-	<div class="poravnaj">
-		<table class="tabela"  v-if="kor">
+	<div >
+		<div class="background">
+            
+            <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
+            <span>
+            <button type="submit" v-on:click="logOut()">Log out</button>
+            <a href="#/IzProf"> Profil </a>          
+           	</span>
+            <div class="navbar">
+                <div class="dropdown">
+                  <button class="dropbtn">Virtual Machines
+                  </button>
+                  <div class="dropdown-content">
+                    <a href="#">View VM's</a>
+                    <a href="#">Add VM</a>
+                    <a href="#">Delete VM</a>
+                    <a href="#">Change VM</a>
+                    <a href="#">Filter and Search VM</a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Organizations 
+                    </button>
+                    <div class="dropdown-content">
+                      <a href="#">View organizations</a>
+                      <a href="#">Add organization</a>
+                      <a href="#">View/Change organizations</a>
+                    </div>
+                  </div>
+                  <div class="dropdown">
+                    <button class="dropbtn">Users
+                    </button>
+                    <div class="dropdown-content">
+                      <a href="#">View users</a>
+                      <a href="#">Add user</a>
+                      <a href="#">Change user</a>
+                      <a href="#">Delete user</a>
+                    </div>
+                  </div>
+                  <div class="dropdown">
+                    <button class="dropbtn">Discs
+                    </button>
+                    <div class="dropdown-content">
+                      <a href="#">View discs</a>
+                      <a href="#">Change disc</a>
+                      <a href="#">Add disc</a>
+                      <a href="#">Delete disc</a>
+                    </div>
+                  </div>
+                  <div class="dropdown">
+                    <button class="dropbtn">Categories
+                    </button>
+                    <div class="dropdown-content">
+                      <a href="#">View categories</a>
+                      <a href="#">Add category</a>
+                      <a href="#">Change category</a>
+                      <a href="#">Delete category</a>
+                    </div>
+                  </div>
+              </div>
+        </div>
+	
+	
+		<table class="poravnaj"  v-if="kor">
 			<tr>
 				<td>Email:</td>
 				<td>{{kor.email}}</td>
 			</tr>
 			<tr>
-				<td>Ime:</td>
+				<td>Name:</td>
 				<td><input type="text" name="ime" v-model="kor.ime"></input></td>
+				<td><label v-if="validate_name">You're missing field!</label></td>
 			</tr>
 			<tr>
-				<td>Prezime:</td>
+				<td>Lastname:</td>
 				<td><input type="text" name="prezime" v-model="kor.prezime"></input></td>
+				<td><label v-if="validate_lastname">You're missing field!</label></td>
 			</tr>
 			<tr>
-				<td>Lozinka:</td>
+				<td>Password:</td>
 				<td><input type="text" name="lozinka" v-model="kor.lozinka"></input></td>
+				<td><label v-if="validate_pass">You're missing field!</label></td>
 			</tr>
 			<tr>
-				<td>Organizacija:</td>
+				<td>Organization:</td>
 				<td >{{kor.organizacija.ime}}</td>
 			</tr>
 			<tr>
-				<td>Uloga:</td>
+				<td>Role:</td>
 				<td>
 					<select v-model="kor.uloga">
 						<option v-for="k in uloge">{{k}}</option>		
 					</select>
 				</td>
 			</tr>
+			<tr>
+			<td>
+				<form id="form" class="login_form" method="post">
+					<button class="dugme" type="submit" v-on:click="save(kor)">Save</button>
+					<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>
+					<td><button class="dugme"  type="submit" v-on:click="deleteUser(kor.email)">Delete user</button>
+				</td></form>
+			</td>
+			</tr>
 			</table>
-		
-		<br />
-		<form action="#/korisnici" @submit="sacuvaj(kor)" methods="post">
-			<input type="submit" value="Sacuvaj"></input>
-		</form>
-		<form action="#/korisnici" @submit="ponisti()" methods="post">
-			<input type="submit" value="Ponisti"></input>
-		</form>
-		<form action="#/korisnici" @submit="obrisi(kor.email)" methods="post">
-			<input type="submit" value="Obrisi korisnika"></input>
-		</form>
-		
 	
 	</div>
 	`	
 	,
 	methods: {
-		sacuvaj : function(kor)
+		save : function(kor)
 		{
-			if(kor.ime.length === 0 || kor.prezime.lenght === 0 || kor.lozinka.lenght === 0)
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+			
+			if(kor.ime.length === 0 )
 			{
-				//toast-bootstrap
-			}
-			else if(this.kor.uloga === "superadmin")
-			{
-				
+				this.validate_name = true;					
 			}
 			else
 			{
-				axios
-				.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga})
-				//.then(response => (toast())) toast
-				
+				this.validate_name = false;
 			}
+			
+			if(kor.prezime.lenght === 0)
+			{
+				this.validate_lastname = true;
+			}
+			else
+			{
+				this.validate_lastname = false;
+			}
+			if(kor.lozinka.length === 0)
+			{
+				this.validate_pass = true; 
+			}
+			else
+			{
+				this.validate_pass = false;
+			}
+			
+			axios
+			.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga})
+			.then(response => {
+				if(response.data.toString() === ("200"))
+				{
+					toast('User (' + kor.email + ') information is saved!');		
+				}
+			});
+			
+			
 			
 		},
 		
-		ponisti : function()
+		cancel : function()
 		{
-			axios
-			.post('rest/korisnici/Izmena', {"email":''})
-				//.then(response => (toast())) toast
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+			
+			if (confirm('Are you sure?') == true) {
+				axios
+				.post('rest/korisnici/Izmena', {"email":''+"p"})
+					.then(response=> {window.location.href = "#/korisnici"})
+			}
 		},
 		
-		obrisi : function(email)
+		deleteUser : function(email)
 		{
 			//toast za potvrdu
-			axios
-			.post('rest/korisnici/Brisanje', {"email":''+email})
+			
 				//.then(response => (toast())) toast
+			
+			axios.get('rest/korisnici/getActiveUser')
+	        .then(response => {
+	      	  if (response.data.uloga === "korisnik"){
+	      		toast('Error 400: No action granted!');
+	      	  }
+	      	  else{
+	      		axios
+				.post('rest/korisnici/Brisanje', {"email":''+email})
+				.then(response=> {
+					toast('User (' + kor.email + ') deleted!'),
+					window.location.href = "#/korisnici"})
+				
+	      	  }
+	        });
 		}
 		
 	},

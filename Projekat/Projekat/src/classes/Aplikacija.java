@@ -67,9 +67,6 @@ public class Aplikacija {
 			virtualneList = new ArrayList<VM>();
 		}
 		
-		
-		// TODO za ostale entitete
-		
 	}
 	
 	public void editOrganizacija(Organizacija o)
@@ -104,7 +101,8 @@ public class Aplikacija {
 		}
 		korisniciList.get(index).setIme(k.getIme());
 		korisniciList.get(index).setPrezime(k.getPrezime());
-		korisniciList.get(index).setUloga(k.getUloga());
+		if(k.getUloga() != null)
+			korisniciList.get(index).setUloga(k.getUloga());
 		korisniciList.get(index).setLozinka(k.getLozinka());
 	}
 	
@@ -126,21 +124,30 @@ public class Aplikacija {
 	
 	//Get/Set by ID
 	
-	public HashMap<String, KategorijaVM> getKategorije() {
-		return kategorije;
+	public Disk getDiskoviID(String id) {
+		return diskovi.get(id);
 	}
 
-	public void setKategorije(HashMap<String, KategorijaVM> kategorije) {
-		this.kategorije = kategorije;
+	public void setDiskoviID(String id, Disk disk) {
+		this.diskovi.put(id, disk);
+	}
+	
+	public VM getVirtualneID(String id) {
+		return virtualne.get(id);
 	}
 
-	public ArrayList<KategorijaVM> getKategorijeList() {
-		return kategorijeList;
+	public void setVirtualne(String id, VM vm) {
+		this.virtualne.put(id, vm);
+	}
+	
+	public KategorijaVM getKategorijeID(String id) {
+		return kategorije.get(id);
 	}
 
-	public void setKategorijeList(ArrayList<KategorijaVM> kategorijeList) {
-		this.kategorijeList = kategorijeList;
+	public void setKategorijeID(String id, KategorijaVM kategorija) {
+		this.kategorije.put(id, kategorija );
 	}
+	
 
 	public Korisnik getKorisnikID(String id) {
 		return korisnici.get(id);
@@ -161,6 +168,14 @@ public class Aplikacija {
 	
 	//Getters and Setters for ArrayList
 	
+	public ArrayList<KategorijaVM> getKategorijeList() {
+		return kategorijeList;
+	}
+
+	public void setKategorijeList(ArrayList<KategorijaVM> kategorijeList) {
+		this.kategorijeList = kategorijeList;
+	}
+	
 	public ArrayList<Korisnik> getKorisniciList() {
 		return korisniciList;
 	}
@@ -175,14 +190,6 @@ public class Aplikacija {
 		this.organizacijeList = organizacijeList;
 	}
 
-	public HashMap<String, VM> getVirtualne() {
-		return virtualne;
-	}
-
-	public void setVirtualne(HashMap<String, VM> virtualne) {
-		this.virtualne = virtualne;
-	}
-
 	public ArrayList<VM> getVirtualneList() {
 		return virtualneList;
 	}
@@ -191,13 +198,6 @@ public class Aplikacija {
 		this.virtualneList = virtualneList;
 	}
 
-	public HashMap<String, Disk> getDiskovi() {
-		return diskovi;
-	}
-
-	public void setDiskovi(HashMap<String, Disk> diskovi) {
-		this.diskovi = diskovi;
-	}
 
 	public ArrayList<Disk> getDiskoviList() {
 		return diskoviList;

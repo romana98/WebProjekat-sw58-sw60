@@ -6,6 +6,14 @@ public class KategorijaVM {
 	int RAM;
 	String GPU;
 	
+	public KategorijaVM()
+	{
+		ime = "none";
+		br_jezgara = 0;
+		RAM = 0;
+		GPU = "none";
+	}
+	
 	public KategorijaVM(String ime, int br_jezgara, int rAM, String gPU) {
 		super();
 		this.ime = ime;

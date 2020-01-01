@@ -10,6 +10,14 @@ public class VM {
 	ArrayList<Dates> datumi;
 	ArrayList<String> diskovi;
 	
+	public VM()
+	{
+		ime = "none";
+		kategorija = new KategorijaVM();
+		datumi = new ArrayList<Dates>();
+		diskovi = new ArrayList<String>();
+	}
+	
 	
 	
 	public VM(String ime, KategorijaVM kategorija) {

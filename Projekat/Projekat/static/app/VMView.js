@@ -9,7 +9,10 @@ Vue.component("VMView", {
 	<div class="background">
             
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
-           
+            <span>
+            <button type="submit" v-on:click="cancel()">Log out</button>
+            <a href="#/IzProf"> Profil </a>          
+           	</span>
             <div class="navbar">
                 <div class="dropdown">
                   <button class="dropbtn">Virtual Machines
@@ -76,6 +79,16 @@ Vue.component("VMView", {
 	`	
 	,
 	methods: {
+		
+		logOut : function()
+		{
+			
+			if (confirm('Are you sure?') == true) {
+				axios.get('rest/logOut')
+					.then(response=> {window.location.href = "#/login"})
+			}
+			
+		}
 		
 		
 	},

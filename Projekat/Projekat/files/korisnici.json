@@ -1,2 +1,1 @@
-[{"email":"romana@super.com","lozinka" : "romana", "ime":"Romana", "prezime":"Erdelji","uloga":"superadmin"},
-{"email":"vukasin@super.com","lozinka" : "vukasin","ime":"Vukasin", "prezime":"Ocokoljic","uloga":"superadmin"}]
+[{"email":"romana@super.com","ime":"Romana","lozinka":"romana","prezime":"Erdelji","organizacija":{"ime":"none","opis":"none","logo":"none","korisnici":[],"resursi":[]},"uloga":"superadmin"},{"email":"vukasin@super.com","ime":"Vukasin","lozinka":"vukasin","prezime":"Ocokoljic","organizacija":{"ime":"none","opis":"none","logo":"none","korisnici":[],"resursi":[]},"uloga":"superadmin"}]

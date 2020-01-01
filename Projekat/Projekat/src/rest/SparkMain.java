@@ -5,7 +5,6 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
-import spark.Request;
 import spark.Session;
 
 import java.io.File;
@@ -26,9 +25,9 @@ public class SparkMain {
 	public static void main(String[] args) throws IOException {
 		port(8080);
 		
-		app = new Aplikacija();
-		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
+		
+		app = new Aplikacija();
 		app = Files.Ucitavanje();
 		
 		app.popuniMape();
@@ -47,7 +46,7 @@ public class SparkMain {
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");
-			Organizacija o = app.getOrganizacijaID("FTN");
+			Organizacija o = app.getOrganizacijaID(req.params("ime"));
 			if(o == null)
 			{
 				o = new Organizacija();
@@ -66,10 +65,20 @@ public class SparkMain {
 			return ("OK");
 		});
 		
+		//RAD SA ULOGOVANIM
 		get("rest/korisnici/getActiveUser", (req, res) -> {
 			res.type("application/json");
 			Session ss = req.session(true);
-			return ss.attribute("user");
+			Korisnik k = ss.attribute("user");
+			return g.toJson(k);
+			
+		});
+		
+		get("rest/logOut", (req, res) -> {
+			res.type("application/json");
+			Session ss = req.session(false);
+			ss.invalidate();
+			return "OK";
 			
 		});
 		
@@ -105,7 +114,8 @@ public class SparkMain {
 		//KORISNICI
 		get("rest/korisnici/getKorisnik", (req, res) -> {
 			res.type("application/json");
-			Korisnik k = app.getKorisnikID(req.params("email"));			
+			//Korisnik k = app.getKorisnikID(req.params("email"));	
+			Korisnik k = app.getKorisnikID("romana@super.com");	
 			if(k == null)
 			{
 				k = new Korisnik();
@@ -117,12 +127,14 @@ public class SparkMain {
 			res.type("application/json");
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
-			if(!k.getEmail().equals(""))
+	
+			if(checkUser(k))
 			{
 				app.editKorisnik(k);	
 				Files.UpisKorisnik(app.getKorisniciList());
+				return("200");
 			}
-			return ("OK");
+			return ("201");
 		});
 		
 		post("rest/korisnici/Brisanje", (req, res) -> {
@@ -134,6 +146,19 @@ public class SparkMain {
 			Files.UpisKorisnik(app.getKorisniciList());
 			return ("OK");
 		});
+	}
+	
+	public static boolean checkUser(Korisnik k)
+	{
+		if(k.getEmail().equals("p"))
+		{
+			return false;
+		}
+		if(k.getEmail().equals("") || k.getIme().equals("") || k.getIme().equals("") || k.getLozinka().equals("") || !k.getEmail().contains("@") || !k.getEmail().contains("."))
+		{
+			return false;
+		}
+		return true;
 	}
 
 }
