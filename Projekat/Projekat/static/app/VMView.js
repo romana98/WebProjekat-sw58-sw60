@@ -7,12 +7,13 @@ Vue.component("VMView", {
 	template:`
 	<div>
 	<div class="background">
-            
+             <div style="text-align: right; font-size: large;">
+              <a href="#/IzProf" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
+              <button type="submit" v-on:click="cancel()" style="text-align: right !important;">Log out</button>
+              
+
+            </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
-            <span>
-            <button type="submit" v-on:click="cancel()">Log out</button>
-            <a href="#/IzProf"> Profil </a>          
-           	</span>
             <div class="navbar">
                 <div class="dropdown">
                   <button class="dropbtn">Virtual Machines
@@ -70,6 +71,8 @@ Vue.component("VMView", {
             
         </div>
         
+        <h2 style="margin: 15px;"><i>Table view</i></h2>
+        
         <table class="viewTable">
           <tr>
             <th>Ime</th>
@@ -83,22 +86,22 @@ Vue.component("VMView", {
           <tr v-for="vm in vms">
           	<td>{{vm.ime}}</td>
             <td>{{vm.kategorija.ime}}</td>
-            <td>Broj jezgara</td>
-            <td>RAM</td>
-            <td>GPU</td>
-            <td>Lista diskova</td>
-            <td>Datumi koriscenja</td>
-          </tr>
-          <tr>
-            <td>Ime</td>
-            <td>Kategorija</td>
-            <td>Broj jezgara</td>
-            <td>RAM</td>
-            <td>GPU</td>
-            <td>Lista diskova</td>
-            <td>Datumi koriscenja</td>
+            <td>{{vm.kategorija.br_jezgara}}</td>
+            <td>{{vm.kategorija.RAM}}</td>
+            <td>{{vm.kategorija.GPU}}</td>
+             <td><select style="width: 115px; background-color: rgb(186, 241, 122);">
+              <option v-for="disk in vm.diskovi">{{disk}}</option>
+            </select></td>
+             <td><select style="width: 115px; background-color: rgb(186, 241, 122);">
+              <option v-for="datum in vm.datumi">{{datum.start_Date}} do {{datum.finish_Date}}</option>
+            </select></td>
           </tr>
       </table>
+      
+       <form action="#/addVM" style="text-align: center;">
+        <button type="submit" style="width: 150px; margin: 10px;">Add new VM</button>
+
+      </form>
         
         
         
