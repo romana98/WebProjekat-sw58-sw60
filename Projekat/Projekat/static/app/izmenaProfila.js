@@ -3,7 +3,6 @@ Vue.component("izmena-profila", {
 		return {
 		kor: null,
 		loz: '',
-		uloge: ['superadmin', 'admin', 'korisnik'],
 		validate_email: false,
 		validate_loz: false,
 		validate_loz_nd: false,
@@ -18,12 +17,12 @@ Vue.component("izmena-profila", {
 	<div>
 	
 	<div class="background">
-            
+             <div style="text-align: right; font-size: large;">
+              <a href="#/IzProf" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
+              <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+             
+            </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
-            <span>
-            <button type="submit" v-on:click="logOut()">Log out</button>
-            <a href="#/IzProf"> Profil </a>          
-           	</span>
             <div class="navbar">
                 <div class="dropdown">
                   <button class="dropbtn">Virtual Machines
@@ -75,11 +74,10 @@ Vue.component("izmena-profila", {
                       <a href="#">Delete category</a>
                     </div>
                   </div>
-              </div>
+              </div>            
         </div>
-	
-	
-	
+
+		<form id="form" class="login_form" method="post">
 		<table class="poravnaj" v-if="kor">
 			<tr>
 				<td>Email:</td>
@@ -111,31 +109,30 @@ Vue.component("izmena-profila", {
 			</tr>
 			<tr>
 				<td>Organization:</td>
-				<td >{{kor.organizacija.ime}}</td>
+				<td>{{kor.organizacija.ime}}</td>
+				<td v-if="kor.uloga==='admin'"><button class="dugme" type="submit" v-on:click="goToOrganization(kor.organizacija)">Organization</button></td>
 			</tr>
 			<tr>
 				<td>Role:</td>
-				<td>
-					<select v-model="kor.uloga">
-						<option v-for="k in uloge">{{k}}</option>		
-					</select>
-				</td>
+				<td >{{kor.uloga}}</td>
 			</tr>
 			<tr>
 			<td>
-				<form id="form" class="login_form" method="post">
-					<button class="dugme" type="submit" v-on:click="save(kor, loz)">Save</button>
-					<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>
-				</form>
+				<button class="dugme" type="submit" v-on:click="save(kor, loz)">Save</button>
+			</td>
+			<td>
+				<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>	
 			</td>
 			</tr>
 		</table>
+		</form>
 	</div>
 	`	
 	,
 	methods: {
 		save : function(kor, loz)
 		{
+			this.validate_email_exist = false;
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			if(kor.email.length === 0)
 			{
@@ -197,6 +194,10 @@ Vue.component("izmena-profila", {
 					{
 						toast('User (' + kor.email + ') information is saved!');		
 					}
+					else if(response.data.toString() === ("202"))
+					{
+						this.validate_email_exist = true; 
+					}
 				});
 			
 		},
@@ -213,12 +214,21 @@ Vue.component("izmena-profila", {
 			
 		},
 		
+		goToOrganization(org)
+		{
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+			
+			if (confirm('Are you sure?') == true) {
+				this.$router.push({ name: 'IzOrg', params: { o: org.ime } });
+			}
+			
+		},
+		
 		logOut : function()
 		{
 			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
-					.then(response=> {window.location.href = "#/login"})
 			}
 			
 		}

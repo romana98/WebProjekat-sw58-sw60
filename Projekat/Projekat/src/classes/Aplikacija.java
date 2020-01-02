@@ -99,6 +99,8 @@ public class Aplikacija {
 				break;
 			}
 		}
+		
+		korisniciList.get(index).setEmail(k.getEmail());
 		korisniciList.get(index).setIme(k.getIme());
 		korisniciList.get(index).setPrezime(k.getPrezime());
 		if(k.getUloga() != null)

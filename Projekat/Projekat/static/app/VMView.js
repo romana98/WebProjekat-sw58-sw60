@@ -9,9 +9,7 @@ Vue.component("VMView", {
 	<div class="background">
              <div style="text-align: right; font-size: large;">
               <a href="#/IzProf" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
-              <button type="submit" v-on:click="cancel()" style="text-align: right !important;">Log out</button>
-              
-
+               <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">

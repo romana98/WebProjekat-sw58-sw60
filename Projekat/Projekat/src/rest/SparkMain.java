@@ -5,6 +5,7 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
+import spark.Request;
 import spark.Session;
 
 import java.io.File;
@@ -48,7 +49,8 @@ public class SparkMain {
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");
-			Organizacija o = app.getOrganizacijaID(req.params("ime"));
+			Organizacija o = app.getOrganizacijaID(req.queryMap().value("ime"));
+			//Organizacija o = app.getOrganizacijaID("FTN");
 			if(o == null)
 			{
 				o = new Organizacija();
@@ -61,10 +63,18 @@ public class SparkMain {
 			res.type("application/json");
 			String payload = req.body();
 			Organizacija o = g.fromJson(payload, Organizacija.class);
-			app.editOrganizacija(o);
-			
-			Files.UpisOrganizacija(app.getOrganizacijeList());
-			return ("OK");
+			if(checkOrganization(o))
+			{
+					if(checkImeOrg(o))
+					{
+						return("202");
+					}
+							
+				app.editOrganizacija(o);	
+				Files.UpisOrganizacija(app.getOrganizacijeList());
+				return("200");
+			}
+			return ("201");
 		});
 		
 		//RAD SA ULOGOVANIM
@@ -129,9 +139,14 @@ public class SparkMain {
 			res.type("application/json");
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
-	
+
 			if(checkUser(k))
 			{
+				if(k.getUloga() == null)
+				{
+					if(checkEmail(k, req))
+						return("202");
+				}
 				app.editKorisnik(k);	
 				Files.UpisKorisnik(app.getKorisniciList());
 				return("200");
@@ -150,13 +165,59 @@ public class SparkMain {
 		});
 	}
 	
+	
+	public static boolean checkEmail(Korisnik k, Request req)
+	{
+		Session ss = req.session(true);
+		Korisnik active = ss.attribute("user");
+		
+		for (int i = 0; i < app.getKorisniciList().size(); i++) {
+			if(app.getKorisniciList().get(i).getEmail().equals(k.getEmail()))
+			{
+				if(active.getEmail().equals(k.getEmail())) {
+					return false;
+				}
+				return true;
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	public static boolean checkOrganization(Organizacija o)
+	{
+		
+		if(o.getIme().equals("") || o.getOpis().equals(""))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	
+	
+	public static boolean checkImeOrg(Organizacija o)
+	{
+		
+		for (int i = 0; i < app.getOrganizacijeList().size(); i++) {
+			if(app.getOrganizacijeList().get(i).getIme().equals(o.getIme()))
+			{
+				return true;
+			}
+			
+		}
+		
+		return false;
+	}
+	
 	public static boolean checkUser(Korisnik k)
 	{
 		if(k.getEmail().equals("p"))
 		{
 			return false;
 		}
-		if(k.getEmail().equals("") || k.getIme().equals("") || k.getIme().equals("") || k.getLozinka().equals("") || !k.getEmail().contains("@") || !k.getEmail().contains("."))
+		if(k.getEmail().equals("") || k.getIme().equals("") || k.getPrezime().equals("") || k.getLozinka().equals("") || !k.getEmail().contains("@") || !k.getEmail().contains("."))
 		{
 			return false;
 		}

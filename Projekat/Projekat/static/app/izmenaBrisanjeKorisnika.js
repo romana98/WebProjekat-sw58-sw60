@@ -2,7 +2,7 @@ Vue.component("izmena-bisanje-korisnika", {
 	data: function (){
 		return {
 			kor: null,
-			uloge: ['superadmin', 'admin', 'korisnik'],
+			uloge: ['admin', 'korisnik'],
 			validate_name: false,
 			validate_lastname: false,
 			validate_pass: false
@@ -10,13 +10,12 @@ Vue.component("izmena-bisanje-korisnika", {
 	},
 	template:`
 	<div >
-		<div class="background">
-            
+	<div class="background">
+             <div style="text-align: right; font-size: large;">
+              <a href="#/IzProf" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
+             <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+            </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
-            <span>
-            <button type="submit" v-on:click="logOut()">Log out</button>
-            <a href="#/IzProf"> Profil </a>          
-           	</span>
             <div class="navbar">
                 <div class="dropdown">
                   <button class="dropbtn">Virtual Machines
@@ -68,10 +67,10 @@ Vue.component("izmena-bisanje-korisnika", {
                       <a href="#">Delete category</a>
                     </div>
                   </div>
-              </div>
+              </div>   
         </div>
-	
-	
+
+		<form id="form" class="login_form" method="post">
 		<table class="poravnaj"  v-if="kor">
 			<tr>
 				<td>Email:</td>
@@ -106,14 +105,19 @@ Vue.component("izmena-bisanje-korisnika", {
 			</tr>
 			<tr>
 			<td>
-				<form id="form" class="login_form" method="post">
-					<button class="dugme" type="submit" v-on:click="save(kor)">Save</button>
-					<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>
-					<td><button class="dugme"  type="submit" v-on:click="deleteUser(kor.email)">Delete user</button>
-				</td></form>
+				<button class="dugme" type="submit" v-on:click="save(kor)">Save</button>
+			</td>
+			<td>
+				<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>
+			</td>
+			</tr>
+			<tr>	
+			<td>
+				<button class="dugme"  type="submit" v-on:click="deleteUser(kor.email)">Delete user</button>
 			</td>
 			</tr>
 			</table>
+			</form>
 	
 	</div>
 	`	
@@ -175,24 +179,31 @@ Vue.component("izmena-bisanje-korisnika", {
 		
 		deleteUser : function(email)
 		{
-			//toast za potvrdu
-			
-				//.then(response => (toast())) toast
+			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			axios.get('rest/korisnici/getActiveUser')
 	        .then(response => {
-	      	  if (response.data.uloga === "korisnik"){
-	      		toast('Error 400: No action granted!');
+	      	  if (response.data.email === email){
+	      		toast('Error 400: Can\'t delete user!');
 	      	  }
 	      	  else{
 	      		axios
 				.post('rest/korisnici/Brisanje', {"email":''+email})
 				.then(response=> {
-					toast('User (' + kor.email + ') deleted!'),
+					toast('User (' + email + ') deleted!'),
 					window.location.href = "#/korisnici"})
 				
 	      	  }
 	        });
+		}
+		
+	},
+	
+	logOut : function()
+	{
+		
+		if (confirm('Are you sure?') == true) {
+			axios.get('rest/logOut')
 		}
 		
 	},

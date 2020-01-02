@@ -9,7 +9,7 @@ const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
 	    { path: '/login', component: login},
-	    { path: '/IzOrg', component: izmenaOrganizacija },
+	    { path: '/IzOrg', name:'IzOrg', component: izmenaOrganizacija },
 	    { path: '/IzBrKor', component: izmenaBrisanjeKorisnika },
 	    { path: '/IzProf', component: izmenaProfila },
 	    { path: '/VMView', component: VMView }
