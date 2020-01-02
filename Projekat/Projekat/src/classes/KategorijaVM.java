@@ -8,10 +8,10 @@ public class KategorijaVM {
 	
 	public KategorijaVM()
 	{
-		ime = "none";
-		br_jezgara = 0;
-		RAM = 0;
-		GPU = "none";
+		this.ime = "none";
+		this.br_jezgara = 0;
+		this.RAM = 0;
+		this.GPU = "none";
 	}
 	
 	public KategorijaVM(String ime, int br_jezgara, int rAM, String gPU) {

@@ -3,8 +3,7 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VM {
-	String ime;
+public class VM extends Resurs{
 	KategorijaVM kategorija;
 	
 	ArrayList<Dates> datumi;
@@ -12,10 +11,11 @@ public class VM {
 	
 	public VM()
 	{
-		ime = "none";
-		kategorija = new KategorijaVM();
-		datumi = new ArrayList<Dates>();
-		diskovi = new ArrayList<String>();
+		super();
+		this.ime = "none";
+		this.kategorija = new KategorijaVM();
+		this.datumi = new ArrayList<Dates>();
+		this.diskovi = new ArrayList<String>();
 	}
 	
 	

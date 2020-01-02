@@ -43,6 +43,8 @@ public class SparkMain {
 		});
 		
 		
+		
+		
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");

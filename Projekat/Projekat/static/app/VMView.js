@@ -1,7 +1,7 @@
 Vue.component("VMView", {
 	data: function (){
 		return {
-		user : null
+		vms : null
 		}
 	},
 	template:`
@@ -70,7 +70,35 @@ Vue.component("VMView", {
             
         </div>
         
-        <label v-for="k in user">{{k.ime}}</label>
+        <table class="viewTable">
+          <tr>
+            <th>Ime</th>
+            <th>Kategorija</th>
+            <th>Broj jezgara</th>
+            <th>RAM</th>
+            <th>GPU</th>
+            <th>Lista diskova</th>
+            <th>Datumi koriscenja</th>
+          </tr>
+          <tr v-for="vm in vms">
+          	<td>{{vm.ime}}</td>
+            <td>{{vm.kategorija.ime}}</td>
+            <td>Broj jezgara</td>
+            <td>RAM</td>
+            <td>GPU</td>
+            <td>Lista diskova</td>
+            <td>Datumi koriscenja</td>
+          </tr>
+          <tr>
+            <td>Ime</td>
+            <td>Kategorija</td>
+            <td>Broj jezgara</td>
+            <td>RAM</td>
+            <td>GPU</td>
+            <td>Lista diskova</td>
+            <td>Datumi koriscenja</td>
+          </tr>
+      </table>
         
         
         
@@ -97,8 +125,8 @@ Vue.component("VMView", {
 		axios
         .get('/rest/virtuelne/VM')
         .then(response => {
-      	  this.user = response.data;
-      	  console.log(this.user);      	  
+      	  this.vms = response.data;
+      	  console.log(this.vms);      	  
         });
 	}
 	

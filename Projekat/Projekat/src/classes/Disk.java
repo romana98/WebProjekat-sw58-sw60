@@ -2,18 +2,18 @@ package classes;
 
 import enums.TipDiska;
 
-public class Disk {
+public class Disk extends Resurs{
 	
-	String ime;
 	TipDiska tip;
 	int kapacitet;
 	VM mojaVirtualnaMasina;
 	
 	public Disk()
 	{
-		ime = "none";
-		kapacitet = 0;
-		mojaVirtualnaMasina = new VM();
+		super();
+		this.ime = "none";
+		this.kapacitet = 0;
+		this.mojaVirtualnaMasina = new VM();
 	}
 	
 	

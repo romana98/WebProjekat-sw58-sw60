@@ -148,5 +148,28 @@ div.background span {
     .dropdown:hover .dropdown-content {
     display: block;
     }
+    
+    table.viewTable{
+      margin: 65px;
+      border: 1px solid black;
+      padding-right: 4px;
+    }
+    .viewTable td,tr,th{
+      margin: 75px;
+      border: 1px solid black;
+      padding-right: 4px;
+    }
+    .viewTable th,td{
+      width : 120px;
+      height: 30px;
+    }
+
+    .viewTable tr:nth-child(1){
+        background-color: rgb(95, 128, 56);
+    }
+
+    .viewTable tr:not(first-child) {
+      background-color: rgb(186, 241, 122);
+    }
 
  
