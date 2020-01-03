@@ -219,7 +219,7 @@ Vue.component("izmena-profila", {
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			if (confirm('Are you sure?') == true) {
-				this.$router.push({ name: 'organization', params: { o: org.ime } });
+				this.$router.push({ name: 'organization', params: { ime: org.ime } });
 			}
 			
 		},

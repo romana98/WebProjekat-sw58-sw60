@@ -223,9 +223,9 @@ Vue.component("izmena-organizacija", {
 	mounted()
 	{
 		
-		if(this.$route.params.o)
+		if(this.$route.params.ime)
 		{
-			this.ime = this.$route.params.o;
+			this.ime = this.$route.params.ime;
 		}
 		axios
 			.get('rest/organizacije/getOrganizacija', { params: {"ime":''+this.ime}})

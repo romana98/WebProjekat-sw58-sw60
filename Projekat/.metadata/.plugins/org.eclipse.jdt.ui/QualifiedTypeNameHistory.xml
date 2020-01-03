@@ -19,6 +19,8 @@
 <fullyQualifiedTypeName name="classes.Files"/>
 <fullyQualifiedTypeName name="classes.Organizacija"/>
 <fullyQualifiedTypeName name="classes.Korisnik"/>
+<fullyQualifiedTypeName name="spark.Request"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="classes.VM"/>
 <fullyQualifiedTypeName name="classes.KategorijaVM"/>
 </qualifiedTypeNameHistroy>

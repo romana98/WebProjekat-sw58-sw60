@@ -5,7 +5,8 @@ Vue.component("izmena-bisanje-korisnika", {
 			uloge: ['admin', 'korisnik'],
 			validate_name: false,
 			validate_lastname: false,
-			validate_pass: false
+			validate_pass: false,
+			email:''
 		}
 	},
 	template:`
@@ -209,8 +210,12 @@ Vue.component("izmena-bisanje-korisnika", {
 	},
 	mounted()
 	{
+		if(this.$route.params.email)
+		{
+			this.email = this.$route.params.email;
+		}
 		axios
-			.get('rest/korisnici/getKorisnik')
+			.get('rest/korisnici/getKorisnik', { params: {"email":''+this.email}})
 			.then(response =>{
 				this.kor = response.data
 			});

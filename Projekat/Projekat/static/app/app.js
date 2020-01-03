@@ -10,8 +10,8 @@ const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
 		  { path: '/login', name:'login', component: login},
-		    { path: '/organization', name:'organization', component: izmenaOrganizacija }, //params.o
-		    { path: '/user', name:'user', component: izmenaBrisanjeKorisnika },
+		    { path: '/organization', name:'organization', component: izmenaOrganizacija }, //params.ime
+		    { path: '/user', name:'user', component: izmenaBrisanjeKorisnika }, //params.email
 		    { path: '/profil', name:'profil', component: izmenaProfila },
 		    //{ path: '/vm', name:'vm', component: izmenaVM },
 		    //{ path: '/disck', name:'disck', component: izmenaDisk },

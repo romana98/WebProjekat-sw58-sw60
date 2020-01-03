@@ -127,8 +127,7 @@ public class SparkMain {
 		//KORISNICI
 		get("rest/korisnici/getKorisnik", (req, res) -> {
 			res.type("application/json");
-			//Korisnik k = app.getKorisnikID(req.params("email"));	
-			Korisnik k = app.getKorisnikID("romana@super.com");	
+			Korisnik k = app.getKorisnikID(req.queryMap().value("email"));	
 			if(k == null)
 			{
 				k = new Korisnik();
