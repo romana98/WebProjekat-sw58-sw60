@@ -98,6 +98,7 @@ public class Aplikacija {
 			}
 		}
 		virtualneList.get(index).setIme(vm.getIme());
+		virtualneList.get(index).setDatumi(vm.getDatumi());
 		
 	}
 	
@@ -153,7 +154,7 @@ public class Aplikacija {
 		}
 		korisniciList.remove(indexK);
 		korisnici.remove(vm.getIme());
-		organizacijeList.get(indexO).getKorisnici().remove(indexOK);
+		organizacijeList.get(indexO).getResursi().remove(indexOK);
 		organizacije.put(organizacijeList.get(indexO).getIme(), organizacijeList.get(indexO));
 
 	}

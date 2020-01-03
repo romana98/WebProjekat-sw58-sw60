@@ -5,8 +5,8 @@ import java.util.concurrent.TimeUnit;;
 
 public class Dates {
 
-	String start_Date;
-	String finish_Date;
+	private String start_Date;
+	private String finish_Date;
 	
 	//Ovde nisam siguran da sam dobro razumeo, ali u tekstu zadatka pise
 	//da izmenu datuma vrsi samo super admin, i da se datumi ukucavaju prilikom
@@ -14,6 +14,13 @@ public class Dates {
 	//vm pusti u radi pa da se onda napravi ovde samo start date, pa kada se stisne
 	//neko dugme da se zaustavi VM da se ovde stavi i finish date i to sve bude upisano
 	//u VM. Ali ovako kako oni kazu ima samo zakucane vrednosti :)
+	public Dates() {}
+
+	public Dates(String start_Date, String finish_Date)
+	{
+		this.start_Date = start_Date;
+		this.finish_Date = finish_Date;	
+	}
 	public Dates(String start_Date) {
 		super();
 		this.start_Date = start_Date;
@@ -37,7 +44,7 @@ public class Dates {
 	}
 	
 	public int getNumberOfHours() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		long dif = 0;
 		try {
 			dif = Math.abs(sdf.parse(start_Date).getTime() - sdf.parse(finish_Date).getTime());
@@ -47,6 +54,12 @@ public class Dates {
 		}
 		return (int) (TimeUnit.HOURS.convert(dif,TimeUnit.MILLISECONDS));
 	}
+
+	@Override
+	public String toString() {
+		return "Dates [start_Date=" + start_Date + ", finish_Date=" + finish_Date + "]";
+	}
+	
 	
 	
 }

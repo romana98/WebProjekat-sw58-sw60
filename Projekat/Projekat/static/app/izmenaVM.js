@@ -3,7 +3,9 @@ Vue.component("izmena-vm", {
 		return {
 			vm: null,
 			validate_name: false,
+			validate_date: false,
 			name:'',
+			ime:null,
 			today:''
 		}
 	},
@@ -103,21 +105,16 @@ Vue.component("izmena-vm", {
 			
 			<tr>
 				<td>Dates:</td>
+				<td><label v-if="validate_date">Finish date can't be before start date!</label></td>
 			</tr>
-			<tr v-for="d in vm.datumi">
-				<td>{{d.start_Date}}</td>
-				 <td>{{d.finish_Date}}</td>	
+			<tr v-for="(d, index) in vm.datumi">
+				<td><input  type="datetime-local" :max="today" v-model="d.start_Date"></input></td>
+				 <td><input type="datetime-local" :max="today" v-model="d.finish_Date"></input></td>	
+				
 			</tr>
-			
-			<tr>	
-			<td>
-				 <input type="datetime-local" value="today"></input>
-			</td>
-			</tr>
-			
 			<tr>
 			<td>
-				<button class="dugme" type="submit" v-on:click="save(vm)">Save</button>
+				<button class="dugme" type="submit" v-on:click="save(vm, ime)">Save</button>
 			</td>
 			<td>
 				<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>
@@ -135,9 +132,10 @@ Vue.component("izmena-vm", {
 	`	
 	,
 	methods: {
-		save : function(vm)
+		save : function(vm, ime)
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
+			this.validate_date = false;
 			
 			if(vm.ime.length === 0 )
 			{
@@ -147,9 +145,20 @@ Vue.component("izmena-vm", {
 			{
 				this.validate_name = false;
 			}
+
+			for(d in vm.datumi)
+			{
+				let d_s = new Date(vm.datumi[d].start_Date);
+				let d_f = new Date(vm.datumi[d].finish_Date);
+				let isTrue = d_s.getTime() > d_f.getTime();
+				if(isTrue)
+				{
+					this.validate_date = true;
+				}
+			}
 			
 			axios
-			.post('rest/korisnici/Izmena', {"ime" : ''+ vm.ime})
+			.post('rest/vm/Izmena',  {"ime":''+vm.ime, "datumi":vm.datumi}, {params:{"imeOld":''+ime, "datumi":vm.datumi}})
 			.then(response => {
 				if(response.data.toString() === ("200"))
 				{
@@ -197,7 +206,21 @@ Vue.component("izmena-vm", {
 		var date = new Date();
 		var day = date.getDate();
 		var month = date.getMonth()+1;
-		
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var seconds = date.getSeconds();
+		if(date.getSeconds() < 10)
+		{
+			seconds = '0'+date.getSeconds();
+		}
+		if(date.getMinutes() < 10)
+		{
+			minutes = '0'+date.getMinutes();
+		}
+		if(date.getHours() < 10)
+		{
+			hours = '0'+date.getHours();
+		}
 		if(date.getDate() < 10)
 		{
 			day = '0'+date.getDate();
@@ -206,8 +229,7 @@ Vue.component("izmena-vm", {
 		{
 			month = '0'+(date.getMonth()+1);		
 		}
-		
-			this.today = date.getFullYear()+'-'+month+'-'+day +'T' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+		this.today = date.getFullYear()+'-'+month+'-'+day +'T' +hours + ':' + minutes + ':' +seconds;
 		console.log(this.today);
 		
 		if(this.$route.params.vm_ime) 

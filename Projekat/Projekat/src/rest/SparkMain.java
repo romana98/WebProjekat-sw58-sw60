@@ -17,8 +17,6 @@ import classes.Korisnik;
 import classes.Organizacija;
 
 
-import classes.Resurs;
-
 import classes.VM;
 import enums.Uloga;
 import spark.Request;
