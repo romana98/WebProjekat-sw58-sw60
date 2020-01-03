@@ -4,7 +4,7 @@ Vue.component("izmena-vm", {
 			vm: null,
 			validate_name: false,
 			name:'',
-			today:null
+			today:''
 		}
 	},
 	template:`
@@ -103,14 +103,16 @@ Vue.component("izmena-vm", {
 			
 			<tr>
 				<td>Dates:</td>
-				<td>
-					<select>
-						<option v-for="d in vm.datumi">{{d.start_Date}} - {{d.finish_Date}}</option>		
-					</select>
-				</td>	
-				<td>
-					 <input type="date" value="2020-01-02" max="2020-01-03"></input>
-				</td>
+			</tr>
+			<tr v-for="d in vm.datumi">
+				<td>{{d.start_Date}}</td>
+				 <td>{{d.finish_Date}}</td>	
+			</tr>
+			
+			<tr>	
+			<td>
+				 <input type="datetime-local" value="today"></input>
+			</td>
 			</tr>
 			
 			<tr>
@@ -146,66 +148,68 @@ Vue.component("izmena-vm", {
 				this.validate_name = false;
 			}
 			
-			/*
 			axios
-			.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga})
+			.post('rest/korisnici/Izmena', {"ime" : ''+ vm.ime})
 			.then(response => {
 				if(response.data.toString() === ("200"))
 				{
-					toast('User (' + kor.email + ') information is saved!');		
+					toast('VM (' + vm.ime + ') information is saved!');		
 				}
-			});
-			
-		*/	
+			});	
 			
 		},
 		
 		cancel : function()
 		{
+			
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			/*
+			
 			if (confirm('Are you sure?') == true) {
 				axios
-				.post('rest/korisnici/Izmena', {"email":''+"p"})
-					.then(response=> {window.location.href = "#/korisnici"})
-			}*/
+				.post('rest/vm/Izmena', {"ime":''})
+					.then(response=> {window.location.href = "#/VMView"})
+			}
 		},
 		
 		deleteVM : function(ime)
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			/*
-			axios.get('rest/korisnici/getActiveUser')
-	        .then(response => {
-	      	  if (response.data.email === email){
-	      		toast('Error 400: Can\'t delete user!');
-	      	  }
-	      	  else{
-	      		axios
-				.post('rest/korisnici/Brisanje', {"email":''+email})
-				.then(response=> {
-					toast('User (' + email + ') deleted!'),
-					window.location.href = "#/korisnici"})
-				
-	      	  }
-	        });
-	        */
-		}
+      		
+			axios
+			.post('rest/vm/Brisanje', {"ime":''+ime})
+			.then(response=> {
+				toast('VM (' + ime + ') deleted!'),
+				window.location.href = "#/VMView"})
 		
-	},
+		},
 	
-	logOut : function()
-	{
-		
-		if (confirm('Are you sure?') == true) {
-			axios.get('rest/logOut')
+		logOut : function()
+		{
+			
+			if (confirm('Are you sure?') == true) {
+				axios.get('rest/logOut')
+			}
 		}
-		
+			
 	},
 	mounted()
 	{
 		var date = new Date();
-		this.today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+		var day = date.getDate();
+		var month = date.getMonth()+1;
+		
+		if(date.getDate() < 10)
+		{
+			day = '0'+date.getDate();
+		}
+		if(date.getMonth()+1 < 10)
+		{
+			month = '0'+(date.getMonth()+1);		
+		}
+		
+			this.today = date.getFullYear()+'-'+month+'-'+day +'T' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+		console.log(this.today);
+		
 		if(this.$route.params.vm_ime) 
 		{
 			this.ime = this.$route.params.vm_ime;
@@ -215,6 +219,5 @@ Vue.component("izmena-vm", {
 			.then(response =>{
 				this.vm = response.data
 			});
-	}
-	
+	}	
 });

@@ -16,13 +16,13 @@ import classes.Files;
 import classes.Korisnik;
 import classes.Organizacija;
 
+
 import classes.Resurs;
+
 import classes.VM;
 import enums.Uloga;
 import spark.Request;
 import spark.Session;
-
-import classes.VM;
 
 
 public class SparkMain {
@@ -103,8 +103,37 @@ public class SparkMain {
 			return g.toJson(vm);
 		});
 		
+		post("rest/vm/Izmena", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			String name = req.queryMap("imeOld").value();
+			VM vm = g.fromJson(payload, VM.class);
+			if(checkVM(vm))
+			{
+					if(checkImeVM(vm, name))
+					{
+						return("202");
+					}
+							
+				app.editVM(vm);	
+				Files.UpisOrganizacija(app.getOrganizacijeList());
+				return("200");
+			}
+			return ("201");
+		});
 		
-
+		
+		post("rest/vm/Brisanje", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			VM vm = g.fromJson(payload, VM.class);
+			app.removeVM(vm);
+			
+			Files.UpisVM(app.getVirtualneList());
+			return ("OK");
+		});
+		
+		
 		
 		
 		//ORGANIZACIJE
@@ -275,7 +304,38 @@ public class SparkMain {
 		
 		return false;
 	}
+
 	
+
+	public static boolean checkVM(VM vm)
+	{
+		
+		if(vm.getIme().equals(""))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	
+	
+	public static boolean checkImeVM(VM vm, String name)
+	{
+		
+		for (int i = 0; i < app.getVirtualneList().size(); i++) {
+			if(app.getVirtualneList().get(i).getIme().equals(vm.getIme()))
+			{
+				if(app.getVirtualneList().get(i).getIme().equals(name))
+				{
+					return false;
+				}
+				return true;
+			}
+			
+		}
+		
+		return false;
+	}
 	public static boolean checkUser(Korisnik k)
 	{
 		if(k.getEmail().equals("p"))

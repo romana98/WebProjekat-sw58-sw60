@@ -4,14 +4,14 @@ import enums.TipDiska;
 
 public class Disk extends Resurs{
 	
-	TipDiska tip;
-	int kapacitet;
-	VM mojaVirtualnaMasina;
+	private TipDiska tip;
+	private int kapacitet;
+	private VM mojaVirtualnaMasina;
 	
 	public Disk()
 	{
 		super();
-		this.ime = "none";
+		this.setIme("none");
 		this.kapacitet = 0;
 		this.mojaVirtualnaMasina = new VM();
 	}
@@ -20,17 +20,11 @@ public class Disk extends Resurs{
 	
 	public Disk(String ime, TipDiska tip, int kapacitet, VM mojaVirtualnaMasina) {
 		super();
-		this.ime = ime;
+		this.setIme(ime);
 		this.tip = tip;
 		this.kapacitet = kapacitet;
 		this.mojaVirtualnaMasina = mojaVirtualnaMasina;
-		mojaVirtualnaMasina.addDisk(this.ime);
-	}
-	public String getIme() {
-		return ime;
-	}
-	public void setIme(String ime) {
-		this.ime = ime;
+		mojaVirtualnaMasina.addDisk(this.getIme());
 	}
 	public TipDiska getTip() {
 		return tip;
@@ -52,7 +46,7 @@ public class Disk extends Resurs{
 	}
 	@Override
 	public String toString() {
-		return "Disk [ime=" + ime + ", tip=" + tip + ", kapacitet=" + kapacitet + ", mojaVirtualnaMasina="
+		return "Disk [ime=" + getIme() + ", tip=" + tip + ", kapacitet=" + kapacitet + ", mojaVirtualnaMasina="
 				+ mojaVirtualnaMasina + "]";
 	}
 	

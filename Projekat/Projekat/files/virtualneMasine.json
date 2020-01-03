@@ -1,12 +1,12 @@
 [{"ime":"VM1","kategorija" : 
 	{"ime":"PrvaKategorija","br_jezgara" : "5", "RAM":"4", "GPU":"nVidia"},
-	"datumi":[{"start_Date":"12.02.2015 22:50",
-			"finish_Date":"14.02.2015 22:51"},{
-			"start_Date":"12.04.2015 22:50",
-			"finish_Date":"14.04.2015 22:51"}], "diskovi":["Disk1","Disk2"]},
+	"datumi":[{"start_Date":"12-02-2015 22:50",
+			"finish_Date":"14-02-2015 22:51"},{
+			"start_Date":"12-04-2015 22:50",
+			"finish_Date":"14-04-2015 22:51"}], "diskovi":["Disk1","Disk2"]},
 {"ime":"VM2","kategorija" : 
 	{"ime":"PrvaKategorija","br_jezgara" : "5", "RAM":"4", "GPU":"nVidia"},
-	"datumi":[{"start_Date":"12.02.2015 22:50",
-			"finish_Date":"14.02.2015 22:51"},{
-			"start_Date":"12.04.2015 22:50",
-			"finish_Date":"14.04.2015 22:51"}], "diskovi":["Disk1","Disk2"]}]
+	"datumi":[{"start_Date":"12-02-2015 22:50",
+			"finish_Date":"14-02-2015 22:51"},{
+			"start_Date":"12-04-2015 22:50",
+			"finish_Date":"14-04-2015 22:51"}], "diskovi":["Disk1","Disk2"]}]
