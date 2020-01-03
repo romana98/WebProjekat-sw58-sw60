@@ -86,6 +86,21 @@ public class Aplikacija {
 		
 	}
 	
+	public void editVM(VM vm)
+	{
+		virtualne.put(vm.getIme(), vm);
+		int index = -1;
+		for (int i = 0; i < virtualneList.size(); i++) {
+			if(virtualneList.get(i).getIme().contentEquals(vm.getIme()))
+			{
+				index = i;
+				break;
+			}
+		}
+		virtualneList.get(index).setIme(vm.getIme());
+		
+	}
+	
 	public void editKorisnik(Korisnik k)
 	{
 		
@@ -107,6 +122,42 @@ public class Aplikacija {
 			korisniciList.get(index).setUloga(k.getUloga());
 		korisniciList.get(index).setLozinka(k.getLozinka());
 	}
+	
+	public void removeVM(VM vm)
+	{
+		int indexK = -1, indexOK = -1, indexO = -1;
+		for (int i = 0; i < virtualneList.size(); i++) {
+			if(virtualneList.get(i).getIme().equals(vm.getIme()))
+			{
+				indexK = i;
+				break;
+			}
+		}
+		for (int i = 0; i < organizacijeList.size(); i++) {
+			
+			for (int j = 0; j < organizacijeList.get(i).getKorisnici().size(); j++)
+			{
+				if(organizacijeList.get(i).getResursi().get(j).equals(vm.getIme()))
+				{
+					indexOK = j;
+					break;
+				}
+				
+			}
+			
+			if(indexOK != -1)
+			{
+				indexO = i;
+				break;
+			}
+		}
+		korisniciList.remove(indexK);
+		korisnici.remove(vm.getIme());
+		organizacijeList.get(indexO).getKorisnici().remove(indexOK);
+		organizacije.put(organizacijeList.get(indexO).getIme(), organizacijeList.get(indexO));
+
+	}
+	
 	
 	public void removeKorisnik(Korisnik k)
 	{

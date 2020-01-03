@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VM extends Resurs{
-	KategorijaVM kategorija;
+	private KategorijaVM kategorija;
 	
-	ArrayList<Dates> datumi;
-	ArrayList<String> diskovi;
+	private ArrayList<Dates> datumi;
+	private ArrayList<String> diskovi;
 	
 	public VM()
 	{
 		super();
-		this.ime = "none";
+		this.setIme("none");
 		this.kategorija = new KategorijaVM();
 		this.datumi = new ArrayList<Dates>();
 		this.diskovi = new ArrayList<String>();
@@ -22,7 +22,7 @@ public class VM extends Resurs{
 	
 	public VM(String ime, KategorijaVM kategorija) {
 		super();
-		this.ime = ime;
+		this.setIme(ime);
 		this.kategorija = kategorija;
 		this.datumi = new ArrayList<Dates>();
 		this.diskovi = new ArrayList<String>();
@@ -36,12 +36,6 @@ public class VM extends Resurs{
 		this.diskovi.add(disk);
 	}
 	
-	public String getIme() {
-		return ime;
-	}
-	public void setIme(String ime) {
-		this.ime = ime;
-	}
 	public KategorijaVM getKategorija() {
 		return kategorija;
 	}
@@ -63,7 +57,7 @@ public class VM extends Resurs{
 
 	@Override
 	public String toString() {
-		return "VM [ime=" + ime + ", kategorija=" + kategorija + ", datumi=" + datumi + ", diskovi=" + diskovi + "]";
+		return "VM [ime=" + getIme() + ", kategorija=" + kategorija + ", datumi=" + datumi + ", diskovi=" + diskovi + "]";
 	}
 	
 	

@@ -37,7 +37,7 @@ public class Dates {
 	}
 	
 	public int getNumberOfHours() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 		long dif = 0;
 		try {
 			dif = Math.abs(sdf.parse(start_Date).getTime() - sdf.parse(finish_Date).getTime());

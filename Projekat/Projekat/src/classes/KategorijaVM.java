@@ -1,10 +1,10 @@
 package classes;
 
 public class KategorijaVM {
-	String ime;
-	int br_jezgara;
-	int RAM;
-	String GPU;
+	private String ime;
+	private int br_jezgara;
+	private int RAM;
+	private String GPU;
 	
 	public KategorijaVM()
 	{
