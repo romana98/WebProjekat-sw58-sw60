@@ -17,6 +17,7 @@ import classes.Aplikacija;
 import classes.Files;
 import classes.Korisnik;
 import classes.Organizacija;
+import classes.VM;
 
 public class SparkMain {
 	
@@ -37,10 +38,22 @@ public class SparkMain {
 		get("/test", (req, res) -> {
 			return "Works";
 		});
+		
 		//VM
 		get("/rest/virtuelne/VM", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(app.getVirtualneList());
+		});
+		
+		get("/rest/virtualne/getVM", (req, res) -> {
+			res.type("application/json");
+			//VM vm = app.getVirtualneID(req.queryMap().value("ime"));
+			VM vm = app.getVirtualneID("VM1");
+			if(vm == null)
+			{
+				vm = new VM();
+			}
+			return g.toJson(vm);
 		});
 		
 		
