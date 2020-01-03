@@ -18,7 +18,7 @@ Vue.component("izmena-profila", {
 	
 	<div class="background">
              <div style="text-align: right; font-size: large;">
-              <a href="#/IzProf" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
+              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
               <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
              
             </div>
@@ -219,7 +219,7 @@ Vue.component("izmena-profila", {
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			if (confirm('Are you sure?') == true) {
-				this.$router.push({ name: 'IzOrg', params: { o: org.ime } });
+				this.$router.push({ name: 'organization', params: { o: org.ime } });
 			}
 			
 		},

@@ -62,10 +62,11 @@ public class SparkMain {
 		post("rest/organizacije/Izmena", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
+			String name = req.queryMap("imeOld").value();
 			Organizacija o = g.fromJson(payload, Organizacija.class);
 			if(checkOrganization(o))
 			{
-					if(checkImeOrg(o))
+					if(checkImeOrg(o, name))
 					{
 						return("202");
 					}
@@ -197,12 +198,16 @@ public class SparkMain {
 
 	
 	
-	public static boolean checkImeOrg(Organizacija o)
+	public static boolean checkImeOrg(Organizacija o, String name)
 	{
 		
 		for (int i = 0; i < app.getOrganizacijeList().size(); i++) {
 			if(app.getOrganizacijeList().get(i).getIme().equals(o.getIme()))
 			{
+				if(app.getOrganizacijeList().get(i).getIme().equals(name))
+				{
+					return false;
+				}
 				return true;
 			}
 			

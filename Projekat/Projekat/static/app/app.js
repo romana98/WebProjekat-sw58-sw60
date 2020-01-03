@@ -9,12 +9,15 @@ const izmenaProfila = {template: '<izmena-profila></izmena-profila>'}
 const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
-	    { path: '/login', component: login},
-	    { path: '/IzOrg', name:'IzOrg', component: izmenaOrganizacija },
-	    { path: '/IzBrKor', component: izmenaBrisanjeKorisnika },
-	    { path: '/IzProf', component: izmenaProfila },
-	    { path: '/VMView', component: VMView },
-	    { path: '/AddVM', component: AddVM}
+		  { path: '/login', name:'login', component: login},
+		    { path: '/organization', name:'organization', component: izmenaOrganizacija }, //params.o
+		    { path: '/user', name:'user', component: izmenaBrisanjeKorisnika },
+		    { path: '/profil', name:'profil', component: izmenaProfila },
+		    //{ path: '/vm', name:'vm', component: izmenaVM },
+		    //{ path: '/disck', name:'disck', component: izmenaDisk },
+		    //{ path: '/category', name:'category', component: izmenaKategorija },
+		    { path: '/VMView', name:'VMView', component: VMView },
+	    { path: '/addVM', name:'addVM', component: AddVM}
 	  ]
 });
 

@@ -12,7 +12,7 @@ Vue.component("izmena-bisanje-korisnika", {
 	<div >
 	<div class="background">
              <div style="text-align: right; font-size: large;">
-              <a href="#/IzProf" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
+              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
              <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>

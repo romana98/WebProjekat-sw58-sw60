@@ -13,7 +13,7 @@ Vue.component("izmena-organizacija", {
 	<div>
 		<div class="background">
              <div style="text-align: right; font-size: large;">
-              <a href="#/IzProf" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
+              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
               <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
              
             </div>
@@ -124,7 +124,7 @@ Vue.component("izmena-organizacija", {
 			
 			<tr>
 			<td>
-				<button class="dugme" type="submit" v-on:click="save(org)">Save</button>
+				<button class="dugme" type="submit" v-on:click="save(org, ime)">Save</button>
 			</td>
 			<td>
 				<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>	
@@ -161,7 +161,7 @@ Vue.component("izmena-organizacija", {
 			this.org.logo = "none";
 		},
 		
-		save : function(org)
+		save : function(org, ime)
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			this.validate_name_exist = false;
@@ -184,7 +184,7 @@ Vue.component("izmena-organizacija", {
 			}
 			
 				axios
-				.post('rest/organizacije/Izmena', {"ime":''+org.ime, "opis":''+org.opis, "logo":''+org.logo})
+				.post('rest/organizacije/Izmena', {"ime":''+org.ime, "opis":''+org.opis, "logo":''+org.logo}, {params:{imeOld:''+ime}})
 				.then(response => {
 					if(response.data.toString() === ("200"))
 					{
