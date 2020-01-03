@@ -6,7 +6,8 @@ Vue.component("izmena-vm", {
 			validate_date: false,
 			name:'',
 			ime:null,
-			today:''
+			today:'',
+			active:null
 		}
 	},
 	template:`
@@ -72,10 +73,11 @@ Vue.component("izmena-vm", {
         </div>
 
 		<form id="form" class="login_form" method="post">
-		<table class="poravnaj"  v-if="vm">
+		<table class="poravnaj"  v-if="vm && active">
 			<tr>
 				<td>Name:</td>
-				<td><input type="text" name="ime" v-model="vm.ime"></input></td>
+				<td v-if="active.uloga !== 'korisnik'"><input type="text" name="ime" v-model="vm.ime"></input></td>
+				<td v-else>{{vm.ime}}</td>
 				<td><label v-if="validate_name">You're missing field!</label></td>
 			</tr>
 			<tr>
@@ -108,8 +110,9 @@ Vue.component("izmena-vm", {
 				<td><label v-if="validate_date">Finish date can't be before start date!</label></td>
 			</tr>
 			<tr v-for="(d, index) in vm.datumi">
-				<td><input  type="datetime-local" :max="today" v-model="d.start_Date"></input></td>
-				 <td><input type="datetime-local" :max="today" v-model="d.finish_Date"></input></td>	
+				<td ><input  type="datetime-local" :disabled="active.uloga !== 'superadmin'" :max="today" v-model="d.start_Date"></input></td>
+				
+				<td><input type="datetime-local" :disabled="active.uloga !== 'superadmin'" :max="today" v-model="d.finish_Date"></input></td>	
 				
 			</tr>
 			<tr>
@@ -230,7 +233,8 @@ Vue.component("izmena-vm", {
 			month = '0'+(date.getMonth()+1);		
 		}
 		this.today = date.getFullYear()+'-'+month+'-'+day +'T' +hours + ':' + minutes + ':' +seconds;
-		console.log(this.today);
+		
+		
 		
 		if(this.$route.params.vm_ime) 
 		{
@@ -240,6 +244,11 @@ Vue.component("izmena-vm", {
 			.get('rest/virtualne/getVM', { params: {"ime":''+this.ime}})
 			.then(response =>{
 				this.vm = response.data
-			});
+			});	
+		axios
+		.get('rest/korisnici/getActiveUser')
+		.then(response =>{
+			this.active = response.data
+		});
 	}	
 });
