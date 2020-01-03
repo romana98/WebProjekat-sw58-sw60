@@ -1,4 +1,4 @@
-Vue.component("VMView", {
+Vue.component("AddVM", {
 	data: function (){
 		return {
 		vms : null
@@ -69,37 +69,6 @@ Vue.component("VMView", {
             
         </div>
         
-        <h2 style="margin: 15px;"><i>Table view</i></h2>
-        
-        <table class="viewTable">
-          <tr>
-            <th>Ime</th>
-            <th>Kategorija</th>
-            <th>Broj jezgara</th>
-            <th>RAM</th>
-            <th>GPU</th>
-            <th>Lista diskova</th>
-            <th>Datumi koriscenja</th>
-          </tr>
-          <tr v-for="vm in vms">
-          	<td>{{vm.ime}}</td>
-            <td>{{vm.kategorija.ime}}</td>
-            <td>{{vm.kategorija.br_jezgara}}</td>
-            <td>{{vm.kategorija.RAM}}</td>
-            <td>{{vm.kategorija.GPU}}</td>
-             <td><select style="width: 115px; background-color: rgb(186, 241, 122);">
-              <option v-for="disk in vm.diskovi">{{disk}}</option>
-            </select></td>
-             <td><select style="width: 115px; background-color: rgb(186, 241, 122);">
-              <option v-for="datum in vm.datumi">{{datum.start_Date}} do {{datum.finish_Date}}</option>
-            </select></td>
-          </tr>
-      </table>
-      
-      <div style="text-align: center">
-        <button @click="addNew" type="submit" style="width: 150px; margin: 10px;">Add new VM</button>
-	 </div>
-      
         
         
         
@@ -112,16 +81,7 @@ Vue.component("VMView", {
 		logOut : function()
 		{
 			
-			if (confirm('Are you sure?') == true) {
-				axios.get('rest/logOut')
-					.then(response=> {window.location.href = "#/login"})
-			}
 			
-		},
-	
-		addNew : function()
-		{
-			window.location.href = "#/AddVM";
 		}
 		
 		

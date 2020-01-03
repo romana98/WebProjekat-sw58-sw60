@@ -1,5 +1,6 @@
 const login = {template: '<login></login>'}
 const VMView = {template: '<VMView></VMView>'}
+const AddVM = {template: '<AddVM></AddVM>'}
 const izmenaOrganizacija = {template: '<izmena-organizacija></izmena-organizacija>'}
 const izmenaBrisanjeKorisnika = {template: '<izmena-bisanje-korisnika></izmena-bisanje-korisnika>'}
 const izmenaProfila = {template: '<izmena-profila></izmena-profila>'}
@@ -12,7 +13,8 @@ const router = new VueRouter({
 	    { path: '/IzOrg', name:'IzOrg', component: izmenaOrganizacija },
 	    { path: '/IzBrKor', component: izmenaBrisanjeKorisnika },
 	    { path: '/IzProf', component: izmenaProfila },
-	    { path: '/VMView', component: VMView }
+	    { path: '/VMView', component: VMView },
+	    { path: '/AddVM', component: AddVM}
 	  ]
 });
 
