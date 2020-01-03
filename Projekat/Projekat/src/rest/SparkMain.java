@@ -15,11 +15,15 @@ import classes.Aplikacija;
 import classes.Files;
 import classes.Korisnik;
 import classes.Organizacija;
+<<<<<<< HEAD
 import classes.Resurs;
 import classes.VM;
 import enums.Uloga;
 import spark.Request;
 import spark.Session;
+=======
+import classes.VM;
+>>>>>>> d71ffbd1b7a873df596022e00486c262acae4beb
 
 public class SparkMain {
 	
@@ -40,6 +44,7 @@ public class SparkMain {
 		get("/test", (req, res) -> {
 			return "Works";
 		});
+		
 		//VM
 		get("/rest/virtuelne/VM", (req, res) -> {
 			res.type("application/json");
@@ -72,6 +77,7 @@ public class SparkMain {
 			return g.toJson(app.getVirtualneList());
 		});
 		
+
 		//Potrebna mi je metoda da za naziv VM vratim organizaciju kojoj pripada
 		/*get("/rest/virtuelne/OrgsForVM", (req, res) -> {
 			res.type("application/json");
@@ -85,6 +91,20 @@ public class SparkMain {
 			}
 			return g.toJson("Nema");
 		});*/
+
+		get("/rest/virtualne/getVM", (req, res) -> {
+			res.type("application/json");
+			//VM vm = app.getVirtualneID(req.queryMap().value("ime"));
+			VM vm = app.getVirtualneID("VM1");
+			if(vm == null)
+			{
+				vm = new VM();
+			}
+			return g.toJson(vm);
+		});
+		
+		
+
 		
 		
 		//ORGANIZACIJE
