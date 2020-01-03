@@ -5,11 +5,9 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
-import spark.Request;
-import spark.Session;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
@@ -17,6 +15,11 @@ import classes.Aplikacija;
 import classes.Files;
 import classes.Korisnik;
 import classes.Organizacija;
+import classes.Resurs;
+import classes.VM;
+import enums.Uloga;
+import spark.Request;
+import spark.Session;
 
 public class SparkMain {
 	
@@ -40,10 +43,48 @@ public class SparkMain {
 		//VM
 		get("/rest/virtuelne/VM", (req, res) -> {
 			res.type("application/json");
+			Session ss = req.session(true);
+			Korisnik k = ss.attribute("user");
+			if(k.getUloga() == Uloga.Admin) {
+				ArrayList<VM> virtualneAdminove = new ArrayList<VM>();
+				for(String r : k.getOrganizacija().getResursi()) {
+					if(app.getVirtualneID(r) != null) {
+						virtualneAdminove.add(app.getVirtualneID(r));
+					}
+				}
+				return g.toJson(virtualneAdminove);
+			}
+			else if(k.getUloga() == Uloga.Korisnik) {
+				ArrayList<VM> virtualneKorisnika = new ArrayList<VM>();
+				for(Organizacija org: app.getOrganizacijeList()) {
+					for(String kor : org.getKorisnici()) {
+						if (kor.equalsIgnoreCase(k.getEmail())) {
+							for(String resurs : org.getResursi()) {
+								if(app.getVirtualneID(resurs) != null) {
+									virtualneKorisnika.add(app.getVirtualneID(resurs));
+								}
+							}
+						}
+					}
+				}
+				return g.toJson(virtualneKorisnika);
+			}
 			return g.toJson(app.getVirtualneList());
 		});
 		
-		
+		//Potrebna mi je metoda da za naziv VM vratim organizaciju kojoj pripada
+		/*get("/rest/virtuelne/OrgsForVM", (req, res) -> {
+			res.type("application/json");
+			VM virt = app.getVirtualneID(req.queryMap("email").value());
+			for(Organizacija org :app.getOrganizacijeList()) {
+				for(String rs : org.getResursi()) {
+					if(rs.equalsIgnoreCase(virt.getIme())) {
+						return g.toJson(org.getIme());
+					}
+				}
+			}
+			return g.toJson("Nema");
+		});*/
 		
 		
 		//ORGANIZACIJE

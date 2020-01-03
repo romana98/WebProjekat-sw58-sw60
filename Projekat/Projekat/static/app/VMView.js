@@ -1,7 +1,10 @@
 Vue.component("VMView", {
 	data: function (){
 		return {
-		vms : null
+		active_user : null,
+		vms : null,
+		active_admin : null,
+		active_superadmin : null
 		}
 	},
 	template:`
@@ -78,25 +81,18 @@ Vue.component("VMView", {
             <th>Broj jezgara</th>
             <th>RAM</th>
             <th>GPU</th>
-            <th>Lista diskova</th>
-            <th>Datumi koriscenja</th>
           </tr>
-          <tr v-for="vm in vms">
+          <tr v-for="vm in vms" @click="sendData(vm)">
           	<td>{{vm.ime}}</td>
             <td>{{vm.kategorija.ime}}</td>
             <td>{{vm.kategorija.br_jezgara}}</td>
             <td>{{vm.kategorija.RAM}}</td>
             <td>{{vm.kategorija.GPU}}</td>
-             <td><select style="width: 115px; background-color: rgb(186, 241, 122);">
-              <option v-for="disk in vm.diskovi">{{disk}}</option>
-            </select></td>
-             <td><select style="width: 115px; background-color: rgb(186, 241, 122);">
-              <option v-for="datum in vm.datumi">{{datum.start_Date}} do {{datum.finish_Date}}</option>
-            </select></td>
+            
           </tr>
       </table>
       
-      <div style="text-align: center">
+      <div v-if="active_admin">
         <button @click="addNew" type="submit" style="width: 150px; margin: 10px;">Add new VM</button>
 	 </div>
       
@@ -122,18 +118,48 @@ Vue.component("VMView", {
 		addNew : function()
 		{
 			window.location.href = "#/AddVM";
+		},
+		
+		sendData : function(VM)
+		{
+			
+			console.log("Stisnut i poslat: " + VM.ime);
+			//ovde saljes romani vm :))
 		}
 		
 		
 	},
 	
 	mounted(){
+		
+		//ovde prilikom slanja zahteva vraca mi se samo za onog trenutnog korisnika sta treba da mu prikaze, sto se tice buttona njega moram rucno skinuti, dakle
+		//iskoristicu metodu getactiveuser, pokupiti korisnika i gledati v-if active_user.uloga == "korisnik" onda ne prikazi dugme
+		
 		axios
         .get('/rest/virtuelne/VM')
         .then(response => {
-      	  this.vms = response.data;
-      	  console.log(this.vms);      	  
+      	  this.vms = response.data;  
         });
+		
+		axios.get('rest/korisnici/getActiveUser').then(response => {
+			this.active_user = response.data;
+			if (this.active_user.uloga === "korisnik"){
+				this.active_admin = false;
+			}
+			else
+			{
+				this.active_admin = true;
+			}
+			if (this.active_user.uloga === "superadmin"){
+				this.active_superadmin = true;
+			}
+			else
+			{
+				this.active_superadmin = false;
+			}
+		});
+		
+		
 	}
 	
 	
