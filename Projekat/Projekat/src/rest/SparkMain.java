@@ -15,15 +15,15 @@ import classes.Aplikacija;
 import classes.Files;
 import classes.Korisnik;
 import classes.Organizacija;
-<<<<<<< HEAD
+
 import classes.Resurs;
 import classes.VM;
 import enums.Uloga;
 import spark.Request;
 import spark.Session;
-=======
+
 import classes.VM;
->>>>>>> d71ffbd1b7a873df596022e00486c262acae4beb
+
 
 public class SparkMain {
 	
