@@ -110,16 +110,36 @@ public class Aplikacija {
 	
 	public void removeKorisnik(Korisnik k)
 	{
-		int index = -1;
+		int indexK = -1, indexOK = -1, indexO = -1;
 		for (int i = 0; i < korisniciList.size(); i++) {
 			if(korisniciList.get(i).getEmail().equals(k.getEmail()))
 			{
-				index = i;
+				indexK = i;
 				break;
 			}
 		}
-		korisniciList.remove(index);
+		for (int i = 0; i < organizacijeList.size(); i++) {
+			
+			for (int j = 0; j < organizacijeList.get(i).getKorisnici().size(); j++)
+			{
+				if(organizacijeList.get(i).getKorisnici().get(j).equals(k.getEmail()))
+				{
+					indexOK = j;
+					break;
+				}
+				
+			}
+			
+			if(indexOK != -1)
+			{
+				indexO = i;
+				break;
+			}
+		}
+		korisniciList.remove(indexK);
 		korisnici.remove(k.getEmail());
+		organizacijeList.get(indexO).getKorisnici().remove(indexOK);
+		organizacije.put(organizacijeList.get(indexO).getIme(), organizacijeList.get(indexO));
 	}
 	
 	

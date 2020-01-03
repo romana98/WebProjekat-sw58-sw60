@@ -54,19 +54,38 @@ public class Files {
 		}
 	}
 	
-	//TODO upis za ostale entitete
-	public static void UpisVM()
+	public static void UpisVM(ArrayList<VM> vm)
 	{
+		try (Writer writer = new FileWriter("./files/virtualneMasine.json")) {
+		    gson = new GsonBuilder().create();
+		    gson.toJson(vm, writer);
+		
+		} catch (IOException e) {
+			System.out.println("Error pri upisu u fajl virtualneMasine!");
+		}
+	}
+	
+	public static void UpisDisk(ArrayList<Disk> diskovi)
+	{
+		try (Writer writer = new FileWriter("./files/diskovi.json")) {
+		    gson = new GsonBuilder().create();
+		    gson.toJson(diskovi, writer);
+		
+		} catch (IOException e) {
+			System.out.println("Error pri upisu u fajl diskovi!");
+		}
 		
 	}
 	
-	public static void UpisDisk()
+	public static void UpisKategorija(ArrayList<KategorijaVM> kategorije)
 	{
+		try (Writer writer = new FileWriter("./files/kategorije.json")) {
+		    gson = new GsonBuilder().create();
+		    gson.toJson(kategorije, writer);
 		
-	}
-	
-	public static void UpisKategorija()
-	{
+		} catch (IOException e) {
+			System.out.println("Error pri upisu u fajl kategorije!");
+		}
 		
 	}
 	
