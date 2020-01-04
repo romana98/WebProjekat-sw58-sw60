@@ -50,8 +50,8 @@ public class VM extends Resurs{
 	public List<Dates> getDatumi() {
 		return datumi;
 	}
-	public void setDatumi(ArrayList<Dates> datumi) {
-		this.datumi = datumi;
+	public void setDatumi(List<Dates> list) {
+		this.datumi = (ArrayList<Dates>) list;
 	}
 	public ArrayList<String> getDiskovi() {
 		return this.diskovi;
@@ -59,7 +59,7 @@ public class VM extends Resurs{
 	public void setDiskovi(ArrayList<String> diskovi) {
 		this.diskovi = diskovi;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "VM [ime=" + getIme() + ", kategorija=" + kategorija + ", datumi=" + datumi + ", diskovi=" + diskovi + "]";
