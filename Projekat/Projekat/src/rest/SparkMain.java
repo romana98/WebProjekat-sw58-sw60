@@ -108,7 +108,6 @@ public class SparkMain {
 			} else {
 				ArrayList<VM> virtualne = new ArrayList<VM>();
 				for (VM virt : app.getVirtualneList()) {
-					//System.out.println(virt.getIme());
 					for (Organizacija org : app.getOrganizacijeList()) {
 						for (String resu : org.getResursi()) {
 							if (resu.equalsIgnoreCase(virt.getIme())) {
@@ -138,11 +137,13 @@ public class SparkMain {
 			res.type("application/json");
 			String payload = req.body();
 			VM vm = g.fromJson(payload, VM.class);
+			if(app.getVirtualneID(vm.getIme())!=null) {
+				return g.toJson("201");
+			}
 			app.getVirtualneList().add(vm);
 			app.setVirtualne(vm.getIme(), vm);
 			Files.UpisVM(app.getVirtualneList());
 			String name = req.queryMap("OrgID").value();
-			System.out.println(name);
 			Organizacija org = app.getOrganizacijaID(name);
 			if (org != null) {
 				ArrayList<Organizacija> orgs = app.getOrganizacijeList();

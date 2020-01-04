@@ -1,3 +1,3 @@
 [{"email":"romana@super.com","ime":"Romana","lozinka":"romana","prezime":"Erdelji","organizacija":{"ime":"none","opis":"none","logo":"none","korisnici":[],"resursi":[]},"uloga":"superadmin"},{"email":"vukasin@super.com","ime":"Vukasin","lozinka":"vukasin","prezime":"Ocokoljic","organizacija":{"ime":"none","opis":"none","logo":"none","korisnici":[],"resursi":[]},"uloga":"superadmin"},
 {"email": "korisnik@prvi.com", "ime":"Pera", "lozinka":"korisnik", "prezime":"Peric", "uloga":"korisnik"},
-{"email": "admin@prvi.com", "ime":"Pera", "lozinka":"admin", "prezime":"Peric", "uloga":"admin", "organizacija":{"ime":"FTN","opis":"lepo","logo":"none","korisnici":[],"resursi":["VM1"]}}]
+{"email": "admin@prvi.com", "ime":"Pera", "lozinka":"admin", "prezime":"Peric", "uloga":"admin", "organizacija":{"ime":"FTN","opis":"lepo","logo":"none","korisnici":[],"resursi":["VM1","Disk1","Disk2"]}}]

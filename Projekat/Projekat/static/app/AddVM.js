@@ -11,7 +11,10 @@ Vue.component("AddVM", {
 		ime : null,
 		kategorije : null,
 		selected_kategorija : null,
-		selected_kategorija_string : null
+		selected_kategorija_string : null,
+		prikazi : false,
+		active_superadmin : null,
+		active_user : null
 		}
 	},
 	template:`
@@ -85,22 +88,22 @@ Vue.component("AddVM", {
           
           <form action="" style="width: 265px;" onsubmit="return false;">
           
-            <label style="text-align: right;">Organizacija: </label>
-            <select class="addForm" style="width: 160px;" v-model="selected_organizacija" @change="getDiscs">
+            <label v-if="active_superadmin" style="text-align: right;">Organizacija: </label>
+            <select v-if="active_superadmin" id="organizacija" class="addForm" style="width: 160px;" v-model="selected_organizacija" @change="getDiscs">
               <option v-for="organizacija in organizacije">{{organizacija.ime}}</option>
             </select><br><br>
 
             <label  style="text-align: right;">Ime: </label>
-            <input class="addForm" type="text" v-model="ime"><br><br>
+            <input id="ime" class="addForm" type="text" v-model="ime"><br><br>
             
 
             <label>Diskovi: </label>
-            <select class="addForm" style="width: 160px;" v-model="niz" multiple>
+            <select id="disk" class="addForm" style="width: 160px;" v-model="niz" multiple>
               <option v-for="disk in diskovi">{{disk}}</option>
             </select><br><br><br><br>
             
             <label>Kategorija: </label>
-            <select class="addForm" style="width: 160px;" v-model="selected_kategorija_string" @change="categoryChange">
+            <select id="kategorija" class="addForm" style="width: 160px;" v-model="selected_kategorija_string" @change="categoryChange">
               <option v-for="kategorija in kategorije">{{kategorija.ime}}</option>
             </select><br><br>
 
@@ -114,7 +117,9 @@ Vue.component("AddVM", {
             <input id="gpu" class="addForm" type="text" value="" style="background-color: rgb(216, 216, 216);" readonly><br><br>
 
             <button style="width: 100px;">Back</button>
-            <button style="float: right; width: 100px;" v-on:click="addNew">Add</button>
+            <button style="float: right; width: 100px;" v-on:click="addNew">Add</button><br><br>
+            
+            <label v-if="prikazi" style="color:red">Vec postoji VM sa zadatim imenom!</label>
           </form>
         </div >
 
@@ -144,8 +149,7 @@ Vue.component("AddVM", {
 
 				}}).then(response =>{
 					this.diskovi = response.data;
-					console.log(this.selected_organizacija);
-					console.log(response.data[0]);
+
 			});		
 		},
 
@@ -168,6 +172,36 @@ Vue.component("AddVM", {
 		},
 		
 		addNew : function(){
+			//border-color: rgb(245, 28, 28);
+			//provera da li su polja popunjena
+			var dont = false;
+			this.prikazi = false;
+			if (this.ime === null || this.ime.length === 0){
+				document.getElementById("ime").setAttribute("style","width: 160px; border-color:red");
+				console.log("IME JE PRAZNO")
+				dont = true;
+			}
+			else{
+				document.getElementById("ime").setAttribute("style","width: 160px; border-color:rgb(216, 216, 216)");
+
+			}
+			if (this.selected_organizacija === null){
+				document.getElementById("organizacija").setAttribute("style","width: 160px; border-color:red");
+				dont = true;
+			}
+			else{
+				document.getElementById("organizacija").setAttribute("style","width: 160px; border-color:rgb(216, 216, 216)");
+				
+			}
+			if (this.selected_kategorija_string === null){
+				document.getElementById("kategorija").setAttribute("style","width: 160px; border-color:red");
+				dont = true;
+			}
+			else{
+				document.getElementById("kategorija").setAttribute("style","width: 160px; border-color:rgb(216, 216, 216)");
+			}
+			
+			if(dont === false){
 			
 			axios
 			.post('rest/vm/addVM',  {"ime":'' + this.ime, kategorija:{"ime":''+ this.selected_kategorija_string ,
@@ -176,8 +210,13 @@ Vue.component("AddVM", {
 			.then(response => {
 				if(response.data.toString() === "200"){
 					window.location.href = "#/VMView"
+					
+				}
+				else{
+					this.prikazi = true;
 				}
 			});	
+			}
 			
 			
 			
@@ -205,6 +244,25 @@ Vue.component("AddVM", {
 				this.kategorije = response1.data;
 
 		});	
+		
+		axios.get('rest/korisnici/getActiveUser').then(response => {
+			this.active_user = response.data;
+			if (this.active_user.uloga === "superadmin"){
+				this.active_superadmin = true;
+			}
+			else
+			{
+				this.active_superadmin = false;
+				this.selected_organizacija = this.active_user.organizacija.ime;
+				console.log(this.selected_organizacija);
+
+			}
+			
+		});
+		
+		
+		
+		
 	}
 	 
 	
