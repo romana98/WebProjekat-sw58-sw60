@@ -4,7 +4,8 @@ Vue.component("VMView", {
 		active_user : null,
 		vms : null,
 		active_admin : null,
-		active_superadmin : null
+		active_superadmin : null,
+		help : null
 		}
 	},
 	template:`
@@ -81,14 +82,15 @@ Vue.component("VMView", {
             <th>Broj jezgara</th>
             <th>RAM</th>
             <th>GPU</th>
+            <th v-if="active_superadmin">Organizacija</th>
           </tr>
           <tr v-for="vm in vms" @click="sendData(vm)">
-          	<td>{{vm.ime}}</td>
+          	<td>{{vm.ime.split('&')[0]}}</td>
             <td>{{vm.kategorija.ime}}</td>
             <td>{{vm.kategorija.br_jezgara}}</td>
             <td>{{vm.kategorija.RAM}}</td>
             <td>{{vm.kategorija.GPU}}</td>
-            
+            <td v-if="active_superadmin">{{vm.ime.split('&')[1]}}</td>
           </tr>
       </table>
       

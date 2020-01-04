@@ -176,5 +176,8 @@ div.background span {
     	background-color: rgb(136, 196, 68);
     }
     
+    .addForm {
+      float: right;
+    }
 
  

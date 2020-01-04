@@ -18,7 +18,12 @@ public class VM extends Resurs{
 		this.diskovi = new ArrayList<String>();
 	}
 	
-	
+	public VM(VM vm) {
+		this.setIme(vm.getIme());
+		this.kategorija = vm.kategorija;
+		this.datumi = vm.datumi;
+		this.diskovi = vm.diskovi;
+	}
 	
 	public VM(String ime, KategorijaVM kategorija) {
 		super();
