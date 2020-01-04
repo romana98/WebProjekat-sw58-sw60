@@ -174,7 +174,7 @@ Vue.component("izmena-disk", {
 			{
 				this.validate_kapacitet = false;
 			}
-			console.log(disk.kapacitet)
+			
 			if(isNaN(disk.kapacitet))
 			{
 				this.validate_kapacitet_num = true;
@@ -184,7 +184,7 @@ Vue.component("izmena-disk", {
 				this.validate_kapacitet_num = false;
 			
 				axios
-				.post('rest/diskovi/Izmena',  {"ime":''+disk.ime, tip:''+disk.tip, kapacitet:''+disk.kapacitet, mojaVirtualnaMasina: disk.mojaVirtualnaMasina}, {params:{imeOld:''+ime}})
+				.post('rest/diskovi/Izmena',  {ime:''+disk.ime, tip:''+disk.tip, kapacitet:''+disk.kapacitet, mojaVirtualnaMasina: disk.mojaVirtualnaMasina}, {params:{imeOld:''+ime}})
 				.then(response => {
 					if(response.data.toString() === ("200"))
 					{
@@ -264,7 +264,6 @@ Vue.component("izmena-disk", {
 			this.ime = this.$route.params.disk_ime;
 			
 		}
-		this.ime = "Disk1";
 		axios
 			.get('rest/diskovi/getDisk', { params: {"ime":''+this.ime}})
 			.then(response =>{

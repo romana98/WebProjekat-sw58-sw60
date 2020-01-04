@@ -190,7 +190,7 @@ public class SparkMain {
 		//DISKOVI
 		get("/rest/diskovi/getDisk", (req, res) -> {
 			res.type("application/json");
-			Disk disk = app.getDiskoviID(req.queryMap().value("ime"));
+			Disk disk = app.getDiskoviID("Disk1");
 			
 			if (disk == null) {
 				disk = new Disk();
@@ -225,6 +225,17 @@ public class SparkMain {
 				return ("200");
 			}
 			return ("201");
+		});
+		
+		//KATEGORIJE
+		get("/rest/kategorije/getKategorija", (req, res) -> {
+			res.type("application/json");
+			KategorijaVM kat = app.getKategorijeID("PrvaKategorija");
+			
+			if (kat == null) {
+				kat = new KategorijaVM();
+			}
+			return g.toJson(kat);
 		});
 		
 		//ORGANIZACIJE
