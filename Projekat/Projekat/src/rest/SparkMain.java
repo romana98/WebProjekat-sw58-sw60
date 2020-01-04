@@ -20,7 +20,6 @@ import classes.Organizacija;
 
 import classes.VM;
 import enums.Uloga;
-import spark.Request;
 import spark.Session;
 
 public class SparkMain {
@@ -169,7 +168,7 @@ public class SparkMain {
 					return ("202");
 				}
 
-				app.editVM(vm);
+				app.editVM(vm, name);
 				Files.UpisOrganizacija(app.getOrganizacijeList());
 				Files.UpisVM(app.getVirtualneList());
 				return ("200");
@@ -184,6 +183,7 @@ public class SparkMain {
 			app.removeVM(vm);
 
 			Files.UpisVM(app.getVirtualneList());
+			Files.UpisOrganizacija(app.getOrganizacijeList());
 			return ("OK");
 		});
 		
@@ -248,7 +248,7 @@ public class SparkMain {
 					return ("202");
 				}
 
-				app.editOrganizacija(o);
+				app.editOrganizacija(o, name);
 				Files.UpisOrganizacija(app.getOrganizacijeList());
 				return ("200");
 			}
@@ -308,15 +308,18 @@ public class SparkMain {
 
 		post("rest/korisnici/Izmena", (req, res) -> {
 			res.type("application/json");
+			Session ss = req.session(true);
+			Korisnik active = ss.attribute("user");
+			
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
 
 			if (checkUser(k)) {
 				if (k.getUloga() == null) {
-					if (checkEmail(k, req))
+					if (checkEmail(k, active))
 						return ("202");
 				}
-				app.editKorisnik(k);
+				app.editKorisnik(k, active.getEmail());
 				Files.UpisKorisnik(app.getKorisniciList());
 				return ("200");
 			}
@@ -335,10 +338,7 @@ public class SparkMain {
 		});
 	}
 
-	public static boolean checkEmail(Korisnik k, Request req) {
-		Session ss = req.session(true);
-		Korisnik active = ss.attribute("user");
-
+	public static boolean checkEmail(Korisnik k, Korisnik active) {
 		for (int i = 0; i < app.getKorisniciList().size(); i++) {
 			if (app.getKorisniciList().get(i).getEmail().equals(k.getEmail())) {
 				if (active.getEmail().equals(k.getEmail())) {
