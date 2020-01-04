@@ -2,6 +2,7 @@ Vue.component("izmena-bisanje-korisnika", {
 	data: function (){
 		return {
 			kor: null,
+			active: null,
 			uloge: ['admin', 'korisnik'],
 			validate_name: false,
 			validate_lastname: false,
@@ -11,10 +12,10 @@ Vue.component("izmena-bisanje-korisnika", {
 	},
 	template:`
 	<div >
-	<div class="background">
+	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
-             <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -22,55 +23,46 @@ Vue.component("izmena-bisanje-korisnika", {
                   <button class="dropbtn">Virtual Machines
                   </button>
                   <div class="dropdown-content">
-                    <a href="#">View VM's</a>
-                    <a href="#">Add VM</a>
-                    <a href="#">Delete VM</a>
-                    <a href="#">Change VM</a>
-                    <a href="#">Filter and Search VM</a>
+                    <a href="#/VMView">View VM's</a>
                   </div>
                 </div>
                 <div class="dropdown">
                     <button class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">View organizations</a>
-                      <a href="#">Add organization</a>
-                      <a href="#">View/Change organizations</a>
+                      <a href="#/OrganizationView">View organizations</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Users
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">View users</a>
-                      <a href="#">Add user</a>
-                      <a href="#">Change user</a>
-                      <a href="#">Delete user</a>
+                      <a href="#/UserView">View users</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Discs
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">View discs</a>
-                      <a href="#">Change disc</a>
-                      <a href="#">Add disc</a>
-                      <a href="#">Delete disc</a>
+                      <a href="#DiscView">View discs</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">View categories</a>
-                      <a href="#">Add category</a>
-                      <a href="#">Change category</a>
-                      <a href="#">Delete category</a>
+                      <a href="#/CategoryView">View categories</a>
                     </div>
                   </div>
-              </div>   
+                  <div class="dropdown" v-if="active.uloga === 'admin'">
+                    <button class="dropbtn">Monthly receipt
+                    </button>
+                    <div class="dropdown-content">
+                      <a href="#/ChooseDates">Choose dates</a>
+                    </div>
+                  </div>
+              </div>           
         </div>
-
 		<form id="form" class="login_form" method="post">
 		<table class="poravnaj"  v-if="kor">
 			<tr>
@@ -159,7 +151,8 @@ Vue.component("izmena-bisanje-korisnika", {
 			.then(response => {
 				if(response.data.toString() === ("200"))
 				{
-					toast('User (' + kor.email + ') information is saved!');		
+					toast('User (' + kor.email + ') information is saved!');
+					window.location.href = "#/UserView"
 				}
 			});
 			
@@ -171,10 +164,10 @@ Vue.component("izmena-bisanje-korisnika", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
-			if (confirm('Are you sure?') == true) {
+			if (confirm('If you go back, your changes won\'t be saved, go back?') == true) {
 				axios
 				.post('rest/korisnici/Izmena', {"email":''+"p"})
-					.then(response=> {window.location.href = "#/korisnici"})
+					.then(response=> {window.location.href = "#/UserView"})
 			}
 		},
 		
@@ -192,7 +185,7 @@ Vue.component("izmena-bisanje-korisnika", {
 				.post('rest/korisnici/Brisanje', {"email":''+email})
 				.then(response=> {
 					toast('User (' + email + ') deleted!'),
-					window.location.href = "#/korisnici"})
+					window.location.href = "#/UserView"})
 				
 	      	  }
 	        });
@@ -219,6 +212,11 @@ Vue.component("izmena-bisanje-korisnika", {
 			.then(response =>{
 				this.kor = response.data
 			});
+		axios
+		.get('rest/korisnici/getActiveUser')
+		.then(response =>{
+			this.active = response.data
+		});
 	}
 	
 });

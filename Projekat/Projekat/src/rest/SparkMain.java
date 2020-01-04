@@ -125,7 +125,7 @@ public class SparkMain {
 
 		get("/rest/virtualne/getVM", (req, res) -> {
 			res.type("application/json");
-			VM vm = app.getVirtualneID(req.queryMap().value("ime"));
+			VM vm = app.getVirtualneID(req.queryMap("ime").value());
 			if (vm == null) {
 				vm = new VM();
 			}
@@ -191,7 +191,7 @@ public class SparkMain {
 		//DISKOVI
 		get("/rest/diskovi/getDisk", (req, res) -> {
 			res.type("application/json");
-			Disk disk = app.getDiskoviID("Disk1");
+			Disk disk = app.getDiskoviID(req.queryMap("ime").value());
 			
 			if (disk == null) {
 				disk = new Disk();
@@ -231,7 +231,7 @@ public class SparkMain {
 		//KATEGORIJE
 		get("/rest/kategorije/getKategorija", (req, res) -> {
 			res.type("application/json");
-			KategorijaVM kat = app.getKategorijeID("PrvaKategorija");
+			KategorijaVM kat = app.getKategorijeID(req.queryMap("ime").value());
 			
 			if (kat == null) {
 				kat = new KategorijaVM();

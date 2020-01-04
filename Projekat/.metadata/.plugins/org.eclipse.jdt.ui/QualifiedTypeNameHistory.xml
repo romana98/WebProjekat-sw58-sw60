@@ -15,13 +15,14 @@
 <fullyQualifiedTypeName name="com.google.gson.reflect.TypeToken"/>
 <fullyQualifiedTypeName name="com.google.gson.annotations.SerializedName"/>
 <fullyQualifiedTypeName name="com.google.gson.Gson"/>
-<fullyQualifiedTypeName name="classes.Aplikacija"/>
 <fullyQualifiedTypeName name="classes.Files"/>
 <fullyQualifiedTypeName name="classes.Organizacija"/>
 <fullyQualifiedTypeName name="classes.Korisnik"/>
 <fullyQualifiedTypeName name="spark.Request"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="classes.KategorijaVM"/>
 <fullyQualifiedTypeName name="classes.VM"/>
 <fullyQualifiedTypeName name="classes.Dates"/>
+<fullyQualifiedTypeName name="classes.Disk"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="classes.Aplikacija"/>
+<fullyQualifiedTypeName name="classes.KategorijaVM"/>
 </qualifiedTypeNameHistroy>

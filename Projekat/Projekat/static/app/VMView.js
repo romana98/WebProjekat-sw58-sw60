@@ -10,7 +10,7 @@ Vue.component("VMView", {
 	},
 	template:`
 	<div>
-	<div class="background">
+	<div class="background" v-if="active_user">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
                <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
@@ -21,56 +21,45 @@ Vue.component("VMView", {
                   <button class="dropbtn">Virtual Machines
                   </button>
                   <div class="dropdown-content">
-                    <a href="#">View VM's</a>
-                    <a href="#">Add VM</a>
-                    <a href="#">Delete VM</a>
-                    <a href="#">Change VM</a>
-                    <a href="#">Filter and Search VM</a>
+                    <a href="#/VMView">View VM's</a>
                   </div>
                 </div>
                 <div class="dropdown">
                     <button class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">View organizations</a>
-                      <a href="#">Add organization</a>
-                      <a href="#">View/Change organizations</a>
+                      <a href="#/OrganizationView">View organizations</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Users
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">View users</a>
-                      <a href="#">Add user</a>
-                      <a href="#">Change user</a>
-                      <a href="#">Delete user</a>
+                      <a href="#/UserView">View users</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Discs
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">View discs</a>
-                      <a href="#">Change disc</a>
-                      <a href="#">Add disc</a>
-                      <a href="#">Delete disc</a>
+                      <a href="#DiscView">View discs</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
-                      <a href="#">View categories</a>
-                      <a href="#">Add category</a>
-                      <a href="#">Change category</a>
-                      <a href="#">Delete category</a>
+                      <a href="#/CategoryView">View categories</a>
                     </div>
                   </div>
-              </div>
-
-			
-            
+                  <div class="dropdown" v-if="active_user.uloga === 'admin'">
+                    <button class="dropbtn">Monthly receipt
+                    </button>
+                    <div class="dropdown-content">
+                      <a href="#/ChooseDates">Choose dates</a>
+                    </div>
+                  </div>
+              </div>           
         </div>
         
         <h2 style="margin: 15px;"><i>Table view</i></h2>
@@ -126,6 +115,7 @@ Vue.component("VMView", {
 		{
 			
 			console.log("Stisnut i poslat: " + VM.ime);
+			this.$router.push({ name: 'vm', params: { vm_ime: VM.ime.split('&')[0] } });
 			//ovde saljes romani vm :))
 		}
 		
