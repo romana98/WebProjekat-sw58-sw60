@@ -17,7 +17,6 @@ import classes.KategorijaVM;
 import classes.Korisnik;
 import classes.Organizacija;
 
-
 import classes.VM;
 import enums.Uloga;
 import spark.Request;
@@ -47,12 +46,12 @@ public class SparkMain {
 			KategorijaVM kat = app.getKategorijeID(req.queryMap("KatID").value());
 			return g.toJson(kat);
 		});
-		
+
 		get("/rest/kategorije/getKategorije", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(app.getKategorijeList());
 		});
-		
+
 		get("/rest/organizacije/getOrgDiscs", (req, res) -> {
 			res.type("application/json");
 			ArrayList<String> discs = new ArrayList<String>();
@@ -109,7 +108,7 @@ public class SparkMain {
 			} else {
 				ArrayList<VM> virtualne = new ArrayList<VM>();
 				for (VM virt : app.getVirtualneList()) {
-					System.out.println(virt.getIme());
+					//System.out.println(virt.getIme());
 					for (Organizacija org : app.getOrganizacijeList()) {
 						for (String resu : org.getResursi()) {
 							if (resu.equalsIgnoreCase(virt.getIme())) {
@@ -142,9 +141,24 @@ public class SparkMain {
 			app.getVirtualneList().add(vm);
 			app.setVirtualne(vm.getIme(), vm);
 			Files.UpisVM(app.getVirtualneList());
+			String name = req.queryMap("OrgID").value();
+			System.out.println(name);
+			Organizacija org = app.getOrganizacijaID(name);
+			if (org != null) {
+				ArrayList<Organizacija> orgs = app.getOrganizacijeList();
+				for (Organizacija organizacija: orgs) {
+					if (organizacija.getIme().equals(name)) {
+						ArrayList<String> resursi = organizacija.getResursi();
+						resursi.add(vm.getIme());
+						organizacija.setResursi(resursi);
+						Files.UpisOrganizacija(orgs);
+						return g.toJson("200");
+					}
+				}
+			}
 			return g.toJson("201");
 		});
-	
+
 		post("rest/vm/Izmena", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
@@ -278,7 +292,7 @@ public class SparkMain {
 			return ("OK");
 		});
 	}
-	
+
 	public static boolean checkEmail(Korisnik k, Request req) {
 		Session ss = req.session(true);
 		Korisnik active = ss.attribute("user");
