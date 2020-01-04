@@ -83,7 +83,7 @@ Vue.component("AddVM", {
         
           <h2>Add new Virtual Machine</h2><br>
           
-          <form action="" style="width: 265px;">
+          <form action="" style="width: 265px;" onsubmit="return false;">
           
             <label style="text-align: right;">Organizacija: </label>
             <select class="addForm" style="width: 160px;" v-model="selected_organizacija" @change="getDiscs">
@@ -172,12 +172,14 @@ Vue.component("AddVM", {
 			axios
 			.post('rest/vm/addVM',  {"ime":'' + this.ime, kategorija:{"ime":''+ this.selected_kategorija_string ,
 				"br_jezgara":''+ this.selected_kategorija.br_jezgara, "RAM":'' + this.selected_kategorija.RAM, "GPU":'' + this.selected_kategorija.GPU},
-				"diskovi":this.niz})
+				"diskovi":this.niz},{params:{OrgID: this.selected_organizacija}})
 			.then(response => {
-				
+				if(response.data.toString() === "200"){
+					window.location.href = "#/VMView"
+				}
 			});	
 			
-			window.location.href = "#/VMView"
+			
 			
 		}
 		
