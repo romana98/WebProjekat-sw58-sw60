@@ -1,14 +1,15 @@
-Vue.component("izmena-vm", {
+Vue.component("izmena-disk", {
 	data: function (){
 		return {
 			disk: null,
 			validate_name: false,
 			validate_name_exist: false,
-			validate_date: false,
-			ime:null,
+			validate_kapacitet_num: false,
+			validate_kapacitet: false,
+			ime:'',
 			active:null,
-			aktivnostVM:null,
-			tipovi: ["HDD", "SSD"]
+			aktivnost:null,
+			tipovi: ['hdd', 'ssd']
 		}
 	},
 	template:`
@@ -93,20 +94,22 @@ Vue.component("izmena-vm", {
 			<tr>
 				<td>Capacity:</td>
 				<td ><input type="text" name="kapacitet" v-model="disk.kapacitet"></input></td>
+				<td><label v-if="validate_kapacitet">You're missing field!</label>
+				<label v-else-if="validate_kapacitet_num">Not a number!</label></td>
 			</tr>
 			<tr>
 				<td>VM:</td>
-				<td >{{disc.vm.ime}</td>
+				<td >{{disk.mojaVirtualnaMasina.ime}}</td>
 			</tr>
 			<tr>
-				<td v-if="aktivnost === ''">VM turned: OFF</td>
+				<td v-if="aktivnost !== ''">VM turned: OFF</td>
 				<td v-else>VM turned: ON</td>
-				<td v-if="aktivnost === ''"><input  type="datetime-local" :disabled="true" v-model="this.vm.datumi[this.vm.datumi.length-1].finish_Date"></input></td>
-				<td v-else><input  type="datetime-local" :disabled="true" v-model="this.vm.datumi[this.vm.datumi.length-1].start_Date"></input></td>
+				<td v-if="aktivnost !== ''"><input  type="datetime-local" :disabled="true" v-model="this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date"></input></td>
+				<td v-else><input  type="datetime-local" :disabled="true" v-model="this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].start_Date"></input></td>
 			</tr>
 			<tr>
 			<td>
-				<button class="dugme" :disabled="active.uloga === 'korisnik'" type="submit" v-on:click="save(vm, ime)">Save</button>
+				<button class="dugme" :disabled="active.uloga === 'korisnik'" type="submit" v-on:click="save(disk, ime)">Save</button>
 			</td>
 			<td>
 				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="cancel()">Cancel</button>
@@ -137,7 +140,7 @@ Vue.component("izmena-vm", {
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			var new_dates = {start_Date: "", finish_Date: ""};
 			new_dates.start_Date = this.getDate();
-			this.vm.datumi.push(new_dates);
+			this.disk.mojaVirtualnaMasina.datumi.push(new_dates);
 			this.aktivnost = "";
 			
 		},
@@ -145,17 +148,17 @@ Vue.component("izmena-vm", {
 		changeStateOff : function()
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			this.vm.datumi[this.vm.datumi.length-1].finish_Date = this.getDate();
+			this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date = this.getDate();
 			this.aktivnost = "off";
 		},
 		
-		save : function(vm, ime)
+		save : function(disk, ime)
 		{
 			
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			validate_name_exist: false
 			
-			if(vm.ime.length === 0 )
+			if(disk.ime.length === 0 )
 			{
 				this.validate_name = true;					
 			}
@@ -163,51 +166,56 @@ Vue.component("izmena-vm", {
 			{
 				this.validate_name = false;
 			}
-
-			for(d in vm.datumi)
+			if(disk.kapacitet.length === 0 )
 			{
-				let d_s = new Date(vm.datumi[d].start_Date);
-				let d_f = new Date(vm.datumi[d].finish_Date);
-				let isTrue = d_s.getTime() > d_f.getTime();
-				if(isTrue)
-				{
-					this.validate_date = true;
-				}
+				this.validate_kapacitet = true;					
+			}
+			else
+			{
+				this.validate_kapacitet = false;
 			}
 			
-			axios
-			.post('rest/vm/Izmena',  {"ime":''+vm.ime, "datumi":vm.datumi}, {params:{"imeOld":''+ime, "datumi":vm.datumi}})
-			.then(response => {
-				if(response.data.toString() === ("200"))
-				{
-					toast('VM (' + vm.ime + ') information is saved!');		
-				}
-				else if(response.data.toString() === ("202"))
-				{
-					this.validate_name_exist = true; 
-				}
-			});	
+			if(isNaN(disk.kapacitet))
+			{
+				this.validate_kapacitet_num = true;
+			}
+			else
+			{
+				this.validate_kapacitet_num = false;
 			
+				axios
+				.post('rest/diskovi/Izmena',  {ime:''+disk.ime, tip:''+disk.tip, kapacitet:''+disk.kapacitet, mojaVirtualnaMasina: disk.mojaVirtualnaMasina}, {params:{imeOld:''+ime}})
+				.then(response => {
+					if(response.data.toString() === ("200"))
+					{
+						toast('Disc (' + disk.ime + ') information is saved!');		
+					}
+					else if(response.data.toString() === ("202"))
+					{
+						this.validate_name_exist = true; 
+					}
+				});	
+			}
 		},
 		
 		cancel : function()
 		{
-			console.log(this.aktivnost)
+			console.log(this.aktivnost);
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			if (confirm('Are you sure?') == true) {
 				axios
-				.post('rest/vm/Izmena', {"ime":''})
+				.post('rest/diskovi/Izmena', {"ime":''})
 					.then(response=> {window.location.href = "#/VMView"})
 			}
 		},
 		
-		deleteVM : function(ime)
+		deleteDisc : function(ime)
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
       		
 			axios
-			.post('rest/disk/Brisanje', {"ime":''+ime})
+			.post('rest/diskovi/Brisanje', {"ime":''+ime})
 			.then(response=> {
 				toast('Disk (' + ime + ') deleted!'),
 				window.location.href = "#/DicsView"})
@@ -254,12 +262,13 @@ Vue.component("izmena-vm", {
 		if(this.$route.params.disk_ime) 
 		{
 			this.ime = this.$route.params.disk_ime;
+			
 		}
 		axios
 			.get('rest/diskovi/getDisk', { params: {"ime":''+this.ime}})
 			.then(response =>{
-				this.vm = response.data,
-				this.aktivnost = this.vm.datumi[this.vm.datumi.length-1].finish_Date
+				this.disk = response.data,
+				this.aktivnost = this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date
 			});	
 		axios
 		.get('rest/korisnici/getActiveUser')

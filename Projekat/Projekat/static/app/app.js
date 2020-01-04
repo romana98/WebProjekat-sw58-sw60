@@ -6,6 +6,7 @@ const izmenaBrisanjeKorisnika = {template: '<izmena-bisanje-korisnika></izmena-b
 const izmenaProfila = {template: '<izmena-profila></izmena-profila>'}
 const izmenaVM = {template: '<izmena-vm></izmena-vm>'}
 const izmenaDisk = {template: '<izmena-disk></izmena-disk>'}
+const izmenaKategorija = {template: '<izmena-kategorija></izmena-kategorija>'}
 
 
 const router = new VueRouter({
@@ -17,7 +18,7 @@ const router = new VueRouter({
 		    { path: '/profil', name:'profil', component: izmenaProfila },
 		    { path: '/vm', name:'vm', component: izmenaVM }, //params.vm_ime
 		    { path: '/disc', name:'disc', component: izmenaDisk }, //params.disk_ime
-		    //{ path: '/category', name:'category', component: izmenaKategorija },
+		    { path: '/category', name:'category', component: izmenaKategorija }, //params.kat_ime
 		    { path: '/VMView', name:'VMView', component: VMView },
 	    { path: '/addVM', name:'addVM', component: AddVM}
 	  ]

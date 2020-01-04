@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import classes.Aplikacija;
+import classes.Disk;
 import classes.Files;
 import classes.KategorijaVM;
 import classes.Korisnik;
@@ -19,7 +20,6 @@ import classes.Organizacija;
 
 import classes.VM;
 import enums.Uloga;
-import spark.Request;
 import spark.Session;
 
 public class SparkMain {
@@ -125,8 +125,7 @@ public class SparkMain {
 
 		get("/rest/virtualne/getVM", (req, res) -> {
 			res.type("application/json");
-			//VM vm = app.getVirtualneID(req.queryMap().value("ime"));
-			VM vm = app.getVirtualneID("NovaVM");
+			VM vm = app.getVirtualneID(req.queryMap().value("ime"));
 			if (vm == null) {
 				vm = new VM();
 			}
@@ -170,8 +169,9 @@ public class SparkMain {
 					return ("202");
 				}
 
-				app.editVM(vm);
+				app.editVM(vm, name);
 				Files.UpisOrganizacija(app.getOrganizacijeList());
+				Files.UpisVM(app.getVirtualneList());
 				return ("200");
 			}
 			return ("201");
@@ -184,9 +184,93 @@ public class SparkMain {
 			app.removeVM(vm);
 
 			Files.UpisVM(app.getVirtualneList());
+			Files.UpisOrganizacija(app.getOrganizacijeList());
 			return ("OK");
 		});
+		
+		//DISKOVI
+		get("/rest/diskovi/getDisk", (req, res) -> {
+			res.type("application/json");
+			Disk disk = app.getDiskoviID("Disk1");
+			
+			if (disk == null) {
+				disk = new Disk();
+			}
+			return g.toJson(disk);
+		});
 
+		post("rest/diskovi/Brisanje", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			Disk disk = g.fromJson(payload, Disk.class);
+			app.removeDisk(disk);
+
+			Files.UpisDisk(app.getDiskoviList());
+			Files.UpisVM(app.getVirtualneList());
+			return ("OK");
+		});
+		
+		post("rest/diskovi/Izmena", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			String name = req.queryMap("imeOld").value();
+			Disk disk = g.fromJson(payload, Disk.class);
+			if (checkDisk(disk)) {
+				if (checkImeDisk(disk, name)) {
+					return ("202");
+				}
+
+				app.editDisk(disk, name);
+				Files.UpisDisk(app.getDiskoviList());
+				Files.UpisVM(app.getVirtualneList());
+				return ("200");
+			}
+			return ("201");
+		});
+		
+		//KATEGORIJE
+		get("/rest/kategorije/getKategorija", (req, res) -> {
+			res.type("application/json");
+			KategorijaVM kat = app.getKategorijeID("PrvaKategorija");
+			
+			if (kat == null) {
+				kat = new KategorijaVM();
+			}
+			return g.toJson(kat);
+		});
+		
+		post("rest/kategorije/Brisanje", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
+			if(isRemove(kat))
+			{
+				app.removeKategorija(kat);
+
+				Files.UpisKategorija(app.getKategorijeList());
+				return ("200");
+			}
+			return ("201");
+		});
+		
+		post("rest/kategorije/Izmena", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			String name = req.queryMap("imeOld").value();
+			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
+			if (checkKat(kat)) {
+				if (checkImeKat(kat, name)) {
+					return ("202");
+				}
+
+				app.editKategorija(kat, name);
+				Files.UpisKategorija(app.getKategorijeList());
+				
+				return ("200");
+			}
+			return ("201");
+		});
+		
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");
@@ -208,7 +292,7 @@ public class SparkMain {
 					return ("202");
 				}
 
-				app.editOrganizacija(o);
+				app.editOrganizacija(o, name);
 				Files.UpisOrganizacija(app.getOrganizacijeList());
 				return ("200");
 			}
@@ -268,15 +352,18 @@ public class SparkMain {
 
 		post("rest/korisnici/Izmena", (req, res) -> {
 			res.type("application/json");
+			Session ss = req.session(true);
+			Korisnik active = ss.attribute("user");
+			
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
 
 			if (checkUser(k)) {
 				if (k.getUloga() == null) {
-					if (checkEmail(k, req))
+					if (checkEmail(k, active))
 						return ("202");
 				}
-				app.editKorisnik(k);
+				app.editKorisnik(k, active.getEmail());
 				Files.UpisKorisnik(app.getKorisniciList());
 				return ("200");
 			}
@@ -290,17 +377,35 @@ public class SparkMain {
 			app.removeKorisnik(k);
 
 			Files.UpisKorisnik(app.getKorisniciList());
+			Files.UpisOrganizacija(app.getOrganizacijeList());
 			return ("OK");
 		});
 	}
+	
+	public static boolean isRemove(KategorijaVM kat)
+	{
+		for (int i = 0; i < app.getVirtualneList().size(); i++) {
+			if(app.getVirtualneList().get(i).getKategorija().getIme().equals(kat.getIme()))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 
-	public static boolean checkEmail(Korisnik k, Request req) {
-		Session ss = req.session(true);
-		Korisnik active = ss.attribute("user");
+	public static boolean checkKat(KategorijaVM kat) {
 
-		for (int i = 0; i < app.getKorisniciList().size(); i++) {
-			if (app.getKorisniciList().get(i).getEmail().equals(k.getEmail())) {
-				if (active.getEmail().equals(k.getEmail())) {
+		if (kat.getIme().equals("") || kat.getGPU().equals("") || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean checkImeKat(KategorijaVM kat, String name) {
+
+		for (int i = 0; i < app.getKategorijeList().size(); i++) {
+			if (app.getKategorijeList().get(i).getIme().equals(kat.getIme())) {
+				if (app.getKategorijeList().get(i).getIme().equals(name)) {
 					return false;
 				}
 				return true;
@@ -357,6 +462,43 @@ public class SparkMain {
 		return false;
 	}
 
+	public static boolean checkDisk(Disk d) {
+
+		if (d.getIme().equals("") || d.getKapacitet() == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean checkImeDisk(Disk d, String name) {
+
+		for (int i = 0; i < app.getDiskoviList().size(); i++) {
+			if (app.getDiskoviList().get(i).getIme().equals(d.getIme())) {
+				if (app.getDiskoviList().get(i).getIme().equals(name)) {
+					return false;
+				}
+				return true;
+			}
+
+		}
+
+		return false;
+	}
+
+	public static boolean checkEmail(Korisnik k, Korisnik active) {
+		for (int i = 0; i < app.getKorisniciList().size(); i++) {
+			if (app.getKorisniciList().get(i).getEmail().equals(k.getEmail())) {
+				if (active.getEmail().equals(k.getEmail())) {
+					return false;
+				}
+				return true;
+			}
+
+		}
+
+		return false;
+	}
+	
 	public static boolean checkUser(Korisnik k) {
 		if (k.getEmail().equals("p")) {
 			return false;

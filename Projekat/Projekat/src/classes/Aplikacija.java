@@ -18,6 +18,7 @@ public class Aplikacija {
 	public Aplikacija() {
 		super();
 	}
+	
 	public void popuniMape() {
 		
 		//za korisnike
@@ -68,12 +69,14 @@ public class Aplikacija {
 		
 	}
 	
-	public void editOrganizacija(Organizacija o)
+	public void editOrganizacija(Organizacija o, String name)
 	{
+		organizacije.remove(name);
 		organizacije.put(o.getIme(), o);
+		
 		int index = -1;
 		for (int i = 0; i < organizacijeList.size(); i++) {
-			if(organizacijeList.get(i).getIme().contentEquals(o.getIme()))
+			if(organizacijeList.get(i).getIme().contentEquals(name))
 			{
 				index = i;
 				break;
@@ -85,30 +88,131 @@ public class Aplikacija {
 		
 	}
 	
-	public void editVM(VM vm)
+	public void editVM(VM vm, String name)
 	{
+		virtualne.remove(name);
 		virtualne.put(vm.getIme(), vm);
+		
 		int index = -1;
 		for (int i = 0; i < virtualneList.size(); i++) {
-			if(virtualneList.get(i).getIme().contentEquals(vm.getIme()))
+			if(virtualneList.get(i).getIme().contentEquals(name))
 			{
 				index = i;
 				break;
 			}
 		}
+		
+		for(int i = 0; i < organizacijeList.size(); i++)
+		{
+			for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
+				if(organizacijeList.get(i).getResursi().get(j).equals(name))
+				{
+					organizacijeList.get(i).getResursi().set(j, vm.getIme());
+					organizacije.get(organizacijeList.get(i).getIme()).getResursi().set(j, vm.getIme());
+					break;
+				}
+				
+			}
+		}
+		
+		
 		virtualneList.get(index).setIme(vm.getIme());
 		virtualneList.get(index).setDatumi(vm.getDatumi());
 		
 	}
 	
-	public void editKorisnik(Korisnik k)
+	public void editDisk(Disk d, String name)
+	{
+		diskovi.remove(name);
+		diskovi.put(d.getIme(), d);
+		
+		
+		int index = -1;
+		for (int i = 0; i < diskoviList.size(); i++) {
+			if(diskoviList.get(i).getIme().contentEquals(name))
+			{
+				index = i;
+				break;
+			}
+		}
+		
+		for(int i = 0; i < organizacijeList.size(); i++)
+		{
+			for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
+				if(organizacijeList.get(i).getResursi().get(j).equals(name))
+				{
+					organizacijeList.get(i).getResursi().set(j, d.getIme());
+					organizacije.get(organizacijeList.get(i).getIme()).getResursi().set(j, d.getIme());
+					break;
+				}
+				
+			}
+		}
+		
+
+		virtualne.get(d.getMojaVirtualnaMasina().getIme()).setDatumi(d.getMojaVirtualnaMasina().getDatumi());
+		for(int i = 0; i < virtualneList.size(); i++)
+		{
+			if(virtualneList.get(i).getIme().equals(d.getMojaVirtualnaMasina().getIme()))
+			{
+				virtualneList.get(i).setDatumi(d.getMojaVirtualnaMasina().getDatumi());
+				
+				for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++) {
+					
+					if(virtualneList.get(i).getDiskovi().get(j).equals(name))
+					{
+						virtualneList.get(i).getDiskovi().set(j, d.getIme());
+						virtualne.get(d.getMojaVirtualnaMasina().getIme()).getDiskovi().set(j, d.getIme());
+						break; 
+					}
+				}
+
+				break;
+			}
+		}
+		
+		diskoviList.get(index).setIme(d.getIme());
+		diskoviList.get(index).setKapacitet(d.getKapacitet());
+		diskoviList.get(index).setTip(d.getTip());
+		diskoviList.get(index).getMojaVirtualnaMasina().setDatumi(d.getMojaVirtualnaMasina().getDatumi());;
+		
+	}
+	
+	public void editKategorija(KategorijaVM k, String name)
+	{
+		kategorije.remove(name);
+		kategorije.put(k.getIme(), k);
+		
+		
+		int index = -1;
+		for (int i = 0; i < kategorijeList.size(); i++) {
+			if(kategorijeList.get(i).getIme().contentEquals(name))
+			{
+				index = i;
+				break;
+			}
+		}
+		
+		for(int i = 0; i < virtualneList.size(); i++)
+		{
+			if(virtualneList.get(i).getKategorija().getIme().equals(name))
+			{
+				virtualneList.get(i).setKategorija(k);
+			}
+		}
+		
+		kategorijeList.set(index, k);
+	}
+	
+	public void editKorisnik(Korisnik k, String email)
 	{
 		
+		korisnici.remove(email);
 		korisnici.put(k.getEmail(), k);
 		
 		int index = -1;
 		for (int i = 0; i < korisniciList.size(); i++) {
-			if(korisniciList.get(i).getEmail().equals(k.getEmail()))
+			if(korisniciList.get(i).getEmail().equals(email))
 			{
 				index = i;
 				break;
@@ -135,7 +239,7 @@ public class Aplikacija {
 		}
 		for (int i = 0; i < organizacijeList.size(); i++) {
 			
-			for (int j = 0; j < organizacijeList.get(i).getKorisnici().size(); j++)
+			for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++)
 			{
 				if(organizacijeList.get(i).getResursi().get(j).equals(vm.getIme()))
 				{
@@ -168,6 +272,57 @@ public class Aplikacija {
 
 	}
 	
+	public void removeDisk(Disk d)
+	{
+		int indexD = -1, indexVM = -1, indexVD = -1;
+		for (int i = 0; i < diskoviList.size(); i++) {
+			if(diskoviList.get(i).getIme().equals(d.getIme()))
+			{
+				indexD = i;
+				break;
+			}
+		}
+		for (int i = 0; i < virtualneList.size(); i++) {
+			
+			for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++)
+			{
+				if(virtualneList.get(i).getDiskovi().get(j).equals(d.getIme()))
+				{
+					indexVD = j;
+					break;
+				}
+				
+			}
+			
+			if(indexVD != -1)
+			{
+				indexVM = i;
+				break;
+			}
+		}
+		
+		diskoviList.remove(indexD);
+		diskovi.remove(d.getIme());
+		virtualneList.get(indexVM).getDiskovi().remove(indexVD);
+		virtualne.put(virtualneList.get(indexVM).getIme(), virtualneList.get(indexVM));
+
+	}
+	
+	public void removeKategorija(KategorijaVM k)
+	{
+		int indexK = -1;
+		for (int i = 0; i < kategorijeList.size(); i++) {
+			if(kategorijeList.get(i).getIme().equals(k.getIme()))
+			{
+				indexK = i;
+				break;
+			}
+		}
+		
+		kategorijeList.remove(indexK);
+		kategorije.remove(k.getIme());
+
+	}
 	
 	public void removeKorisnik(Korisnik k)
 	{
