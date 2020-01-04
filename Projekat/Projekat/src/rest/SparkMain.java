@@ -238,6 +238,38 @@ public class SparkMain {
 			return g.toJson(kat);
 		});
 		
+		post("rest/kategorije/Brisanje", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
+			if(isRemove(kat))
+			{
+				app.removeKategorija(kat);
+
+				Files.UpisKategorija(app.getKategorijeList());
+				return ("200");
+			}
+			return ("201");
+		});
+		
+		post("rest/kategorije/Izmena", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			String name = req.queryMap("imeOld").value();
+			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
+			if (checkKat(kat)) {
+				if (checkImeKat(kat, name)) {
+					return ("202");
+				}
+
+				app.editKategorija(kat, name);
+				Files.UpisKategorija(app.getKategorijeList());
+				
+				return ("200");
+			}
+			return ("201");
+		});
+		
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");
@@ -348,11 +380,31 @@ public class SparkMain {
 			return ("OK");
 		});
 	}
+	
+	public static boolean isRemove(KategorijaVM kat)
+	{
+		for (int i = 0; i < app.getVirtualneList().size(); i++) {
+			if(app.getVirtualneList().get(i).getKategorija().getIme().equals(kat.getIme()))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 
-	public static boolean checkEmail(Korisnik k, Korisnik active) {
-		for (int i = 0; i < app.getKorisniciList().size(); i++) {
-			if (app.getKorisniciList().get(i).getEmail().equals(k.getEmail())) {
-				if (active.getEmail().equals(k.getEmail())) {
+	public static boolean checkKat(KategorijaVM kat) {
+
+		if (kat.getIme().equals("") || kat.getGPU().equals("") || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean checkImeKat(KategorijaVM kat, String name) {
+
+		for (int i = 0; i < app.getKategorijeList().size(); i++) {
+			if (app.getKategorijeList().get(i).getIme().equals(kat.getIme())) {
+				if (app.getKategorijeList().get(i).getIme().equals(name)) {
 					return false;
 				}
 				return true;
@@ -411,7 +463,7 @@ public class SparkMain {
 
 	public static boolean checkDisk(Disk d) {
 
-		if (d.getIme().equals("")) {
+		if (d.getIme().equals("") || d.getKapacitet() == 0) {
 			return false;
 		}
 		return true;
@@ -432,6 +484,19 @@ public class SparkMain {
 		return false;
 	}
 
+	public static boolean checkEmail(Korisnik k, Korisnik active) {
+		for (int i = 0; i < app.getKorisniciList().size(); i++) {
+			if (app.getKorisniciList().get(i).getEmail().equals(k.getEmail())) {
+				if (active.getEmail().equals(k.getEmail())) {
+					return false;
+				}
+				return true;
+			}
+
+		}
+
+		return false;
+	}
 	
 	public static boolean checkUser(Korisnik k) {
 		if (k.getEmail().equals("p")) {

@@ -216,8 +216,15 @@ Vue.component("izmena-kategorija", {
 			axios
 			.post('rest/kategorije/Izmena', {"ime":''+ime})
 			.then(response=> {
-				toast('Category (' + ime + ') deleted!'),
-				window.location.href = "#/DicsView"})
+				if(response.data.toString() === ("200"))
+				{
+					toast('Category (' + kat.ime + ') is deleted!');		
+				}
+				else
+				{
+					toast('Category (' + kat.ime + ') can\'t be deleted!');
+				}
+			})
 		
 		},
 	

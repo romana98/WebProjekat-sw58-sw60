@@ -178,6 +178,32 @@ public class Aplikacija {
 		
 	}
 	
+	public void editKategorija(KategorijaVM k, String name)
+	{
+		kategorije.remove(name);
+		kategorije.put(k.getIme(), k);
+		
+		
+		int index = -1;
+		for (int i = 0; i < kategorijeList.size(); i++) {
+			if(kategorijeList.get(i).getIme().contentEquals(name))
+			{
+				index = i;
+				break;
+			}
+		}
+		
+		for(int i = 0; i < virtualneList.size(); i++)
+		{
+			if(virtualneList.get(i).getKategorija().getIme().equals(name))
+			{
+				virtualneList.get(i).setKategorija(k);
+			}
+		}
+		
+		kategorijeList.set(index, k);
+	}
+	
 	public void editKorisnik(Korisnik k, String email)
 	{
 		
@@ -279,6 +305,22 @@ public class Aplikacija {
 		diskovi.remove(d.getIme());
 		virtualneList.get(indexVM).getDiskovi().remove(indexVD);
 		virtualne.put(virtualneList.get(indexVM).getIme(), virtualneList.get(indexVM));
+
+	}
+	
+	public void removeKategorija(KategorijaVM k)
+	{
+		int indexK = -1;
+		for (int i = 0; i < kategorijeList.size(); i++) {
+			if(kategorijeList.get(i).getIme().equals(k.getIme()))
+			{
+				indexK = i;
+				break;
+			}
+		}
+		
+		kategorijeList.remove(indexK);
+		kategorije.remove(k.getIme());
 
 	}
 	

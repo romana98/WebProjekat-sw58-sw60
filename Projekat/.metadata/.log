@@ -8954,3 +8954,6 @@ java.lang.NullPointerException
 !MESSAGE null
 !STACK 0
 java.lang.NullPointerException
+
+!ENTRY org.eclipse.wst.jsdt.js.node 4 0 2020-01-04 21:14:36.495
+!MESSAGE Unable to run Node.js program. Verify you have a configured Node.js runtime environment in your system and try again.
