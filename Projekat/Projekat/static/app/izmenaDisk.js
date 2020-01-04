@@ -7,7 +7,8 @@ Vue.component("izmena-vm", {
 			validate_date: false,
 			ime:null,
 			active:null,
-			aktivnostVM:null
+			aktivnostVM:null,
+			tipovi: ["HDD", "SSD"]
 		}
 	},
 	template:`
@@ -76,21 +77,32 @@ Vue.component("izmena-vm", {
 		<table class="poravnaj"  v-if="disk && active">
 			<tr>
 				<td>Name:</td>
-				<td><input type="text" name="ime" v-model="vm.ime"></input></td>
+				<td  v-if="active.uloga !== 'korisnik'"><input type="text" name="ime" v-model="disk.ime"></input></td>
+				<td v-else>{{disk.ime}}</td>
 				<td><label v-if="validate_name">You're missing field!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
 				<td>Disc type:</td>
-				<td ></td>
+				<td>
+					<select v-model="disk.tip">
+						<option v-for="t in tipovi">{{t}}</option>		
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td>Capacity:</td>
-				<td >{{vm.kategorija.br_jezgara}}</td>
+				<td ><input type="text" name="kapacitet" v-model="disk.kapacitet"></input></td>
 			</tr>
 			<tr>
 				<td>VM:</td>
 				<td >{{disc.vm.ime}</td>
+			</tr>
+			<tr>
+				<td v-if="aktivnost === ''">VM turned: OFF</td>
+				<td v-else>VM turned: ON</td>
+				<td v-if="aktivnost === ''"><input  type="datetime-local" :disabled="true" v-model="this.vm.datumi[this.vm.datumi.length-1].finish_Date"></input></td>
+				<td v-else><input  type="datetime-local" :disabled="true" v-model="this.vm.datumi[this.vm.datumi.length-1].start_Date"></input></td>
 			</tr>
 			<tr>
 			<td>
@@ -101,18 +113,16 @@ Vue.component("izmena-vm", {
 			</td>
 			</tr>
 			<tr>	
-			<td>
-				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
+			<td v-if="active.uloga === 'superadmin'">
+				<button class="dugme" type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
 			</td>
-			<td v-if="active.uloga === 'admin' && aktivnost === ''">
+			
+			<td v-if="active.uloga === 'superadmin' && aktivnost === ''">
 				<button class="dugme" type="submit" v-on:click="changeStateOff()">Turn off VM</button>
 			</td>
-			<td v-else-if="active.uloga === 'admin' && aktivnost !== ''">
+			<td v-else-if="active.uloga === 'superadmin' && aktivnost !== ''">
 				<button class="dugme" type="submit" v-on:click="changeStateOn()">Turn on VM</button>
 			</td>
-			</tr>
-			<tr>
-			<td style="font-weight: bold;" colspan=2>Note: Date can't be later then: {{today_text}}</td>
 			</tr>
 			</table>
 		</form>
@@ -197,10 +207,10 @@ Vue.component("izmena-vm", {
 			document.getElementById("form").setAttribute("onsubmit","return false;");
       		
 			axios
-			.post('rest/vm/Brisanje', {"ime":''+ime})
+			.post('rest/disk/Brisanje', {"ime":''+ime})
 			.then(response=> {
-				toast('VM (' + ime + ') deleted!'),
-				window.location.href = "#/VMView"})
+				toast('Disk (' + ime + ') deleted!'),
+				window.location.href = "#/DicsView"})
 		
 		},
 	
