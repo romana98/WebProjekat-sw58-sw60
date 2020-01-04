@@ -3,11 +3,14 @@ Vue.component("izmena-vm", {
 		return {
 			vm: null,
 			validate_name: false,
+			validate_name_exist: false,
 			validate_date: false,
 			name:'',
 			ime:null,
 			today:'',
-			active:null
+			today_text:'',
+			active:null,
+			aktivnost:null
 		}
 	},
 	template:`
@@ -78,7 +81,8 @@ Vue.component("izmena-vm", {
 				<td>Name:</td>
 				<td v-if="active.uloga !== 'korisnik'"><input type="text" name="ime" v-model="vm.ime"></input></td>
 				<td v-else>{{vm.ime}}</td>
-				<td><label v-if="validate_name">You're missing field!</label></td>
+				<td><label v-if="validate_name">You're missing field!</label>
+				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
 				<td>Category:</td>
@@ -127,22 +131,47 @@ Vue.component("izmena-vm", {
 			<td>
 				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
 			</td>
-			<td v-if="active.uloga === 'superadmin'">
-				<button class="dugme" type="submit" v-on:click="deleteVM(vm.ime)">Paljenje/gasenje VM</button>
+			<td v-if="active.uloga === 'admin' && aktivnost === ''">
+				<button class="dugme" type="submit" v-on:click="changeStateOff()">Turn off VM</button>
+			</td>
+			<td v-else-if="active.uloga === 'admin' && aktivnost !== ''">
+				<button class="dugme" type="submit" v-on:click="changeStateOn()">Turn on VM</button>
 			</td>
 			</tr>
+			<tr>
+			<td style="font-weight: bold;" colspan=2>Note: Date can't be later then: {{today_text}}</td>
+			</tr>
 			</table>
-			</form>
+		</form>
 	
 	</div>
 	`	
 	,
 	methods: {
+		
+		changeStateOn : function()
+		{
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+			var new_dates = {start_Date: "", finish_Date: ""};
+			new_dates.start_Date = this.getDate();
+			this.vm.datumi.push(new_dates);
+			this.aktivnost = "";
+			
+		},
+		
+		changeStateOff : function()
+		{
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+			this.vm.datumi[this.vm.datumi.length-1].finish_Date = this.getDate();
+			this.aktivnost = "off";
+		},
+		
 		save : function(vm, ime)
 		{
 			
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			this.validate_date = false;
+			this.validate_name_exist = false;
 			
 			if(vm.ime.length === 0 )
 			{
@@ -171,13 +200,17 @@ Vue.component("izmena-vm", {
 				{
 					toast('VM (' + vm.ime + ') information is saved!');		
 				}
+				else if(response.data.toString() === ("202"))
+				{
+					this.validate_name_exist = true; 
+				}
 			});	
 			
 		},
 		
 		cancel : function()
 		{
-			
+			console.log(this.aktivnost)
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			if (confirm('Are you sure?') == true) {
@@ -205,40 +238,39 @@ Vue.component("izmena-vm", {
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
 			}
+		},
+		getDate()
+		{
+			var date = new Date();
+			var day = date.getDate();
+			var month = date.getMonth()+1;
+			var hours = date.getHours();
+			var minutes = date.getMinutes();
+			if(date.getMinutes() < 10)
+			{
+				minutes = '0'+date.getMinutes();
+			}
+			if(date.getHours() < 10)
+			{
+				hours = '0'+date.getHours();
+			}
+			if(date.getDate() < 10)
+			{
+				day = '0'+date.getDate();
+			}
+			if(date.getMonth()+1 < 10)
+			{
+				month = '0'+(date.getMonth()+1);		
+			}
+			return date.getFullYear()+'-'+month+'-'+day +'T' +hours + ':' + minutes;
 		}
-			
 	},
 	mounted()
 	{
-		var date = new Date();
-		var day = date.getDate();
-		var month = date.getMonth()+1;
-		var hours = date.getHours();
-		var minutes = date.getMinutes();
-		var seconds = date.getSeconds();
-		if(date.getSeconds() < 10)
-		{
-			seconds = '0'+date.getSeconds();
-		}
-		if(date.getMinutes() < 10)
-		{
-			minutes = '0'+date.getMinutes();
-		}
-		if(date.getHours() < 10)
-		{
-			hours = '0'+date.getHours();
-		}
-		if(date.getDate() < 10)
-		{
-			day = '0'+date.getDate();
-		}
-		if(date.getMonth()+1 < 10)
-		{
-			month = '0'+(date.getMonth()+1);		
-		}
-		this.today = date.getFullYear()+'-'+month+'-'+day +'T' +hours + ':' + minutes + ':' +seconds;
 		
-		
+		this.today = this.getDate();
+		let date_time = this.today.split('T');
+		this.today_text = date_time[0] + ', ' + date_time[1];
 		
 		if(this.$route.params.vm_ime) 
 		{
@@ -247,7 +279,8 @@ Vue.component("izmena-vm", {
 		axios
 			.get('rest/virtualne/getVM', { params: {"ime":''+this.ime}})
 			.then(response =>{
-				this.vm = response.data
+				this.vm = response.data,
+				this.aktivnost = this.vm.datumi[this.vm.datumi.length-1].finish_Date
 			});	
 		axios
 		.get('rest/korisnici/getActiveUser')

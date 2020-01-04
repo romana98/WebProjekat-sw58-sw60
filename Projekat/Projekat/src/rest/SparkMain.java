@@ -128,7 +128,7 @@ public class SparkMain {
 		get("/rest/virtualne/getVM", (req, res) -> {
 			res.type("application/json");
 			//VM vm = app.getVirtualneID(req.queryMap().value("ime"));
-			VM vm = app.getVirtualneID("VM1");
+			VM vm = app.getVirtualneID("NovaVM");
 			if (vm == null) {
 				vm = new VM();
 			}

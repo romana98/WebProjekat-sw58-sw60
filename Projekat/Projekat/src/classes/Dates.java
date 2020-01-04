@@ -9,7 +9,11 @@ public class Dates {
 	private String finish_Date;
 	
 	
-	public Dates() {}
+	public Dates() 
+	{
+		this.start_Date = "";
+		this.finish_Date = "";
+	}
 
 	public Dates(String start_Date, String finish_Date)
 	{

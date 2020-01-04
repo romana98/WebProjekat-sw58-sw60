@@ -1,21 +1,21 @@
-Vue.component("izmena-disk", {
+Vue.component("izmena-vm", {
 	data: function (){
 		return {
-		org: null,
-		active:null,
-		ime:null,
-		validate_name: false,
-		validate_desc: false,
-		validate_name_exist: false
+			disk: null,
+			validate_name: false,
+			validate_name_exist: false,
+			validate_date: false,
+			ime:null,
+			active:null,
+			aktivnostVM:null
 		}
 	},
 	template:`
-	<div>
-		<div class="background">
+	<div >
+	<div class="background">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
-              <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
-             
+             <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -69,175 +69,192 @@ Vue.component("izmena-disk", {
                       <a href="#">Delete category</a>
                     </div>
                   </div>
-              </div>            
+              </div>   
         </div>
 
-	
-	
 		<form id="form" class="login_form" method="post">
-		<table class="poravnaj" v-if="org && active">
+		<table class="poravnaj"  v-if="disk && active">
 			<tr>
 				<td>Name:</td>
-				<td><input type="text" name="ime" v-model="org.ime"></input></td>
+				<td><input type="text" name="ime" v-model="vm.ime"></input></td>
 				<td><label v-if="validate_name">You're missing field!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
-				<td>Description:</td>
-				<td><input type="text" name="opis" v-model="org.opis"></input></td>
-				<td><label v-if="validate_desc">You're missing field!</label></td>
+				<td>Disc type:</td>
+				<td ></td>
 			</tr>
 			<tr>
-				<td>Logo:</td>
-				<td>
-					<output>
-				      <img :src="org.logo" v-if="org.logo !== 'none'">
-				      <p v-else>Nema logo...</p>
-				     </output>
-				 </td>
+				<td>Capacity:</td>
+				<td >{{vm.kategorija.br_jezgara}}</td>
 			</tr>
 			<tr>
-				<td>Users:</td>
-				<td>
-					<select>
-						<option v-for="k in org.korisnici">{{k.ime}} {{k.prezime}}</option>		
-					</select>
-				</td>
+				<td>VM:</td>
+				<td >{{disc.vm.ime}</td>
 			</tr>
-			<tr>
-				<td>Resurses:</td>
-				<td>
-					<select>
-						<option v-for="r in org.resursi">{{r.ime}}</option>		
-					</select>
-				</td>
-			</tr>
-			
-			<tr v-if="active.uloga==='superadmin'">
-				<td>Upload new logo:</td>
-				<td><input type="file" @change="onImg"></input></td>
-			</tr>
-			<tr v-if="active.uloga==='superadmin'">
-				<td>Remove logo:</td>
-				<button class="dugme"  type="submit" v-on:click="removeImg()">Remove</button>	
-			</tr>
-			
 			<tr>
 			<td>
-				<button class="dugme" type="submit" v-on:click="save(org, ime)">Save</button>
+				<button class="dugme" :disabled="active.uloga === 'korisnik'" type="submit" v-on:click="save(vm, ime)">Save</button>
 			</td>
 			<td>
-				<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>	
+				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="cancel()">Cancel</button>
 			</td>
 			</tr>
-			
+			<tr>	
+			<td>
+				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
+			</td>
+			<td v-if="active.uloga === 'admin' && aktivnost === ''">
+				<button class="dugme" type="submit" v-on:click="changeStateOff()">Turn off VM</button>
+			</td>
+			<td v-else-if="active.uloga === 'admin' && aktivnost !== ''">
+				<button class="dugme" type="submit" v-on:click="changeStateOn()">Turn on VM</button>
+			</td>
+			</tr>
+			<tr>
+			<td style="font-weight: bold;" colspan=2>Note: Date can't be later then: {{today_text}}</td>
+			</tr>
 			</table>
-			</form>
-		
+		</form>
+	
 	</div>
 	`	
 	,
 	methods: {
-		onImg(event)
-		{
-			 const file = event.target.files[0];
-		      if (!file) {
-		        return false
-		      }
-		      if (!file.type.match('image.*')) {
-		        return false
-		      }
-		      const reader = new FileReader()
-		      const that = this
-		      reader.onload = function (e) {
-		        that.org.logo = e.target.result
-		      }
-		      reader.readAsDataURL(file);
-		},
 		
-		removeImg : function()
+		changeStateOn : function()
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			this.org.logo = "none";
+			var new_dates = {start_Date: "", finish_Date: ""};
+			new_dates.start_Date = this.getDate();
+			this.vm.datumi.push(new_dates);
+			this.aktivnost = "";
+			
 		},
 		
-		save : function(org, ime)
+		changeStateOff : function()
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			this.validate_name_exist = false;
-			if(org.ime.length === 0)
+			this.vm.datumi[this.vm.datumi.length-1].finish_Date = this.getDate();
+			this.aktivnost = "off";
+		},
+		
+		save : function(vm, ime)
+		{
+			
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+			validate_name_exist: false
+			
+			if(vm.ime.length === 0 )
 			{
-				this.validate_name = true; 
+				this.validate_name = true;					
 			}
 			else
 			{
-				this.validate_name = false; 
+				this.validate_name = false;
+			}
+
+			for(d in vm.datumi)
+			{
+				let d_s = new Date(vm.datumi[d].start_Date);
+				let d_f = new Date(vm.datumi[d].finish_Date);
+				let isTrue = d_s.getTime() > d_f.getTime();
+				if(isTrue)
+				{
+					this.validate_date = true;
+				}
 			}
 			
-			if(org.opis.length === 0)
-			{
-				this.validate_desc = true; 
-			}
-			else
-			{
-				this.validate_desc= false;
-			}
-			
-				axios
-				.post('rest/organizacije/Izmena', {"ime":''+org.ime, "opis":''+org.opis, "logo":''+org.logo}, {params:{imeOld:''+ime}})
-				.then(response => {
-					if(response.data.toString() === ("200"))
-					{
-						toast('Organization (' + org.ime + ') information is saved!');		
-					}
-					else if(response.data.toString() === ("202"))
-					{
-						this.validate_name_exist = true; 
-					}
-				});
-				
+			axios
+			.post('rest/vm/Izmena',  {"ime":''+vm.ime, "datumi":vm.datumi}, {params:{"imeOld":''+ime, "datumi":vm.datumi}})
+			.then(response => {
+				if(response.data.toString() === ("200"))
+				{
+					toast('VM (' + vm.ime + ') information is saved!');		
+				}
+				else if(response.data.toString() === ("202"))
+				{
+					this.validate_name_exist = true; 
+				}
+			});	
 			
 		},
 		
 		cancel : function()
 		{
+			console.log(this.aktivnost)
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			if (confirm('Are you sure?') == true) {
 				axios
-				.post('rest/organizacije/Izmena', {"ime":''})
+				.post('rest/vm/Izmena', {"ime":''})
 					.then(response=> {window.location.href = "#/VMView"})
-			}	
+			}
 		},
 		
+		deleteVM : function(ime)
+		{
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+      		
+			axios
+			.post('rest/vm/Brisanje', {"ime":''+ime})
+			.then(response=> {
+				toast('VM (' + ime + ') deleted!'),
+				window.location.href = "#/VMView"})
+		
+		},
+	
 		logOut : function()
 		{
 			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
 			}
-			
+		},
+		getDate()
+		{
+			var date = new Date();
+			var day = date.getDate();
+			var month = date.getMonth()+1;
+			var hours = date.getHours();
+			var minutes = date.getMinutes();
+			if(date.getMinutes() < 10)
+			{
+				minutes = '0'+date.getMinutes();
+			}
+			if(date.getHours() < 10)
+			{
+				hours = '0'+date.getHours();
+			}
+			if(date.getDate() < 10)
+			{
+				day = '0'+date.getDate();
+			}
+			if(date.getMonth()+1 < 10)
+			{
+				month = '0'+(date.getMonth()+1);		
+			}
+			return date.getFullYear()+'-'+month+'-'+day +'T' +hours + ':' + minutes;
 		}
-		
 	},
 	mounted()
 	{
 		
-		if(this.$route.params.ime)
+	
+		if(this.$route.params.disk_ime) 
 		{
-			this.ime = this.$route.params.ime;
+			this.ime = this.$route.params.disk_ime;
 		}
 		axios
-			.get('rest/organizacije/getOrganizacija', { params: {"ime":''+this.ime}})
-			
+			.get('rest/diskovi/getDisk', { params: {"ime":''+this.ime}})
 			.then(response =>{
-				this.org = response.data
-			});
+				this.vm = response.data,
+				this.aktivnost = this.vm.datumi[this.vm.datumi.length-1].finish_Date
+			});	
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{
 			this.active = response.data
 		});
-	}
-	
+	}	
 });
