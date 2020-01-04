@@ -100,7 +100,48 @@ public class Aplikacija {
 		virtualneList.get(index).setDatumi(vm.getDatumi());
 		
 	}
+
 	
+	public void editDisk(Disk d, String name)
+	{
+		diskovi.remove(name);
+		diskovi.put(d.getIme(), d);
+		
+		
+		int index = -1;
+		for (int i = 0; i < diskoviList.size(); i++) {
+			if(diskoviList.get(i).getIme().contentEquals(name))
+			{
+				index = i;
+				break;
+			}
+		}
+		
+		ArrayList<String> Vd = new ArrayList<String>();
+		virtualne.get(d.getMojaVirtualnaMasina().getIme()).setDatumi(d.getMojaVirtualnaMasina().getDatumi());
+		for(int i = 0; i < virtualneList.size(); i++)
+		{
+			if(virtualneList.get(i).getIme().equals(d.getMojaVirtualnaMasina().getIme()))
+			{
+				for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++) {
+					if(!virtualneList.get(i).getDiskovi().get(j).equals(name))
+					{
+						Vd.add(virtualneList.get(i).getDiskovi().get(j));
+					}
+				}
+				
+				virtualneList.get(i).setDiskovi(Vd);
+				virtualne.get(virtualneList.get(i).getIme()).setDiskovi(Vd);
+				break;
+			}
+		}
+		
+		diskoviList.get(index).setIme(d.getIme());
+		diskoviList.get(index).setKapacitet(d.getKapacitet());
+		diskoviList.get(index).setTip(d.getTip());
+		diskoviList.get(index).getMojaVirtualnaMasina().setDatumi(d.getMojaVirtualnaMasina().getDatumi());;
+		
+	}
 	public void editKorisnik(Korisnik k)
 	{
 		
@@ -135,7 +176,7 @@ public class Aplikacija {
 		}
 		for (int i = 0; i < organizacijeList.size(); i++) {
 			
-			for (int j = 0; j < organizacijeList.get(i).getKorisnici().size(); j++)
+			for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++)
 			{
 				if(organizacijeList.get(i).getResursi().get(j).equals(vm.getIme()))
 				{
@@ -168,6 +209,41 @@ public class Aplikacija {
 
 	}
 	
+	public void removeDisk(Disk d)
+	{
+		int indexD = -1, indexVM = -1, indexVD = -1;
+		for (int i = 0; i < diskoviList.size(); i++) {
+			if(diskoviList.get(i).getIme().equals(d.getIme()))
+			{
+				indexD = i;
+				break;
+			}
+		}
+		for (int i = 0; i < virtualneList.size(); i++) {
+			
+			for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++)
+			{
+				if(virtualneList.get(i).getDiskovi().get(j).equals(d.getIme()))
+				{
+					indexVD = j;
+					break;
+				}
+				
+			}
+			
+			if(indexVD != -1)
+			{
+				indexVM = i;
+				break;
+			}
+		}
+		
+		diskoviList.remove(indexD);
+		diskovi.remove(d.getIme());
+		virtualneList.get(indexVM).getDiskovi().remove(indexVD);
+		virtualne.put(virtualneList.get(indexVM).getIme(), virtualneList.get(indexVM));
+
+	}
 	
 	public void removeKorisnik(Korisnik k)
 	{

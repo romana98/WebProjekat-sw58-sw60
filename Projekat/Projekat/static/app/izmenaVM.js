@@ -194,7 +194,7 @@ Vue.component("izmena-vm", {
 			}
 			
 			axios
-			.post('rest/vm/Izmena',  {"ime":''+vm.ime, "datumi":vm.datumi}, {params:{"imeOld":''+ime, "datumi":vm.datumi}})
+			.post('rest/vm/Izmena',  {"ime":''+vm.ime, "datumi":vm.datumi}, {params:{"imeOld":''+ime}})
 			.then(response => {
 				if(response.data.toString() === ("200"))
 				{
@@ -210,7 +210,6 @@ Vue.component("izmena-vm", {
 		
 		cancel : function()
 		{
-			console.log(this.aktivnost)
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			if (confirm('Are you sure?') == true) {

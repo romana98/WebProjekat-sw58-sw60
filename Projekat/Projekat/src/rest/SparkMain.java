@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import classes.Aplikacija;
+import classes.Disk;
 import classes.Files;
 import classes.KategorijaVM;
 import classes.Korisnik;
@@ -127,8 +128,7 @@ public class SparkMain {
 
 		get("/rest/virtualne/getVM", (req, res) -> {
 			res.type("application/json");
-			//VM vm = app.getVirtualneID(req.queryMap().value("ime"));
-			VM vm = app.getVirtualneID("NovaVM");
+			VM vm = app.getVirtualneID(req.queryMap().value("ime"));
 			if (vm == null) {
 				vm = new VM();
 			}
@@ -157,6 +157,7 @@ public class SparkMain {
 
 				app.editVM(vm);
 				Files.UpisOrganizacija(app.getOrganizacijeList());
+				Files.UpisVM(app.getVirtualneList());
 				return ("200");
 			}
 			return ("201");
@@ -171,7 +172,47 @@ public class SparkMain {
 			Files.UpisVM(app.getVirtualneList());
 			return ("OK");
 		});
+		
+		//DISKOVI
+		get("/rest/diskovi/getDisk", (req, res) -> {
+			res.type("application/json");
+			Disk disk = app.getDiskoviID(req.queryMap().value("ime"));
+			
+			if (disk == null) {
+				disk = new Disk();
+			}
+			return g.toJson(disk);
+		});
 
+		post("rest/diskovi/Brisanje", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			Disk disk = g.fromJson(payload, Disk.class);
+			app.removeDisk(disk);
+
+			Files.UpisDisk(app.getDiskoviList());
+			Files.UpisVM(app.getVirtualneList());
+			return ("OK");
+		});
+		
+		post("rest/diskovi/Izmena", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			String name = req.queryMap("imeOld").value();
+			Disk disk = g.fromJson(payload, Disk.class);
+			if (checkDisk(disk)) {
+				if (checkImeDisk(disk, name)) {
+					return ("202");
+				}
+
+				app.editDisk(disk, name);
+				Files.UpisDisk(app.getDiskoviList());
+				Files.UpisVM(app.getVirtualneList());
+				return ("200");
+			}
+			return ("201");
+		});
+		
 		//ORGANIZACIJE
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");
@@ -275,6 +316,7 @@ public class SparkMain {
 			app.removeKorisnik(k);
 
 			Files.UpisKorisnik(app.getKorisniciList());
+			Files.UpisOrganizacija(app.getOrganizacijeList());
 			return ("OK");
 		});
 	}
@@ -342,6 +384,30 @@ public class SparkMain {
 		return false;
 	}
 
+	public static boolean checkDisk(Disk d) {
+
+		if (d.getIme().equals("")) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean checkImeDisk(Disk d, String name) {
+
+		for (int i = 0; i < app.getDiskoviList().size(); i++) {
+			if (app.getDiskoviList().get(i).getIme().equals(d.getIme())) {
+				if (app.getDiskoviList().get(i).getIme().equals(name)) {
+					return false;
+				}
+				return true;
+			}
+
+		}
+
+		return false;
+	}
+
+	
 	public static boolean checkUser(Korisnik k) {
 		if (k.getEmail().equals("p")) {
 			return false;
