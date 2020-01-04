@@ -18,7 +18,6 @@ public class Aplikacija {
 	public Aplikacija() {
 		super();
 	}
-
 	public void popuniMape() {
 		
 		//za korisnike

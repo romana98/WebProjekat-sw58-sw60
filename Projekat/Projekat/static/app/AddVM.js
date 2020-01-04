@@ -1,6 +1,7 @@
 Vue.component("AddVM", {
 	data: function (){
 		return {
+		niz : [],
 		organizacije : null,
 		selected_organizacija : null,
 		diskovi : null,
@@ -90,13 +91,13 @@ Vue.component("AddVM", {
             </select><br><br>
 
             <label  style="text-align: right;">Ime: </label>
-            <input class="addForm" type="text"><br><br>
+            <input class="addForm" type="text" v-model="ime"><br><br>
             
 
             <label>Diskovi: </label>
-            <select class="addForm" style="width: 160px;">
+            <select class="addForm" style="width: 160px;" v-model="niz" multiple>
               <option v-for="disk in diskovi">{{disk}}</option>
-            </select><br><br>
+            </select><br><br><br><br>
             
             <label>Kategorija: </label>
             <select class="addForm" style="width: 160px;" v-model="selected_kategorija_string" @change="categoryChange">
@@ -113,7 +114,7 @@ Vue.component("AddVM", {
             <input id="gpu" class="addForm" type="text" value="" style="background-color: rgb(216, 216, 216);" readonly><br><br>
 
             <button style="width: 100px;">Back</button>
-            <button style="float: right; width: 100px;">Add</button>
+            <button style="float: right; width: 100px;" v-on:click="addNew">Add</button>
           </form>
         </div >
 
@@ -164,6 +165,20 @@ Vue.component("AddVM", {
 			
 			
 
+		},
+		
+		addNew : function(){
+			
+			axios
+			.post('rest/vm/addVM',  {"ime":'' + this.ime, kategorija:{"ime":''+ this.selected_kategorija_string ,
+				"br_jezgara":''+ this.selected_kategorija.br_jezgara, "RAM":'' + this.selected_kategorija.RAM, "GPU":'' + this.selected_kategorija.GPU},
+				"diskovi":this.niz})
+			.then(response => {
+				
+			});	
+			
+			window.location.href = "#/VMView"
+			
 		}
 		
 		

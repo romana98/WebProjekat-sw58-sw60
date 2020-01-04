@@ -8,12 +8,7 @@ public class Dates {
 	private String start_Date;
 	private String finish_Date;
 	
-	//Ovde nisam siguran da sam dobro razumeo, ali u tekstu zadatka pise
-	//da izmenu datuma vrsi samo super admin, i da se datumi ukucavaju prilikom
-	//dodavanja virtualne masine. Meni bi bilo logicnije da postoji dugme da se
-	//vm pusti u radi pa da se onda napravi ovde samo start date, pa kada se stisne
-	//neko dugme da se zaustavi VM da se ovde stavi i finish date i to sve bude upisano
-	//u VM. Ali ovako kako oni kazu ima samo zakucane vrednosti :)
+	
 	public Dates() {}
 
 	public Dates(String start_Date, String finish_Date)

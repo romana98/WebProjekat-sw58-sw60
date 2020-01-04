@@ -109,7 +109,7 @@ public class SparkMain {
 			} else {
 				ArrayList<VM> virtualne = new ArrayList<VM>();
 				for (VM virt : app.getVirtualneList()) {
-
+					System.out.println(virt.getIme());
 					for (Organizacija org : app.getOrganizacijeList()) {
 						for (String resu : org.getResursi()) {
 							if (resu.equalsIgnoreCase(virt.getIme())) {
@@ -135,6 +135,16 @@ public class SparkMain {
 			return g.toJson(vm);
 		});
 
+		post("rest/vm/addVM", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			VM vm = g.fromJson(payload, VM.class);
+			app.getVirtualneList().add(vm);
+			app.setVirtualne(vm.getIme(), vm);
+			Files.UpisVM(app.getVirtualneList());
+			return g.toJson("201");
+		});
+	
 		post("rest/vm/Izmena", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
@@ -268,7 +278,7 @@ public class SparkMain {
 			return ("OK");
 		});
 	}
-
+	
 	public static boolean checkEmail(Korisnik k, Request req) {
 		Session ss = req.session(true);
 		Korisnik active = ss.attribute("user");
