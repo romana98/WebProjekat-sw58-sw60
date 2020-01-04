@@ -47,7 +47,7 @@ Vue.component("izmena-brisanje-vm", {
                     <button class="dropbtn">Discs
                     </button>
                     <div class="dropdown-content">
-                      <a href="#DiscView">View discs</a>
+                      <a href="#/DiscView">View discs</a>
                     </div>
                   </div>
                   <div class="dropdown">

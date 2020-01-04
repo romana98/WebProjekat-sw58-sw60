@@ -192,7 +192,6 @@ public class SparkMain {
 		get("/rest/diskovi/getDisk", (req, res) -> {
 			res.type("application/json");
 			Disk disk = app.getDiskoviID(req.queryMap("ime").value());
-			
 			if (disk == null) {
 				disk = new Disk();
 			}
@@ -231,7 +230,8 @@ public class SparkMain {
 		//KATEGORIJE
 		get("/rest/kategorije/getKategorija", (req, res) -> {
 			res.type("application/json");
-			KategorijaVM kat = app.getKategorijeID(req.queryMap("ime").value());
+			//KategorijaVM kat = app.getKategorijeID(req.queryMap("ime").value());
+			KategorijaVM kat = app.getKategorijeID("PrvaKategorija");
 			
 			if (kat == null) {
 				kat = new KategorijaVM();

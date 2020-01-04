@@ -3,7 +3,7 @@ Vue.component("izmena-organizacija", {
 		return {
 		org: null,
 		active:null,
-		ime:null,
+		ime:'',
 		validate_name: false,
 		validate_desc: false,
 		validate_name_exist: false
@@ -43,7 +43,7 @@ Vue.component("izmena-organizacija", {
                     <button class="dropbtn">Discs
                     </button>
                     <div class="dropdown-content">
-                      <a href="#DiscView">View discs</a>
+                      <a href="#/DiscView">View discs</a>
                     </div>
                   </div>
                   <div class="dropdown">

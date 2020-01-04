@@ -47,7 +47,7 @@ Vue.component("izmena-brisanje-kategorija", {
                     <button class="dropbtn">Discs
                     </button>
                     <div class="dropdown-content">
-                      <a href="#DiscView">View discs</a>
+                      <a href="#/DiscView">View discs</a>
                     </div>
                   </div>
                   <div class="dropdown">
@@ -61,7 +61,7 @@ Vue.component("izmena-brisanje-kategorija", {
                     <button class="dropbtn">Monthly receipt
                     </button>
                     <div class="dropdown-content">
-                      <a :href="#/ChooseDates">Choose dates</a>
+                      <a href="#/ChooseDates">Choose dates</a>
                     </div>
                   </div>
               </div>           
@@ -176,12 +176,12 @@ Vue.component("izmena-brisanje-kategorija", {
 			if(!this.validate_br_jez_num && !this.validate_ram_num)
 			{
 				axios
-				.post('rest/katerogije/Izmena',  {ime:''+kat.ime, br_jezgara: kat.br_jezgara, RAM: kat.RAM, GPU: kat.GPU}, {params:{imeOld:''+ime}})
+				.post('rest/kategorije/Izmena', {ime:''+kat.ime, br_jezgara: kat.br_jezgara, RAM: kat.RAM, GPU: kat.GPU}, {params:{imeOld:''+ime}})
 				.then(response => {
 					if(response.data.toString() === ("200"))
 					{
 						toast('Category (' + kat.ime + ') information is saved!');
-						window.location.href = "#/CategotyView";
+						window.location.href = "#/CategoryView";
 					}
 					else if(response.data.toString() === ("202"))
 					{
@@ -199,7 +199,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true) {
 				axios
 				.post('rest/kategorije/Izmena', {"ime":''})
-					.then(response=> {window.location.href = "#/CategotyView"})
+					.then(response=> {window.location.href = "#/CategoryView"})
 			}
 		},
 		
@@ -213,7 +213,7 @@ Vue.component("izmena-brisanje-kategorija", {
 				if(response.data.toString() === ("200"))
 				{
 					toast('Category (' + ime + ') is deleted!');
-					window.location.href = "#/CategotyView";
+					window.location.href = "#/CategoryView";
 				}
 				else
 				{
@@ -238,7 +238,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			this.ime = this.$route.params.kat_ime;
 			
 		}
-		this.ime = "PrvaKategorija";
+		this.ime="PrvaKategorija";
 		axios
 			.get('rest/kategorije/getKategorija', { params: {"ime":''+this.ime}})
 			.then(response =>{
@@ -250,10 +250,5 @@ Vue.component("izmena-brisanje-kategorija", {
 		.then(response =>{
 			this.active = response.data
 		});
-	},
-	beforeRouteLeave: function(to, from, next) {
-        console.log("In beforeRouteLeave of AnotherComponent")
-        
-        next();
-    }
+	}
 });

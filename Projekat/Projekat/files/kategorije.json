@@ -1,3 +1,1 @@
-[{"ime":"PrvaKategorija","br_jezgara" : "5", "RAM":"4", "GPU":"nVidia"},
-{"ime":"DrugaKategorija","br_jezgara" : "10", "RAM":"8", "GPU":"nVidia2.0"}]
-
+[{"ime":"PrvaKategorija","br_jezgara":5,"RAM":4,"GPU":"nVidia"},{"ime":"DrugaKategorija","br_jezgara":10,"RAM":8,"GPU":"nVidia2.0"}]
