@@ -117,15 +117,18 @@ Vue.component("izmena-vm", {
 			</tr>
 			<tr>
 			<td>
-				<button class="dugme" type="submit" v-on:click="save(vm, ime)">Save</button>
+				<button class="dugme" :disabled="active.uloga === 'korisnik'" type="submit" v-on:click="save(vm, ime)">Save</button>
 			</td>
 			<td>
-				<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>
+				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="cancel()">Cancel</button>
 			</td>
 			</tr>
 			<tr>	
 			<td>
-				<button class="dugme"  type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
+				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
+			</td>
+			<td v-if="active.uloga === 'superadmin'">
+				<button class="dugme" type="submit" v-on:click="deleteVM(vm.ime)">Paljenje/gasenje VM</button>
 			</td>
 			</tr>
 			</table>
@@ -137,6 +140,7 @@ Vue.component("izmena-vm", {
 	methods: {
 		save : function(vm, ime)
 		{
+			
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			this.validate_date = false;
 			

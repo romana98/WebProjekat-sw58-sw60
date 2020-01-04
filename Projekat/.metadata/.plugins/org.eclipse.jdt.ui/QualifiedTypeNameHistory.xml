@@ -21,6 +21,7 @@
 <fullyQualifiedTypeName name="classes.Korisnik"/>
 <fullyQualifiedTypeName name="spark.Request"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="classes.VM"/>
 <fullyQualifiedTypeName name="classes.KategorijaVM"/>
+<fullyQualifiedTypeName name="classes.VM"/>
+<fullyQualifiedTypeName name="classes.Dates"/>
 </qualifiedTypeNameHistroy>

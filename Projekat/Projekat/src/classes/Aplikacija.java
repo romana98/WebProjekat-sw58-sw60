@@ -152,8 +152,18 @@ public class Aplikacija {
 				break;
 			}
 		}
-		korisniciList.remove(indexK);
-		korisnici.remove(vm.getIme());
+		for (int i = 0; i < diskoviList.size(); i++) {
+			if(diskoviList.get(i).getMojaVirtualnaMasina().getIme().equals(vm.getIme()))
+			{
+				diskovi.get(diskoviList.get(i).getIme()).setMojaVirtualnaMasina(new VM());
+				diskoviList.get(i).setMojaVirtualnaMasina(new VM());
+			}
+			
+		}
+		
+		
+		virtualneList.remove(indexK);
+		virtualne.remove(vm.getIme());
 		organizacijeList.get(indexO).getResursi().remove(indexOK);
 		organizacije.put(organizacijeList.get(indexO).getIme(), organizacijeList.get(indexO));
 
