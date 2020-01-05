@@ -179,8 +179,9 @@ Vue.component("AddVM", {
 				dont = true;
 			}
 			else{
-				document.getElementById("organizacija").setAttribute("style","width: 160px; border-color:rgb(216, 216, 216)");
-				
+				if(this.active_superadmin === true){
+					document.getElementById("organizacija").setAttribute("style","width: 160px; border-color:rgb(216, 216, 216)");
+				}
 			}
 			if (this.selected_kategorija_string === null){
 				document.getElementById("kategorija").setAttribute("style","width: 160px; border-color:red");

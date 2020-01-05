@@ -17,7 +17,7 @@ public class Korisnik {
 		prezime = "";
 		organizacija = new Organizacija();
 	}
-	
+
 	public Korisnik(String email, String ime, String prezime, String lozinka, Organizacija organizacija, Uloga uloga) {
 		this.email = email;
 		this.ime = ime;

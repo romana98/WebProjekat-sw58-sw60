@@ -16,7 +16,7 @@ public class Organizacija {
 		korisnici  = new ArrayList<String>();
 		resursi = new ArrayList<String>();
 	}
-	
+
 	public Organizacija(String ime, String opis, String logo, ArrayList<String> korisnici,
 			ArrayList<String> resursi) {
 		this.ime = ime;

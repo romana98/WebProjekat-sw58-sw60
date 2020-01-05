@@ -41,6 +41,11 @@ public class SparkMain {
 			return "Works";
 		});
 
+		get("/rest/organizacije/getOrganizacije", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(app.getOrganizacijeList());
+		});
+		
 		get("/rest/kategorije/getKatID", (req, res) -> {
 			res.type("application/json");
 			KategorijaVM kat = app.getKategorijeID(req.queryMap("KatID").value());
@@ -152,6 +157,12 @@ public class SparkMain {
 						resursi.add(vm.getIme());
 						organizacija.setResursi(resursi);
 						Files.UpisOrganizacija(orgs);
+						for (Korisnik korisnik:app.getKorisniciList()) {
+							if(korisnik.getOrganizacija().getIme().equals(organizacija.getIme())) {
+								korisnik.setOrganizacija(organizacija);
+							}
+						}
+						Files.UpisKorisnik(app.getKorisniciList());
 						return g.toJson("200");
 					}
 				}
