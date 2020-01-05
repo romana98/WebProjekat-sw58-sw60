@@ -10,5 +10,12 @@ public abstract class Resurs {
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
+	
+	public double getCena(Dates date)
+	{
+		return 0;
+	}
+	
+	
 
 }

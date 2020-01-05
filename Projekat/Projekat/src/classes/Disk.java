@@ -11,7 +11,7 @@ public class Disk extends Resurs{
 	public Disk()
 	{
 		super();
-		this.setIme("none");
+		this.setIme("");
 		this.kapacitet = 0;
 		this.mojaVirtualnaMasina = new VM();
 	}
@@ -48,6 +48,21 @@ public class Disk extends Resurs{
 	public String toString() {
 		return "Disk [ime=" + getIme() + ", tip=" + tip + ", kapacitet=" + kapacitet + ", mojaVirtualnaMasina="
 				+ mojaVirtualnaMasina + "]";
+	}
+
+	@Override
+	public double getCena(Dates date) {
+		double cena = 0;
+		int sati = date.getNumberOfHours();
+		if(this.tip == TipDiska.HDD)
+		{
+			cena = 0.1/720 * this.kapacitet * sati;
+		}
+		else
+		{
+			cena = 0.3/720 * this.kapacitet * sati;
+		}
+		return cena;
 	}
 	
 	

@@ -56,7 +56,7 @@ Vue.component("VMView", {
                     <button class="dropbtn">Monthly receipt
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/ChooseDates">Choose dates</a>
+                      <a href="#/MonthlyReceipt">Get Monthly Receipt</a>
                     </div>
                   </div>
               </div>           

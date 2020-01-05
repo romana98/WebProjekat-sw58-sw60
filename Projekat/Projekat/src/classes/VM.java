@@ -12,7 +12,7 @@ public class VM extends Resurs{
 	public VM()
 	{
 		super();
-		this.setIme("none");
+		this.setIme("");
 		this.kategorija = new KategorijaVM();
 		this.datumi = new ArrayList<Dates>();
 		this.diskovi = new ArrayList<String>();
@@ -64,6 +64,14 @@ public class VM extends Resurs{
 	public String toString() {
 		return "VM [ime=" + getIme() + ", kategorija=" + kategorija + ", datumi=" + datumi + ", diskovi=" + diskovi + "]";
 	}
+
+	@Override
+	public double getCena(Dates date) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 	
 	
 	

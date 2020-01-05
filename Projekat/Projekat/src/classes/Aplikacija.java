@@ -69,6 +69,44 @@ public class Aplikacija {
 		
 	}
 	
+	public HashMap<String, Double> calculate(Korisnik active, Dates date)
+	{
+		HashMap<String, Double> mapa = new HashMap<String, Double>();
+		int index = -1;
+		for (int i = 0; i < organizacijeList.size(); i++) {
+			if(organizacijeList.get(i).getIme().equals(active.getOrganizacija().getIme()))
+			{
+				index = 1;
+				break;
+			}
+		}
+		
+		for (int i = 0; i < organizacijeList.get(index).getResursi().size(); i++) {
+			String name = organizacijeList.get(index).getResursi().get(i);
+			Resurs resurs = null;
+			for (int j = 0; j < virtualneList.size(); j++) {
+				if(virtualneList.get(j).getIme().equals(name))
+				{
+					resurs = virtualneList.get(j);
+					break;
+				}
+			}
+			
+		for (int j = 0; j < diskoviList.size(); j++) {
+			if(diskoviList.get(j).getIme().equals(name))
+			{
+				resurs = diskoviList.get(j);
+				break;
+			}
+		}
+		
+		mapa.put(name, resurs.getCena(date));
+			
+		}
+				
+		return mapa;
+	}
+	
 	public void editOrganizacija(Organizacija o, String name)
 	{
 		organizacije.remove(name);

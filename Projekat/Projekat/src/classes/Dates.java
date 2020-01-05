@@ -43,12 +43,11 @@ public class Dates {
 	}
 	
 	public int getNumberOfHours() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		long dif = 0;
 		try {
 			dif = Math.abs(sdf.parse(start_Date).getTime() - sdf.parse(finish_Date).getTime());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return (int) (TimeUnit.HOURS.convert(dif,TimeUnit.MILLISECONDS));

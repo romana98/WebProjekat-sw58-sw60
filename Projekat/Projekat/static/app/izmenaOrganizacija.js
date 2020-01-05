@@ -13,7 +13,7 @@ Vue.component("izmena-organizacija", {
 	<div>
 		<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
+              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
                <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
@@ -22,42 +22,42 @@ Vue.component("izmena-organizacija", {
                   <button class="dropbtn">Virtual Machines
                   </button>
                   <div class="dropdown-content">
-                    <a href="#/VMView">View VM's</a>
+                    <a href="#/VMView" v-on:click="a_clicked($event)">View VM's</a>
                   </div>
                 </div>
                 <div class="dropdown">
                     <button class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/OrganizationView">View organizations</a>
+                      <a href="#/OrganizationView" v-on:click="a_clicked($event)">View organizations</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Users
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/UserView">View users</a>
+                      <a href="#/UserView" v-on:click="a_clicked($event)">View users</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Discs
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/DiscView">View discs</a>
+                      <a href="#/DiscView" v-on:click="a_clicked($event)">View discs</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/CategoryView">View categories</a>
+                      <a href="#/CategoryView" v-on:click="a_clicked($event)">View categories</a>
                     </div>
                   </div>
                   <div class="dropdown" v-if="active.uloga === 'admin'">
                     <button class="dropbtn">Monthly receipt
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/ChooseDates">Choose dates</a>
+                      <a href="#/MonthlyReceipt" v-on:click="a_clicked($event)">Get Monthly Receipt</a>
                     </div>
                   </div>
               </div>           
@@ -82,7 +82,7 @@ Vue.component("izmena-organizacija", {
 				<td>Logo:</td>
 				<td>
 					<output>
-				      <img :src="org.logo" v-if="org.logo !== 'none'">
+				      <img :src="org.logo" v-if="org.logo !== ''">
 				      <p v-else>Nema logo...</p>
 				     </output>
 				 </td>
@@ -118,7 +118,7 @@ Vue.component("izmena-organizacija", {
 				<button class="dugme" type="submit" v-on:click="save(org, ime)">Save</button>
 			</td>
 			<td>
-				<button class="dugme"  type="submit" v-on:click="cancel()">Cancel</button>	
+				<button class="dugme"  type="submit" v-on:click="cancel()">Back</button>	
 			</td>
 			</tr>
 			
@@ -129,6 +129,13 @@ Vue.component("izmena-organizacija", {
 	`	
 	,
 	methods: {
+		a_clicked(event)
+		{
+			
+			if (confirm('If you go back, your changes won\'t be saved, go back?') == false) {
+				event.preventDefault()
+			}
+		},
 		onImg(event)
 		{
 			 const file = event.target.files[0];
@@ -149,7 +156,7 @@ Vue.component("izmena-organizacija", {
 		removeImg : function()
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			this.org.logo = "none";
+			this.org.logo = "";
 		},
 		
 		save : function(org, ime)
@@ -209,6 +216,14 @@ Vue.component("izmena-organizacija", {
 				axios.get('rest/logOut')
 			}
 			
+		},
+		
+		isForbidden : function(active)
+		{
+			if(active.uloga === 'korisnik')
+			{
+				window.location.href = "#/Forbidden"
+			}
 		}
 		
 	},
@@ -228,7 +243,8 @@ Vue.component("izmena-organizacija", {
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{
-			this.active = response.data
+			this.active = response.data,
+			this.isForbidden(response.data)
 		});
 	}
 	

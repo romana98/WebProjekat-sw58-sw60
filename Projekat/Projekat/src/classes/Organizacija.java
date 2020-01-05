@@ -10,9 +10,9 @@ public class Organizacija {
 	private ArrayList<String> resursi;
 	
 	public Organizacija() {
-		ime = "none";
-		opis = "none";
-		logo = "none";
+		ime = "";
+		opis = "";
+		logo = "";
 		korisnici  = new ArrayList<String>();
 		resursi = new ArrayList<String>();
 	}

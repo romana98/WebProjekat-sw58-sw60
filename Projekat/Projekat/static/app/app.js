@@ -14,23 +14,15 @@ const izmenaBrisanjeKorisnika = {template: '<izmena-brisanje-korisnika></izmena-
 const izmenaProfila = {template: '<izmena-profila></izmena-profila>'}
 const izmenaBrisanjeVM = {template: '<izmena-brisanje-vm></izmena-brisanje-vm>'}
 const izmenaBrisanjeDisk = {template: '<izmena-brisanje-disk></izmena-brisanje-disk>'}
-const izmenaBrisanjeKategorija = {template: '<izmena-brisanje-kategorija></izmena-brisanje-kategorija>',
-		beforeRouteLeave: function(to, from, next) {
-			this.$dialog.confirm('Do you want to proceed?')
-	        .then(function () {
-	            next();
-	        })
-	        .catch(function () {
-	            next(false);
-	        });
-	    }}
+const izmenaBrisanjeKategorija = {template: '<izmena-brisanje-kategorija></izmena-brisanje-kategorija>'}
 const MesecniRacun = {template: '<mesecni-racun></mesecni-racun>'}
-const OdabirDatuma = {template: '<odabir-datuma></odabir-datuma>'}
+const NotFound = {template: '<not-found></not-found>'}
+const Forbidden = {template: '<forbidden></forbidden>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
-		  { path: '/Login', name:'login', component: login},
+		  	{ path: '/Login', name:'login', component: login},
 		    { path: '/Organization', name:'organization', component: izmenaOrganizacija }, //params.ime
 		    { path: '/User', name:'user', component: izmenaBrisanjeKorisnika }, //params.email
 		    { path: '/Profil', name:'profil', component: izmenaProfila },
@@ -48,7 +40,8 @@ const router = new VueRouter({
 		    { path: '/AddOrganization', name:'addOrganization', component: AddOrganization},
 		    { path: '/AddUser', name:'addUser', component: AddUser},
 		    { path: '/MonthlyReceipt', name:'monthly', component: MesecniRacun},
-		    { path: '/ChooseDates', name:'dates', component: OdabirDatuma}
+		    { path: '/Forbidden', name:'forbidden', component: Forbidden},
+		    { path: '*', name:'notFound', component: NotFound}
 	  ]
 });
 

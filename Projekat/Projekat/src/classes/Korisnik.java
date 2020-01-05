@@ -11,10 +11,10 @@ public class Korisnik {
 	private Uloga uloga;
 	
 	public Korisnik() {
-		email = "none";
-		ime = "none";
-		lozinka = "none";
-		prezime = "none";
+		email = "";
+		ime = "";
+		lozinka = "";
+		prezime = "";
 		organizacija = new Organizacija();
 	}
 	
