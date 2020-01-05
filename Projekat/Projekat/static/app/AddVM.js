@@ -162,7 +162,6 @@ Vue.component("AddVM", {
 		},
 		
 		addNew : function(){
-			//border-color: rgb(245, 28, 28);
 			//provera da li su polja popunjena
 			var dont = false;
 			this.prikazi = false;
@@ -244,11 +243,13 @@ Vue.component("AddVM", {
 			{
 				this.active_superadmin = false;
 				this.selected_organizacija = this.active_user.organizacija.ime;
-				console.log(this.selected_organizacija);
+				
+				this.getDiscs();
+				
 
 			}
 			
-		});
+		}); 
 		
 		
 		
