@@ -1,7 +1,11 @@
 package classes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class VM extends Resurs{
 	private KategorijaVM kategorija;
@@ -64,15 +68,66 @@ public class VM extends Resurs{
 	public String toString() {
 		return "VM [ime=" + getIme() + ", kategorija=" + kategorija + ", datumi=" + datumi + ", diskovi=" + diskovi + "]";
 	}
+	public int getNumberOfHours(Date start_Date, Date finish_Date) {
+		
+		long dif = 0;
+			dif = Math.abs(start_Date.getTime() - finish_Date.getTime());
+		
+		return (int) (TimeUnit.HOURS.convert(dif,TimeUnit.MILLISECONDS));
+	}
 
 	@Override
 	public double getCena(Dates date) {
-		// TODO Auto-generated method stub
-		return 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		double cena = 0;
+		double suma = 0;
+		try
+		{
+			Date start_date = sdf.parse(date.getStart_Date());
+			Date finish_date = sdf.parse(date.getFinish_Date());
+			Date begin = null, end = null;
+			
+			for (int i = 0; i < this.datumi.size(); i++) {
+				Date start = sdf.parse(this.datumi.get(i).getStart_Date());
+				Date finish = null;
+				if(this.datumi.get(i).getFinish_Date().equals(""))
+				{
+					finish = finish_date;
+				}
+				else
+				{
+					finish = sdf.parse(this.datumi.get(i).getFinish_Date());
+				}
+				
+				
+				if(start.before(start_date) && finish.after(start_date))
+				{
+					begin = start_date;
+					if(finish.after(finish_date))
+					{ end = finish_date;}
+					else
+					{ end = finish;}
+				}
+				else if(start.after(start_date)) 
+				{
+					begin = start;
+					if(finish.after(finish_date))
+					{ end = finish_date;}
+					else
+					{ end = finish;}
+					
+				}
+				else if(start.after(finish_date))
+				{
+					continue;
+				}
+				 
+				cena = (25/720 * this.kategorija.getBr_jezgara()  + 15/720 * this.kategorija.getRAM() + 1/720 * this.kategorija.getGPU()) * getNumberOfHours(begin, end);
+				suma += cena;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return suma;
 	}
-	
-	
-	
-	
-	
 }

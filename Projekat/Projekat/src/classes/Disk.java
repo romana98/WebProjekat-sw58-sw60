@@ -1,5 +1,10 @@
 package classes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import enums.TipDiska;
 
 public class Disk extends Resurs{
@@ -49,11 +54,30 @@ public class Disk extends Resurs{
 		return "Disk [ime=" + getIme() + ", tip=" + tip + ", kapacitet=" + kapacitet + ", mojaVirtualnaMasina="
 				+ mojaVirtualnaMasina + "]";
 	}
+	
+public int getNumberOfHours(Date start_Date, Date finish_Date) {
+		
+		long dif = 0;
+			dif = Math.abs(start_Date.getTime() - finish_Date.getTime());
+		
+		return (int) (TimeUnit.HOURS.convert(dif,TimeUnit.MILLISECONDS));
+	}
 
 	@Override
 	public double getCena(Dates date) {
 		double cena = 0;
-		int sati = date.getNumberOfHours();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		Date start = null;
+		Date finish = null;
+		try {
+			start = sdf.parse(date.getStart_Date());
+			finish = sdf.parse(date.getFinish_Date());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		
+		int sati = getNumberOfHours(start, finish);
 		if(this.tip == TipDiska.HDD)
 		{
 			cena = 0.1/720 * this.kapacitet * sati;

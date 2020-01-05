@@ -4,17 +4,17 @@ public class KategorijaVM {
 	private String ime;
 	private int br_jezgara;
 	private int RAM;
-	private String GPU;
+	private int GPU;
 	
 	public KategorijaVM()
 	{
 		this.ime = "";
 		this.br_jezgara = 0;
 		this.RAM = 0;
-		this.GPU = "";
+		this.GPU = 0;
 	}
 	
-	public KategorijaVM(String ime, int br_jezgara, int rAM, String gPU) {
+	public KategorijaVM(String ime, int br_jezgara, int rAM, int gPU) {
 		super();
 		this.ime = ime;
 		this.br_jezgara = br_jezgara;
@@ -39,10 +39,10 @@ public class KategorijaVM {
 	public void setRAM(int rAM) {
 		RAM = rAM;
 	}
-	public String getGPU() {
+	public int getGPU() {
 		return GPU;
 	}
-	public void setGPU(String gPU) {
+	public void setGPU(int gPU) {
 		GPU = gPU;
 	}
 	@Override

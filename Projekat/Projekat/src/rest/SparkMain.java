@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import classes.Aplikacija;
+import classes.Dates;
 import classes.Disk;
 import classes.Files;
 import classes.KategorijaVM;
@@ -227,11 +228,22 @@ public class SparkMain {
 			return ("201");
 		});
 		
+		//MESECNI RACUN
+		post("/rest/mesecni/getMesecniRacun", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			Dates dates = g.fromJson(payload, Dates.class);
+			Session ss = req.session(true);
+			Korisnik k = ss.attribute("user");
+			
+			return g.toJson(app.calculate(k, dates));
+		});
+		
 		//KATEGORIJE
 		get("/rest/kategorije/getKategorija", (req, res) -> {
 			res.type("application/json");
-			//KategorijaVM kat = app.getKategorijeID(req.queryMap("ime").value());
-			KategorijaVM kat = app.getKategorijeID("PrvaKategorija");
+			KategorijaVM kat = app.getKategorijeID(req.queryMap("ime").value());
+			
 			
 			if (kat == null) {
 				kat = new KategorijaVM();
@@ -395,7 +407,7 @@ public class SparkMain {
 
 	public static boolean checkKat(KategorijaVM kat) {
 
-		if (kat.getIme().equals("") || kat.getGPU().equals("") || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
+		if (kat.getIme().equals("") || kat.getGPU() == 0 || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
 			return false;
 		}
 		return true;
