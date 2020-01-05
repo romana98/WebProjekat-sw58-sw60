@@ -10,6 +10,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			validate_ram_num: false,
 			validate_ram: false,
 			validate_gpu: false,
+			validate_gpu_num: false,
 			ime:''
 		}
 	},
@@ -90,7 +91,8 @@ Vue.component("izmena-brisanje-kategorija", {
 			<tr>
 				<td>GPU:</td>
 				<td><input type="text" name="gpu" v-model="kat.GPU"></input></td>
-				<td><label v-if="validate_gpu">You're missing field!</label></td>
+				<td><label v-if="validate_gpu">You're missing field!</label>
+				<label v-else-if="validate_gpu_num">Not a number!</label></td>
 			</tr>
 			<tr>
 			<td>
@@ -178,8 +180,16 @@ Vue.component("izmena-brisanje-kategorija", {
 			{
 				this.validate_ram_num = false;
 			}
+			if(isNaN(kat.GPU))
+			{
+				this.validate_gpu_num = true;
+			}
+			else
+			{
+				this.validate_gpu_num = false;
+			}
 			
-			if(!this.validate_br_jez_num && !this.validate_ram_num)
+			if(!this.validate_br_jez_num && !this.validate_ram_num && !this.validate_gpu_num)
 			{
 				axios
 				.post('rest/kategorije/Izmena', {ime:''+kat.ime, br_jezgara: kat.br_jezgara, RAM: kat.RAM, GPU: kat.GPU}, {params:{imeOld:''+ime}})

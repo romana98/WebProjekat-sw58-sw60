@@ -8,7 +8,8 @@ Vue.component("mesecni-racun", {
 			active:null,
 			resursi:null,
 			suma:0,
-			isDates:false
+			isDates:false,
+			message:''
 		}
 	},
 	template:`
@@ -79,7 +80,12 @@ Vue.component("mesecni-racun", {
 				<td><input type="datetime-local" :max="today" v-model="d.finish_Date"></input></td>	
 			</tr>
 			<tr v-if="validate_date">
-				<td><label >Finish date can't be before start date!</label></td>
+				<td  colspan=2><label>Finish date can't be before start date!</label></td>
+			</tr>
+			<tr>
+			<td>
+				<button class="dugme" type="submit" v-on:click="getTable(d)">Submit</button>
+			</td>
 			</tr>
 		</table>
 		
@@ -113,7 +119,35 @@ Vue.component("mesecni-racun", {
 				axios.get('rest/logOut')
 			}
 		},
-		
+		getTable(d)
+		{
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+			this.validate_date = false;
+			
+			let d_s = new Date(d.start_Date);
+			let d_f = new Date(d.finish_Date);
+			let isTrue = d_s.getTime() > d_f.getTime();
+			if(isTrue)
+			{
+				this.validate_date = true;
+			}
+			
+			if(!this.validate_date)
+			{
+				axios
+				.post('rest/mesecni/getMesecniRacun',  {"start_Date":d.start_Date, "finish_Date":d.finish_Date})
+				.then(response => {
+					if(response.data.toString() === ("201"))
+					{
+						this.message = "There are no reports for selected period!";
+					}
+					else
+					{
+						this.resursi = response.data;
+					}
+				});	
+			}
+		},
 		getDate()
 		{
 			var date = new Date();

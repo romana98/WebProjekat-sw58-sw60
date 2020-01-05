@@ -121,9 +121,11 @@ public class VM extends Resurs{
 				{
 					continue;
 				}
-				 
-				cena = (25/720 * this.kategorija.getBr_jezgara()  + 15/720 * this.kategorija.getRAM() + 1/720 * this.kategorija.getGPU()) * getNumberOfHours(begin, end);
-				suma += cena;
+				if(begin != null && end != null)
+				{
+					cena = (25/720 * this.kategorija.getBr_jezgara()  + 15/720 * this.kategorija.getRAM() + 1/720 * this.kategorija.getGPU()) * getNumberOfHours(begin, end);
+					suma += cena;
+				}
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();

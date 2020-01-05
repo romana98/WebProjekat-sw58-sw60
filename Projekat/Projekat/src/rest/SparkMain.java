@@ -8,6 +8,7 @@ import static spark.Spark.staticFiles;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.gson.Gson;
 
@@ -235,8 +236,10 @@ public class SparkMain {
 			Dates dates = g.fromJson(payload, Dates.class);
 			Session ss = req.session(true);
 			Korisnik k = ss.attribute("user");
-			
-			return g.toJson(app.calculate(k, dates));
+			HashMap<String, Double> map = app.calculate(k, dates);
+			if(map.isEmpty())
+				return("201");
+			return g.toJson(map);
 		});
 		
 		//KATEGORIJE
