@@ -1,23 +1,22 @@
-Vue.component("izmena-brisanje-vm", {
+Vue.component("mesecni-racun", {
 	data: function (){
 		return {
-			vm: null,
-			validate_name: false,
-			validate_name_exist: false,
+			d:{start_Date:'', finish_Date:''},
 			validate_date: false,
-			name:'',
-			ime:null,
 			today:'',
 			today_text:'',
 			active:null,
-			aktivnost:null
+			resursi:null,
+			suma:0,
+			isDates:false,
+			message:''
 		}
 	},
 	template:`
 	<div >
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
+              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
                <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
@@ -26,128 +25,93 @@ Vue.component("izmena-brisanje-vm", {
                   <button class="dropbtn">Virtual Machines
                   </button>
                   <div class="dropdown-content">
-                    <a href="#/VMView" v-on:click="a_clicked($event)">View VM's</a>
+                    <a href="#/VMView" >View VM's</a>
                   </div>
                 </div>
                 <div class="dropdown">
                     <button class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/OrganizationView" v-on:click="a_clicked($event)">View organizations</a>
+                      <a href="#/OrganizationView" >View organizations</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Users
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/UserView" v-on:click="a_clicked($event)">View users</a>
+                      <a href="#/UserView">View users</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Discs
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/DiscView" v-on:click="a_clicked($event)">View discs</a>
+                      <a href="#/DiscView">View discs</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/CategoryView" v-on:click="a_clicked($event)">View categories</a>
+                      <a href="#/CategoryView" >View categories</a>
                     </div>
                   </div>
                   <div class="dropdown" v-if="active.uloga === 'admin'">
                     <button class="dropbtn">Monthly receipt
                     </button>
                     <div class="dropdown-content">
-                       <a href="#/MonthlyReceipt" v-on:click="a_clicked($event)">Get Monthly Receipt</a>
+                       <a href="#/MonthlyReceipt">Get Monthly Receipt</a>
                     </div>
                   </div>
               </div>           
         </div>
 
 		<form id="form" class="login_form" method="post">
-		<table class="poravnaj"  v-if="vm && active">
+		<table class="poravnaj"  v-if="active">
 			<tr>
-				<td>Name:</td>
-				<td v-if="active.uloga !== 'korisnik'"><input type="text" name="ime" v-model="vm.ime"></input></td>
-				<td v-else>{{vm.ime}}</td>
-				<td><label v-if="validate_name">You're missing field!</label>
-				<label v-else-if="validate_name_exist">Name already taken!</label></td>
+			<td style="font-weight: bold;" colspan=2>Note: Date can't be later then: {{today_text}}</td>
 			</tr>
 			<tr>
-				<td>Category:</td>
-				<td >{{vm.kategorija.ime}}</td>
+				<td>Start date:</td>
+				<td>Finish date:</td>
 			</tr>
 			<tr>
-				<td>Cores:</td>
-				<td >{{vm.kategorija.br_jezgara}}</td>
+				<td><input type="datetime-local" :max="today" v-model="d.start_Date"></input></td>
+				<td><input type="datetime-local" :max="today" v-model="d.finish_Date"></input></td>	
 			</tr>
-			<tr>
-				<td>RAM:</td>
-				<td >{{vm.kategorija.RAM}}</td>
-			</tr>
-			<tr>
-				<td>GPU:</td>
-				<td >{{vm.kategorija.GPU}}</td>
-			</tr>
-			<tr>
-				<td>Discs:</td>
-				<td>
-					<select>
-						<option v-for="d in vm.diskovi">{{d}}</option>		
-					</select>
-				</td>	
-			</tr>
-			
-			<tr>
-				<td>Dates:</td>
-				<td><label v-if="validate_date">Finish date can't be before start date!</label></td>
-			</tr>
-			<tr v-for="(d, index) in vm.datumi">
-				<td ><input  type="datetime-local" :disabled="active.uloga !== 'superadmin'" :max="today" v-model="d.start_Date"></input></td>
-				
-				<td><input type="datetime-local" :disabled="active.uloga !== 'superadmin'" :max="today" v-model="d.finish_Date"></input></td>	
-				
+			<tr v-if="validate_date">
+				<td  colspan=2><label>Finish date can't be before start date!</label></td>
 			</tr>
 			<tr>
 			<td>
-				<button class="dugme" :disabled="active.uloga === 'korisnik'" type="submit" v-on:click="save(vm, ime)">Save</button>
+				<button class="dugme" type="submit" v-on:click="getTable(d)">Submit</button>
 			</td>
+			</tr>
+		</table>
+		
+		<br><br>
+		
+		<table class="poravnaj TableView"  v-if="isDates">
+			<tr>
+	            <th>Ime</th>
+	            <th>Cena</th>
+	        </tr>
+	        <tr v-for="[ime, cena] of resursi">	
+	        <td>{{ime}}</td>
+            <td>{{cena}}</td>
+			</tr>
+			<tr>
 			<td>
 				<button class="dugme" type="submit" v-on:click="cancel()">Back</button>
 			</td>
 			</tr>
-			<tr>	
-			<td>
-				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
-			</td>
-			<td v-if="active.uloga === 'admin' && aktivnost === ''">
-				<button class="dugme" type="submit" v-on:click="changeStateOff()">Turn off VM</button>
-			</td>
-			<td v-else-if="active.uloga === 'admin' && aktivnost !== ''">
-				<button class="dugme" type="submit" v-on:click="changeStateOn()">Turn on VM</button>
-			</td>
-			</tr>
-			<tr>
-			<td style="font-weight: bold;" colspan=2>Note: Date can't be later then: {{today_text}}</td>
-			</tr>
-			</table>
-		</form>
+		</table>
+	</form>
 	
 	</div>
 	`	
 	,
 	methods: {
-		a_clicked(event)
-		{
-			
-			if (confirm('If you go back, your changes won\'t be saved, go back?') == false) {
-				event.preventDefault()
-			}
-		},
-	
 		logOut : function()
 		{
 			
@@ -155,7 +119,35 @@ Vue.component("izmena-brisanje-vm", {
 				axios.get('rest/logOut')
 			}
 		},
-		
+		getTable(d)
+		{
+			document.getElementById("form").setAttribute("onsubmit","return false;");
+			this.validate_date = false;
+			
+			let d_s = new Date(d.start_Date);
+			let d_f = new Date(d.finish_Date);
+			let isTrue = d_s.getTime() > d_f.getTime();
+			if(isTrue)
+			{
+				this.validate_date = true;
+			}
+			
+			if(!this.validate_date)
+			{
+				axios
+				.post('rest/mesecni/getMesecniRacun',  {"start_Date":d.start_Date, "finish_Date":d.finish_Date})
+				.then(response => {
+					if(response.data.toString() === ("201"))
+					{
+						this.message = "There are no reports for selected period!";
+					}
+					else
+					{
+						this.resursi = response.data;
+					}
+				});	
+			}
+		},
 		getDate()
 		{
 			var date = new Date();
@@ -198,16 +190,7 @@ Vue.component("izmena-brisanje-vm", {
 		let date_time = this.today.split('T');
 		this.today_text = date_time[0] + ', ' + date_time[1];
 		
-		if(this.$route.params.vm_ime) 
-		{
-			this.ime = this.$route.params.vm_ime;
-		}
-		axios
-			.get('rest/mesecni/getVM', { params: {"ime":''+this.ime}})
-			.then(response =>{
-				this.vm = response.data,
-				this.aktivnost = this.vm.datumi[this.vm.datumi.length-1].finish_Date
-			});	
+		
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{

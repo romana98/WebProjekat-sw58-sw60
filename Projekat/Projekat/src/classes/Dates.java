@@ -1,7 +1,4 @@
 package classes;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.concurrent.TimeUnit;;
 
 public class Dates {
 
@@ -40,17 +37,6 @@ public class Dates {
 	
 	public void setFinish_Date(String finish_Date) {
 		this.finish_Date = finish_Date;
-	}
-	
-	public int getNumberOfHours() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-		long dif = 0;
-		try {
-			dif = Math.abs(sdf.parse(start_Date).getTime() - sdf.parse(finish_Date).getTime());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return (int) (TimeUnit.HOURS.convert(dif,TimeUnit.MILLISECONDS));
 	}
 
 	@Override

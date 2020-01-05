@@ -8,10 +8,12 @@ import static spark.Spark.staticFiles;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.gson.Gson;
 
 import classes.Aplikacija;
+import classes.Dates;
 import classes.Disk;
 import classes.Files;
 import classes.KategorijaVM;
@@ -238,11 +240,24 @@ public class SparkMain {
 			return ("201");
 		});
 		
+		//MESECNI RACUN
+		post("/rest/mesecni/getMesecniRacun", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			Dates dates = g.fromJson(payload, Dates.class);
+			Session ss = req.session(true);
+			Korisnik k = ss.attribute("user");
+			HashMap<String, Double> map = app.calculate(k, dates);
+			if(map.isEmpty())
+				return("201");
+			return g.toJson(map);
+		});
+		
 		//KATEGORIJE
 		get("/rest/kategorije/getKategorija", (req, res) -> {
 			res.type("application/json");
-			//KategorijaVM kat = app.getKategorijeID(req.queryMap("ime").value());
-			KategorijaVM kat = app.getKategorijeID("PrvaKategorija");
+			KategorijaVM kat = app.getKategorijeID(req.queryMap("ime").value());
+			
 			
 			if (kat == null) {
 				kat = new KategorijaVM();
@@ -406,7 +421,7 @@ public class SparkMain {
 
 	public static boolean checkKat(KategorijaVM kat) {
 
-		if (kat.getIme().equals("") || kat.getGPU().equals("") || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
+		if (kat.getIme().equals("") || kat.getGPU() == 0 || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
 			return false;
 		}
 		return true;
