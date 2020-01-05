@@ -3,13 +3,16 @@ Vue.component("mesecni-racun", {
 		return {
 			d:{start_Date:'', finish_Date:''},
 			validate_date: false,
+			validate_date_s: false,
+			validate_date_f: false,
 			today:'',
 			today_text:'',
 			active:null,
 			resursi:null,
 			suma:0,
 			isDates:false,
-			message:''
+			message:'',
+			sum:0
 		}
 	},
 	template:`
@@ -66,6 +69,7 @@ Vue.component("mesecni-racun", {
               </div>           
         </div>
 
+		<div class="poravnajDiv">
 		<form id="form" class="login_form" method="post">
 		<table class="poravnaj"  v-if="active">
 			<tr>
@@ -82,6 +86,12 @@ Vue.component("mesecni-racun", {
 			<tr v-if="validate_date">
 				<td  colspan=2><label>Finish date can't be before start date!</label></td>
 			</tr>
+			<tr v-if="validate_date_s">
+				<td  colspan=2><label>Start date is invalid!</label></td>
+			</tr>
+			<tr v-if="validate_date_f">
+				<td  colspan=2><label>Finish date is invalid!</label></td>
+			</tr>
 			<tr>
 			<td>
 				<button class="dugme" type="submit" v-on:click="getTable(d)">Submit</button>
@@ -91,22 +101,24 @@ Vue.component("mesecni-racun", {
 		
 		<br><br>
 		
-		<table class="poravnaj TableView"  v-if="isDates">
+		<table class="poravnajOboj"  v-if="isDates && resursi">
 			<tr>
 	            <th>Ime</th>
 	            <th>Cena</th>
 	        </tr>
-	        <tr v-for="[ime, cena] of resursi">	
-	        <td>{{ime}}</td>
-            <td>{{cena}}</td>
+	        <tr v-for="(value, key) in resursi">	
+	        <td>{{key}}</td>
+	        <td>{{value}}</td>
 			</tr>
 			<tr>
-			<td>
-				<button class="dugme" type="submit" v-on:click="cancel()">Back</button>
-			</td>
+				<td style="font-weight: bold;">SUM:</td>
+				<td>{{sum}}</td>
 			</tr>
 		</table>
+		<br><br>
+		<button class="dugme" type="submit" v-on:click="cancel()">Back</button>
 	</form>
+	</div>
 	
 	</div>
 	`	
@@ -123,6 +135,7 @@ Vue.component("mesecni-racun", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			this.validate_date = false;
+			this.isDates = false;
 			
 			let d_s = new Date(d.start_Date);
 			let d_f = new Date(d.finish_Date);
@@ -131,8 +144,25 @@ Vue.component("mesecni-racun", {
 			{
 				this.validate_date = true;
 			}
+			if(d_s.toDateString() ==='Invalid Date')
+			{
+				this.validate_date_s = true;
+			}
+			else
+			{
+				this.validate_date_s = false;
+			}
+			if(d_f.toDateString() ==='Invalid Date')
+			{
+				this.validate_date_f = true;
+			}
+			else
+			{
+				this.validate_date_f = false;
+			}
 			
-			if(!this.validate_date)
+			
+			if(!this.validate_date && d_s.toDateString() !=='Invalid Date' && d_f.toDateString() !=='Invalid Date')
 			{
 				axios
 				.post('rest/mesecni/getMesecniRacun',  {"start_Date":d.start_Date, "finish_Date":d.finish_Date})
@@ -144,6 +174,10 @@ Vue.component("mesecni-racun", {
 					else
 					{
 						this.resursi = response.data;
+						this.isDates = true;
+						for (var key in this.resursi) {
+							this.sum += this.resursi[key];
+						}
 					}
 				});	
 			}

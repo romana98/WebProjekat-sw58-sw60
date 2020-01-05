@@ -1,5 +1,7 @@
 package classes;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,8 +74,8 @@ public class VM extends Resurs{
 		
 		long dif = 0;
 			dif = Math.abs(start_Date.getTime() - finish_Date.getTime());
-		
-		return (int) (TimeUnit.HOURS.convert(dif,TimeUnit.MILLISECONDS));
+		int h = Math.round(TimeUnit.HOURS.convert(dif,TimeUnit.MILLISECONDS));
+		return h;
 	}
 
 	@Override
@@ -123,13 +125,18 @@ public class VM extends Resurs{
 				}
 				if(begin != null && end != null)
 				{
-					cena = (25/720 * this.kategorija.getBr_jezgara()  + 15/720 * this.kategorija.getRAM() + 1/720 * this.kategorija.getGPU()) * getNumberOfHours(begin, end);
+					int h = getNumberOfHours(begin, end);
+					cena = (((double)25/720 * this.kategorija.getBr_jezgara())  + ((double)15/720 * this.kategorija.getRAM()) + ((double)1/720 * this.kategorija.getGPU())) * h;
+					
+					
 					suma += cena;
 				}
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return suma;
+		 BigDecimal bd = new BigDecimal(suma).setScale(2, RoundingMode.HALF_UP);
+	     double cal = bd.doubleValue();
+		return cal;
 	}
 }

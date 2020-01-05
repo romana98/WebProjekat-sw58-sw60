@@ -2,7 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.awt.Image"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonAutoDetect"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonProperty"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
@@ -20,9 +19,19 @@
 <fullyQualifiedTypeName name="classes.Korisnik"/>
 <fullyQualifiedTypeName name="spark.Request"/>
 <fullyQualifiedTypeName name="classes.VM"/>
-<fullyQualifiedTypeName name="classes.Dates"/>
-<fullyQualifiedTypeName name="classes.Disk"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="classes.Aplikacija"/>
 <fullyQualifiedTypeName name="classes.KategorijaVM"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="classes.IzracunateCene"/>
+<fullyQualifiedTypeName name="classes.Disk"/>
+<fullyQualifiedTypeName name="enums.TipDiska"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.lang.Double"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="classes.Dates"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="javax.annotation.processing.RoundEnvironment"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
+<fullyQualifiedTypeName name="java.math.BigDecimal"/>
+<fullyQualifiedTypeName name="java.math.RoundingMode"/>
 </qualifiedTypeNameHistroy>

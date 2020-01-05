@@ -2,6 +2,29 @@
 {
 	margin: auto;
 }
+
+.poravnajOboj
+{
+	  margin: auto;
+      border: 1px solid black;
+}
+
+.poravnajOboj tr:nth-child(1){
+        background-color: rgb(95, 128, 56);
+    }
+
+.poravnajOboj tr:not(first-child) {
+  background-color: rgb(186, 241, 122);
+}
+
+
+.poravnajDiv
+{
+	width: 100%; 
+text-align: center;
+  	
+	margin: auto;
+}
 .dugme
 {
 	width: 100px;

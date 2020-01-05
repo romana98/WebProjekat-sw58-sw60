@@ -76,7 +76,7 @@ public class Aplikacija {
 		for (int i = 0; i < organizacijeList.size(); i++) {
 			if(organizacijeList.get(i).getIme().equals(active.getOrganizacija().getIme()))
 			{
-				index = 1;
+				index = i;
 				break;
 			}
 		}
