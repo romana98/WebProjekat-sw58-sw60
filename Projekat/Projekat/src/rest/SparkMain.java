@@ -42,7 +42,9 @@ public class SparkMain {
 		get("/test", (req, res) -> {
 			return "Works";
 		});
-
+		
+		
+		
 		get("/rest/organizacije/getOrganizacije", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(app.getOrganizacijeList());
@@ -139,6 +141,22 @@ public class SparkMain {
 			return g.toJson(vm);
 		});
 
+		post("rest/organizacije/addOrganizacija", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			Organizacija org = g.fromJson(payload, Organizacija.class);
+			if(app.getOrganizacijaID(org.getIme())!=null) {
+				return g.toJson("201");
+			}
+			ArrayList<Organizacija> orgs = app.getOrganizacijeList();
+			orgs.add(org);
+			app.setOrganizacijaID(org.getIme(), org);
+			app.setOrganizacijeList(orgs);
+			Files.UpisOrganizacija(orgs);			
+			return g.toJson("200");
+	
+		});
+		
 		post("rest/vm/addVM", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();

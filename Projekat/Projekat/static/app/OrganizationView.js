@@ -132,6 +132,7 @@ Vue.component("OrganizationView", {
 
 		axios.get('rest/korisnici/getActiveUser').then(response => {
 			this.active_user = response.data;
+			console.log(this.active_user);
 			if (this.active_user.uloga === "korisnik"){
 				this.active_admin = false;
 			}
