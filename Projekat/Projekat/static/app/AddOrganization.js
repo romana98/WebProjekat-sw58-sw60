@@ -5,7 +5,8 @@ Vue.component("AddOrganization", {
 		logo : '',
 		ime : null,
 		active_superadmin : null,
-		active_user : null
+		active_user : null,
+		prikazi : false
 		}
 	},
 	template:`
@@ -131,8 +132,7 @@ Vue.component("AddOrganization", {
 		{
 			
 			if (confirm('Are you sure?') == true) {
-				axios.get('rest/logOut')
-					.then(response=> {window.location.href = "#/OrganizationView"})
+				window.location.href = "#/OrganizationView";
 			}
 			
 		},
@@ -167,7 +167,7 @@ Vue.component("AddOrganization", {
 			.then(response => {
 				if(response.data.toString() === "200"){
 					window.location.href = "#/OrganizationView"
-					
+					this.prikazi = false;
 				}
 				else{
 					this.prikazi = true;

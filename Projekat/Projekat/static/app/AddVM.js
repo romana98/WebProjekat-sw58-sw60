@@ -106,7 +106,7 @@ Vue.component("AddVM", {
             <label  style="text-align: right;">GPU: </label>
             <input id="gpu" class="addForm" type="text" value="" style="background-color: rgb(216, 216, 216);" readonly><br><br>
 
-            <button style="width: 100px;">Back</button>
+            <button style="width: 100px;" v-on:click="back">Back</button>
             <button style="float: right; width: 100px;" v-on:click="addNew">Add</button><br><br>
             
             <label v-if="prikazi" style="color:red">Vec postoji VM sa zadatim imenom!</label>
@@ -141,6 +141,15 @@ Vue.component("AddVM", {
 					this.diskovi = response.data;
 
 			});		
+		},
+		
+		back : function()
+		{
+			
+			if (confirm('Are you sure?') == true) {
+				window.location.href = "#/VMView";
+			}
+			
 		},
 
 		categoryChange : function(){

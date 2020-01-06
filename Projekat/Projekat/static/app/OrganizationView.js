@@ -62,19 +62,19 @@ Vue.component("OrganizationView", {
               </div>           
         </div>
         
-        <div style="margin-left: 30%; margin-top: 30px;"> 
+        <div style="margin-left: 25%; margin-top: 30px;"> 
         
-        <h2 style="margin-left: 15%;margin-bot: 15%;"><i>Organizations view</i></h2>
+        <h2 style="margin-left: 20%;margin-bot: 15%;"><i>Organizations view</i></h2>
         
         <table class="viewTable">
           <tr>
             <th>Ime</th>
-            <th>Opis</th>
+            <th style = "width: 300px">Opis</th>
             <th>Logo</th>
           </tr>
-          <tr v-for="org in orgs" @click="sendData(org)">
+          <tr align="center" v-for="org in orgs" @click="sendData(org)">
           	<td>{{org.ime}}</td>
-            <td>{{org.opis}}</td>
+            <td >{{org.opis}}</td>
             <td><output>
 				      <img :src="org.logo" v-if="org.logo !== ''">
 				      <p v-else>No logo found</p>
@@ -84,7 +84,7 @@ Vue.component("OrganizationView", {
       </table>
       
       <div v-if="active_admin">
-        <button @click="addNew" type="submit" style="width: 150px; margin-left: 165px;margin-top: 20px;">Add new organization</button>
+        <button @click="addNew" type="submit" style="width: 150px; margin-left: 240px;margin-top: 15px;">Add new organization</button>
 	 </div>
       
 	</div>

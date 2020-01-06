@@ -1,4 +1,4 @@
-Vue.component("izmena-bisanje-korisnika", {
+Vue.component("izmena-brisanje-korisnika", {
 	data: function (){
 		return {
 			kor: null,
