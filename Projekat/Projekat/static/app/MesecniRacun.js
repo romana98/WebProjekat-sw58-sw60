@@ -69,7 +69,6 @@ Vue.component("mesecni-racun", {
               </div>           
         </div>
 
-		<div class="poravnajDiv">
 		<form id="form" class="login_form" method="post">
 		<table class="poravnaj"  v-if="active">
 			<tr>
@@ -96,6 +95,9 @@ Vue.component("mesecni-racun", {
 			<td>
 				<button class="dugme" type="submit" v-on:click="getTable(d)">Submit</button>
 			</td>
+			<td>
+				<button class="dugme" type="submit" v-on:click="cancel()">Back</button>
+			</td>
 			</tr>
 		</table>
 		
@@ -116,9 +118,7 @@ Vue.component("mesecni-racun", {
 			</tr>
 		</table>
 		<br><br>
-		<button class="dugme" type="submit" v-on:click="cancel()">Back</button>
 	</form>
-	</div>
 	
 	</div>
 	`	
@@ -130,6 +130,10 @@ Vue.component("mesecni-racun", {
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
 			}
+		},
+		cancel()
+		{
+			window.location.href = "#/VMView";
 		},
 		getTable(d)
 		{
