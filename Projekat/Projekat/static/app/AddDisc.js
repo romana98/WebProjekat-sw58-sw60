@@ -1,15 +1,14 @@
 Vue.component("AddDisc", {
 	data: function (){
 		return {
-		opis : null,
-		logo : '',
 		ime : null,
 		active_superadmin : null,
 		active_user : null,
 		prikazi : false,
 		kapacitet : null,
 		virtm : null,
-		vms : null
+		vms : null,
+		selected_vm : null
 		}
 	},
 	template:`
@@ -81,7 +80,7 @@ Vue.component("AddDisc", {
             <input id="kapacitet" class="addForm" type="text" v-model="kapacitet"><br><br>
             
             <label v-if="active_superadmin" style="text-align: right;">Virtualna masina: </label>
-            <select v-if="active_superadmin" id="virtm" class="addForm" style="width: 160px;" v-model="virtm">
+            <select v-if="active_superadmin" id="virtm" class="addForm" style="width: 160px;" v-model="virtm" @change="onVMChange">
             	<option v-for="vm in vms">{{vm.ime.split('&')[0]}}</option>
             </select><br><br>
             
@@ -119,6 +118,20 @@ Vue.component("AddDisc", {
 			
 		},
 		
+		onVMChange : function(){
+
+			axios.get('/rest/virtualne/getVMID', {params:{
+				VMID: this.virtm
+				
+
+				}}).then(response =>{
+					this.selected_vm = response.data;
+					console.log(this.selected_vm);
+					
+			});	
+			
+			
+		},
 		
 		addNew : function(){
 			//provera da li su polja popunjena
@@ -155,10 +168,12 @@ Vue.component("AddDisc", {
 			if(dont === false){
 			
 			axios
-			.post('rest/organizacije/addOrganizacija',  {"ime":'' + this.ime, "opis":'' + this.opis, "logo":''+this.logo })
+			.post('rest/diskovi/addDisk',  {"ime":'' + this.ime, "kapacitet":'' + this.kapacitet,
+				mojaVirtualnaMasina:{"ime": this.selected_vm.ime, kategorija:{"ime": this.selected_vm.kategorija.ime, "br_jezgara" : this.selected_vm.kategorija.br_jezgara
+					,"RAM" : this.selected_vm.kategorija.RAM,"GPU" : this.selected_vm.kategorija.GPU}} })
 			.then(response => {
 				if(response.data.toString() === "200"){
-					window.location.href = "#/OrganizationView"
+					window.location.href = "#/DiscView"
 					this.prikazi = false;
 				}
 				else{

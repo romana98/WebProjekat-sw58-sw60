@@ -116,7 +116,6 @@ public class SparkMain {
 				}
 				return g.toJson(diskovi);
 			} else {
-				System.out.println(app.getDiskoviList().toString());
 				return g.toJson(app.getDiskoviList());
 			}
 
@@ -196,6 +195,15 @@ public class SparkMain {
 			}
 			return g.toJson(vm);
 		});
+		
+		get("/rest/virtualne/getVMID", (req, res) -> {
+			res.type("application/json");
+			VM vm = app.getVirtualneID(req.queryMap("VMID").value());
+			return g.toJson(vm);
+		});
+		
+		
+		
 
 		post("rest/korisnici/addUser", (req, res) -> {
 			res.type("application/json");
@@ -314,6 +322,54 @@ public class SparkMain {
 				disk = new Disk();
 			}
 			return g.toJson(disk);
+		});
+		
+		post("rest/diskovi/addDisk", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			Disk disk = g.fromJson(payload, Disk.class);
+			System.out.println(disk.toString());
+			if(app.getDiskoviID(disk.getIme())!=null) {
+				return g.toJson("201");
+			}
+			VM vm = app.getVirtualneID(disk.getMojaVirtualnaMasina().getIme());
+			ArrayList<String> diskovi = vm.getDiskovi();
+			diskovi.add(disk.getIme());
+			vm.setDiskovi(diskovi);
+			disk.setMojaVirtualnaMasina(vm);
+			
+			for (Organizacija org:app.getOrganizacijeList()) {
+				for(String resurs : org.getResursi()) {
+					if (vm.getIme().equals(resurs)) {
+						ArrayList<String> resursi = org.getResursi();
+						resursi.add(disk.getIme());
+						org.setResursi(resursi);
+						for (Korisnik kor:app.getKorisniciList()) {
+							if (kor.getOrganizacija().getIme().equals(org.getIme())) {
+								kor.setOrganizacija(org);
+							
+							}
+						}
+						Files.UpisDisk(app.getDiskoviList());
+						Files.UpisKorisnik(app.getKorisniciList());
+						Files.UpisOrganizacija(app.getOrganizacijeList());
+						Files.UpisVM(app.getVirtualneList());
+						app.popuniMape();
+						return g.toJson("200");
+					}
+				}
+			}
+			
+			return g.toJson("201");
+			//sad gde sve ga treba dodati?
+			//nadjes vm, setujes je na disku 
+			//zatim toj vm dodas disk,
+			//e onda krece zabava, svugde de je vm ili gde je disk moras da updejtujes listu
+			//dakle sledece je da nadjes organizaciju kojoj vm pripada i u njene resurse dodas disk
+			//a zatim svakog korisnika cija je organizacija ona gore treba mu postaviti ovu sa izmenjenim resursima
+			
+			
+			
 		});
 
 		post("rest/diskovi/Brisanje", (req, res) -> {
