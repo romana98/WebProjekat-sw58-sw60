@@ -120,6 +120,15 @@ public class Aplikacija {
 				break;
 			}
 		}
+		
+		for (int i = 0; i < korisniciList.size(); i++) {
+			if(korisniciList.get(i).getOrganizacija().getIme().equals(name))
+			{
+				korisniciList.get(i).getOrganizacija().setIme(o.getIme());
+				korisniciList.get(i).getOrganizacija().setLogo(o.getLogo());
+				korisniciList.get(i).getOrganizacija().setOpis(o.getOpis());
+			}
+		}
 		organizacijeList.get(index).setIme(o.getIme());
 		organizacijeList.get(index).setOpis(o.getOpis());
 		organizacijeList.get(index).setLogo(o.getLogo());

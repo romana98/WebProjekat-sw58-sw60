@@ -394,7 +394,7 @@ public class SparkMain {
 
 				app.editKategorija(kat, name);
 				Files.UpisKategorija(app.getKategorijeList());
-
+				Files.UpisVM(app.getVirtualneList());
 				return ("200");
 			}
 			return ("201");
@@ -422,6 +422,7 @@ public class SparkMain {
 				}
 
 				app.editOrganizacija(o, name);
+				Files.UpisKorisnik(app.getKorisniciList());
 				Files.UpisOrganizacija(app.getOrganizacijeList());
 				return ("200");
 			}
