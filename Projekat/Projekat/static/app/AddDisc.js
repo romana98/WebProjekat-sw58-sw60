@@ -74,10 +74,10 @@ Vue.component("AddDisc", {
 
 
             <label  style="text-align: right;">Ime: </label>
-            <input id="ime" class="addForm" type="text" v-model="ime"><br><br>
+            <input id="ime" class="addForm" style="width: 160px" type="text" v-model="ime"><br><br>
             
             <label  style="text-align: right;">Kapacitet: </label>
-            <input id="kapacitet" class="addForm" type="text" v-model="kapacitet"><br><br>
+            <input id="kapacitet" class="addForm" type="text" style="width: 160px" v-model="kapacitet"><br><br>
             
             <label v-if="active_superadmin" style="text-align: right;">Virtualna masina: </label>
             <select v-if="active_superadmin" id="virtm" class="addForm" style="width: 160px;" v-model="virtm" @change="onVMChange">
@@ -134,34 +134,38 @@ Vue.component("AddDisc", {
 		},
 		
 		addNew : function(){
-			//provera da li su polja popunjena
+			// provera da li su polja popunjena
 			var dont = false;
 			this.prikazi = false;
 			if (this.ime === null || this.ime.length === 0){
-				document.getElementById("ime").setAttribute("style","width: 160px; border-color:red");
+				document.getElementById("ime").setAttribute("style","border-color:red");
 				dont = true;
 			}
 			else{
-				document.getElementById("ime").setAttribute("style","width: 160px; border-color:rgb(216, 216, 216)");
+				document.getElementById("ime").setAttribute("style","border-color:none");
 
 			}
 			if (this.kapacitet === null || this.kapacitet.length === 0){
-				document.getElementById("kapacitet").setAttribute("style","width: 160px; border-color:red");
+				document.getElementById("kapacitet").setAttribute("style","border-color:red");
 				dont = true;
+				
 			}
 			else{
-				
-				document.getElementById("kapacitet").setAttribute("style","width: 160px; border-color:rgb(216, 216, 216)");
-				
+				if(isNaN(this.kapacitet)){
+					document.getElementById("kapacitet").setAttribute("style","border-color:red");
+					dont = true;
+				}else{
+				document.getElementById("kapacitet").setAttribute("style","border-color:none");
+				}
 			}
 			
-			if (this.vm === null){
-				document.getElementById("virtm").setAttribute("style","width: 160px; border-color:red");
+			if (this.selected_vm === null){
+				document.getElementById("virtm").setAttribute("style","border: 1px solid red");
 				dont = true;
 			}
 			else{
 				
-				document.getElementById("virtm").setAttribute("style","width: 160px; border-color:rgb(216, 216, 216)");
+				document.getElementById("virtm").setAttribute("style"," border: 1px solid black");
 				
 			}
 			

@@ -140,54 +140,54 @@ Vue.component("AddUser", {
 			this.prikazi = false;
 
 			if (this.ime === null || this.ime.length === 0){
-				document.getElementById("ime").setAttribute("style","width: 160px; border-color:red");
+				document.getElementById("ime").setAttribute("style","border-color:red");
 				dont = true;
 			}
 			else{
-				document.getElementById("ime").setAttribute("style","width: 160px; border-color:rgb(255,255,255)");
+				document.getElementById("ime").setAttribute("style"," border-color:none");
 
 			}
 			if (this.prezime === null || this.prezime.length === 0){
-				document.getElementById("prezime").setAttribute("style","width: 160px; border-color:red");
+				document.getElementById("prezime").setAttribute("style","border-color:red");
 				dont = true;
 			}
 			else{
-				document.getElementById("prezime").setAttribute("style","width: 160px; border-color:rgb(255,255,255)");
+				document.getElementById("prezime").setAttribute("style"," border-color:none");
 				
 			}
 			if (this.email === null || this.email.length === 0){
-				document.getElementById("email").setAttribute("style","width: 160px; border-color:red");
+				document.getElementById("email").setAttribute("style"," border-color:red");
 				dont = true;
 			}
 			else{
-				document.getElementById("email").setAttribute("style","width: 160px; border-color:rgb(255,255,255)");
+				document.getElementById("email").setAttribute("style","border-color:none");
 				
 			}
 			if (this.sifra === null || this.sifra.length === 0){
-				document.getElementById("sifra").setAttribute("style","width: 160px; border-color:red");
+				document.getElementById("sifra").setAttribute("style","border-color:red");
 				dont = true;
 			}
 			else{
-				document.getElementById("sifra").setAttribute("style","width: 160px; border-color:rgb(255,255,255)");
+				document.getElementById("sifra").setAttribute("style","border-color:none");
 				
 			}
 			
 			if (this.selected_organizacija === null || this.selected_organizacija.length === 0){
-				document.getElementById("selected_organizacija").setAttribute("style","width: 160px; border-color:red");
+				document.getElementById("organizacija").setAttribute("style","width: 160px;border: 1px solid red;");
 				dont = true;
 			}
 			else{
 				if(this.active_superadmin === false){
-					document.getElementById("selected_organizacija").setAttribute("style","width: 160px; border-color:rgb(255,255,255)");
+					document.getElementById("organizacija").setAttribute("style","width: 160px;border: 1px solid black;)");
 				}
 			}
 			
 			if (this.uloga === null || this.uloga.length === 0){
-				document.getElementById("uloga").setAttribute("style","width: 160px; border-color:red");
+				document.getElementById("uloga").setAttribute("style","width: 160px;border: 1px solid red;");
 				dont = true;
 			}
 			else{
-				document.getElementById("uloga").setAttribute("style","width: 160px; border-color:rgb(255,255,255)");
+				document.getElementById("uloga").setAttribute("style","width: 160px;border: 1px solid black;");
 				
 			}
 			

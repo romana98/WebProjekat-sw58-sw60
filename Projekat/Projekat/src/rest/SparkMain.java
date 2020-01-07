@@ -337,7 +337,10 @@ public class SparkMain {
 			diskovi.add(disk.getIme());
 			vm.setDiskovi(diskovi);
 			disk.setMojaVirtualnaMasina(vm);
-			
+			ArrayList<Disk> diskovi_list = app.getDiskoviList();
+			diskovi_list.add(disk);
+			app.setDiskoviList(diskovi_list);
+			//KOD SVIH DISKOVA MORAS PROMENITI VM KOJOJ PRIPADAJU JER JE PROMENJENA, TJ SAMO KOD ONIH KOJE PRIPADAJU TOJ VM KOJA SE IZMENILA
 			for (Organizacija org:app.getOrganizacijeList()) {
 				for(String resurs : org.getResursi()) {
 					if (vm.getIme().equals(resurs)) {
