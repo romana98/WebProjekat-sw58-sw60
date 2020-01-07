@@ -83,8 +83,7 @@ Vue.component("CategoryView", {
       </table>
       
       <div v-if="active_admin || active_superadmin">
-        <button v-if="active_superadmin" @click="addNew" type="submit" style="width: 150px; margin-left: 20%;margin-top: 15px;">Add new VM</button>
-		<button v-else @click="addNew" type="submit" style="width: 150px; margin-left: 14%;margin-top: 15px;">Add new user</button>
+        <button v-if="active_superadmin" @click="addNew" type="submit" style="width: 150px; margin-left: 20%;margin-top: 15px;">Add new category</button>
 
 	 </div>
       
@@ -109,7 +108,7 @@ Vue.component("CategoryView", {
 	
 		addNew : function()
 		{
-			window.location.href = "#/addKategorije";
+			window.location.href = "#/addCategory";
 		},
 		
 		sendData : function(kategorija)
