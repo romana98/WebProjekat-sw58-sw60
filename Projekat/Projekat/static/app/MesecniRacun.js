@@ -95,9 +95,6 @@ Vue.component("mesecni-racun", {
 			<td>
 				<button class="dugme" type="submit" v-on:click="getTable(d)">Submit</button>
 			</td>
-			<td>
-				<button class="dugme" type="submit" v-on:click="cancel()">Back</button>
-			</td>
 			</tr>
 		</table>
 		
@@ -119,7 +116,9 @@ Vue.component("mesecni-racun", {
 		</table>
 		<br><br>
 	</form>
-	
+	<div class="poravnajDiv">
+	<button class="dugme" type="submit" v-on:click="cancel()">Back</button>
+	</div>
 	</div>
 	`	
 	,

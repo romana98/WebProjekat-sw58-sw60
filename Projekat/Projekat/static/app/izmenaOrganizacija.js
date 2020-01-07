@@ -91,7 +91,7 @@ Vue.component("izmena-organizacija", {
 				<td>Users:</td>
 				<td>
 					<select>
-						<option v-for="k in org.korisnici">{{k.ime}} {{k.prezime}}</option>		
+						<option v-for="k in org.korisnici">{{k}}</option>		
 					</select>
 				</td>
 			</tr>
@@ -99,7 +99,7 @@ Vue.component("izmena-organizacija", {
 				<td>Resurses:</td>
 				<td>
 					<select>
-						<option v-for="r in org.resursi">{{r.ime}}</option>		
+						<option v-for="r in org.resursi">{{r}}</option>		
 					</select>
 				</td>
 			</tr>
