@@ -173,7 +173,7 @@ Vue.component("izmena-profila", {
 				this.validate_name = false;
 			}
 			
-			if(kor.ime.match(letters))
+			if(kor.ime.match(/^[A-Za-z]+$/))
 			{
 				this.validate_name_let = true;					
 			}
@@ -191,7 +191,7 @@ Vue.component("izmena-profila", {
 				this.validate_lastname = false;
 			}
 			
-			if(kor.prezime.match(letters))
+			if(kor.prezime.match(/^[A-Za-z]+$/))
 			{
 				this.validate_lastname_let = true;					
 			}

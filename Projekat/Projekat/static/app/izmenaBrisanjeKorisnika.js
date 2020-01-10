@@ -9,7 +9,6 @@ Vue.component("izmena-brisanje-korisnika", {
 			validate_lastname: false,
 			validate_lastname_let: false,
 			validate_pass: false,
-			letters = /^[A-Za-z]+$/,
 			email:''
 		}
 	},
@@ -140,7 +139,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			{
 				this.validate_name = false;
 			}
-			if(kor.ime.match(letters))
+			if(kor.ime.match(/^[A-Za-z]+$/))
 			{
 				this.validate_name_let = true;					
 			}
@@ -157,7 +156,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			{
 				this.validate_lastname = false;
 			}
-			if(kor.prezime.match(letters))
+			if(kor.prezime.match(/^[A-Za-z]+$/))
 			{
 				this.validate_lastname_let = true;					
 			}
