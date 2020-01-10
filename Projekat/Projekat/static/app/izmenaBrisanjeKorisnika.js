@@ -5,8 +5,11 @@ Vue.component("izmena-brisanje-korisnika", {
 			active: null,
 			uloge: ['admin', 'korisnik'],
 			validate_name: false,
+			validate_name_let: false,
 			validate_lastname: false,
+			validate_lastname_let: false,
 			validate_pass: false,
+			letters = /^[A-Za-z]+$/,
 			email:''
 		}
 	},
@@ -72,12 +75,14 @@ Vue.component("izmena-brisanje-korisnika", {
 			<tr>
 				<td>Name:</td>
 				<td><input type="text" name="ime" v-model="kor.ime"></input></td>
-				<td><label v-if="validate_name">You're missing field!</label></td>
+				<td><label v-if="validate_name">You're missing field!</label>
+				<label v-else-if="validate_name_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Lastname:</td>
 				<td><input type="text" name="prezime" v-model="kor.prezime"></input></td>
-				<td><label v-if="validate_lastname">You're missing field!</label></td>
+				<td><label v-if="validate_lastname">You're missing field!</label>
+				<label v-else-if="validate_lastname_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
@@ -135,6 +140,14 @@ Vue.component("izmena-brisanje-korisnika", {
 			{
 				this.validate_name = false;
 			}
+			if(kor.ime.match(letters))
+			{
+				this.validate_name_let = true;					
+			}
+			else
+			{
+				this.validate_name_let = false;
+			}
 			
 			if(kor.prezime.lenght === 0)
 			{
@@ -143,6 +156,14 @@ Vue.component("izmena-brisanje-korisnika", {
 			else
 			{
 				this.validate_lastname = false;
+			}
+			if(kor.prezime.match(letters))
+			{
+				this.validate_lastname_let = true;					
+			}
+			else
+			{
+				this.validate_lastname_let = false;
 			}
 			if(kor.lozinka.length === 0)
 			{

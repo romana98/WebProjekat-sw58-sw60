@@ -691,7 +691,7 @@ public class SparkMain {
 			return false;
 		}
 		if (k.getEmail().equals("") || k.getIme().equals("") || k.getPrezime().equals("") || k.getLozinka().equals("")
-				|| !k.getEmail().contains("@") || !k.getEmail().contains(".")) {
+				|| !k.getEmail().contains("@") || !k.getEmail().contains(".") || !k.getIme().matches("[a-zA-Z]+") || !k.getPrezime().matches("[a-zA-Z]+")) {
 			return false;
 		}
 		return true;

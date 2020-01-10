@@ -8,7 +8,9 @@ Vue.component("izmena-profila", {
 		validate_loz: false,
 		validate_loz_nd: false,
 		validate_name: false,
+		validate_name_let: false,
 		validate_lastname: false,
+		validate_lastname_let: false,
 		validate_match: false,
 		validate_email_form: false,
 		validate_email_exist: false
@@ -81,12 +83,14 @@ Vue.component("izmena-profila", {
 			<tr>
 				<td>Name:</td>
 				<td><input v-model=kor.ime></input></td>
-			<td><label v-if="validate_name">You're missing field!</label></td>
+				<td><label v-if="validate_name">You're missing field!</label>
+				<label v-else-if="validate_name_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>LastName:</td>
 				<td><input v-model=kor.prezime></input></td>
-				<td><label v-if="validate_lastname">You're missing field!</label></td>
+				<td><label v-if="validate_lastname">You're missing field!</label>
+				<label v-else-if="validate_lastname_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
@@ -169,6 +173,15 @@ Vue.component("izmena-profila", {
 				this.validate_name = false;
 			}
 			
+			if(kor.ime.match(letters))
+			{
+				this.validate_name_let = true;					
+			}
+			else
+			{
+				this.validate_name_let = false;
+			}
+			
 			if(kor.prezime.lenght === 0)
 			{
 				this.validate_lastname = true;
@@ -176,6 +189,15 @@ Vue.component("izmena-profila", {
 			else
 			{
 				this.validate_lastname = false;
+			}
+			
+			if(kor.prezime.match(letters))
+			{
+				this.validate_lastname_let = true;					
+			}
+			else
+			{
+				this.validate_lastname_let = false;
 			}
 			
 			if(!kor.email.includes('@') || !kor.email.includes('.'))
