@@ -192,6 +192,11 @@ public class SparkMain {
 			VM vm = app.getVirtualneID(req.queryMap("ime").value());
 			if (vm == null) {
 				vm = new VM();
+				res.status(400);
+			}
+			else
+			{
+				res.status(200);
 			}
 			return g.toJson(vm);
 		});
@@ -292,21 +297,29 @@ public class SparkMain {
 			VM vm = g.fromJson(payload, VM.class);
 			if (checkVM(vm)) {
 				if (checkImeVM(vm, name)) {
-					return ("202");
+					res.status(400);
+					return ("400 Bad Request");
 				}
 
 				app.editVM(vm, name);
 				Files.UpisOrganizacija(app.getOrganizacijeList());
 				Files.UpisVM(app.getVirtualneList());
+				res.status(200);
 				return ("200");
 			}
-			return ("201");
+			res.status(400);
+			return ("400 Bad Request");
 		});
 
 		post("rest/vm/Brisanje", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
 			VM vm = g.fromJson(payload, VM.class);
+			if(vm == null)
+			{
+				res.status(400);
+				return ("400 Bad Request");
+			}
 			app.removeVM(vm);
 
 			Files.UpisVM(app.getVirtualneList());
@@ -320,6 +333,11 @@ public class SparkMain {
 			Disk disk = app.getDiskoviID(req.queryMap("ime").value());
 			if (disk == null) {
 				disk = new Disk();
+				res.status(400);	
+			}
+			else
+			{
+				res.status(200);
 			}
 			return g.toJson(disk);
 		});
@@ -379,10 +397,16 @@ public class SparkMain {
 			res.type("application/json");
 			String payload = req.body();
 			Disk disk = g.fromJson(payload, Disk.class);
+			if(disk == null)
+			{
+				res.status(400);
+				return ("400 Bad Request");
+			}
 			app.removeDisk(disk);
 
 			Files.UpisDisk(app.getDiskoviList());
 			Files.UpisVM(app.getVirtualneList());
+			res.status(200);
 			return ("OK");
 		});
 
@@ -393,15 +417,18 @@ public class SparkMain {
 			Disk disk = g.fromJson(payload, Disk.class);
 			if (checkDisk(disk)) {
 				if (checkImeDisk(disk, name)) {
-					return ("202");
+					res.status(400);
+					return ("400 Bad Request");
 				}
 
 				app.editDisk(disk, name);
 				Files.UpisDisk(app.getDiskoviList());
 				Files.UpisVM(app.getVirtualneList());
+				res.status(200);
 				return ("200");
 			}
-			return ("201");
+			res.status(400);
+			return ("400 Bad Request");
 		});
 
 		//MESECNI RACUN
@@ -413,7 +440,11 @@ public class SparkMain {
 			Korisnik k = ss.attribute("user");
 			HashMap<String, Double> map = app.calculate(k, dates);
 			if (map.isEmpty())
-				return ("201");
+			{
+				res.status(400);
+				return ("400 Bad Request");
+			}
+			res.status(200);
 			return g.toJson(map);
 		});
 
@@ -424,6 +455,11 @@ public class SparkMain {
 
 			if (kat == null) {
 				kat = new KategorijaVM();
+				res.status(400);
+			}
+			else
+			{
+				res.status(200);
 			}
 			return g.toJson(kat);
 		});
@@ -436,9 +472,11 @@ public class SparkMain {
 				app.removeKategorija(kat);
 
 				Files.UpisKategorija(app.getKategorijeList());
+				res.status(200);
 				return ("200");
 			}
-			return ("201");
+			res.status(400);
+			return ("400 Bad Request");
 		});
 
 		post("rest/kategorije/Izmena", (req, res) -> {
@@ -448,15 +486,18 @@ public class SparkMain {
 			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
 			if (checkKat(kat)) {
 				if (checkImeKat(kat, name)) {
-					return ("202");
+					res.status(400);
+					return ("400 Bad Request");
 				}
 
 				app.editKategorija(kat, name);
 				Files.UpisKategorija(app.getKategorijeList());
 				Files.UpisVM(app.getVirtualneList());
+				res.status(200);
 				return ("200");
 			}
-			return ("201");
+			res.status(400);
+			return ("400 Bad Request");
 		});
 
 		//ORGANIZACIJE
@@ -466,6 +507,11 @@ public class SparkMain {
 			//Organizacija o = app.getOrganizacijaID("FTN");
 			if (o == null) {
 				o = new Organizacija();
+				res.status(400);
+			}
+			else
+			{
+				res.status(200);
 			}
 			return g.toJson(o);
 		});
@@ -477,15 +523,18 @@ public class SparkMain {
 			Organizacija o = g.fromJson(payload, Organizacija.class);
 			if (checkOrganization(o)) {
 				if (checkImeOrg(o, name)) {
-					return ("202");
+					res.status(400);
+					return ("400 Bad Request");
 				}
 
 				app.editOrganizacija(o, name);
 				Files.UpisKorisnik(app.getKorisniciList());
 				Files.UpisOrganizacija(app.getOrganizacijeList());
+				res.status(200);
 				return ("200");
 			}
-			return ("201");
+			res.status(400);
+			return ("400 Bad Request");
 		});
 
 		//RAD SA ULOGOVANIM
@@ -501,6 +550,7 @@ public class SparkMain {
 			res.type("application/json");
 			Session ss = req.session(false);
 			ss.invalidate();
+			res.status(200);
 			return "OK";
 
 		});
@@ -535,6 +585,11 @@ public class SparkMain {
 			Korisnik k = app.getKorisnikID(req.queryMap().value("email"));
 			if (k == null) {
 				k = new Korisnik();
+				res.status(400);
+			}
+			else
+			{
+				res.status(200);
 			}
 			return g.toJson(k);
 		});
@@ -550,24 +605,38 @@ public class SparkMain {
 			if (checkUser(k)) {
 				if (k.getUloga() == null) {
 					if (checkEmail(k, active))
-						return ("202");
+						res.status(400);
+						return ("400 Bad Request");
 				}
 				app.editKorisnik(k, active.getEmail());
 				Files.UpisKorisnik(app.getKorisniciList());
+				res.status(200);
 				return ("200");
 			}
-			return ("201");
+			res.status(400);
+			return ("400 Bad Request");
 		});
 
 		post("rest/korisnici/Brisanje", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
+			if(k == null)
+			{
+				res.status(400);
+				return ("400 Bad Request");
+			}
+			res.status(200);
 			app.removeKorisnik(k);
 
 			Files.UpisKorisnik(app.getKorisniciList());
 			Files.UpisOrganizacija(app.getOrganizacijeList());
 			return ("OK");
+		});
+		
+		post("rest/forbidden", (req, res) -> {
+			res.status(403);
+			return("Access forbidden");
 		});
 	}
 

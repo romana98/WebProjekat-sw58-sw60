@@ -22,7 +22,7 @@ const Forbidden = {template: '<forbidden></forbidden>'}
 const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
-		  	{ path: '/Login', name:'login', component: login},
+		  	{ path: '/', name:'login', component: login},
 		    { path: '/Organization', name:'organization', component: izmenaOrganizacija }, //params.ime
 		    { path: '/User', name:'user', component: izmenaBrisanjeKorisnika }, //params.email
 		    { path: '/Profil', name:'profil', component: izmenaProfila },

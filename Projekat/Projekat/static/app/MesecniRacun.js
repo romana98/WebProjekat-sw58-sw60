@@ -20,7 +20,7 @@ Vue.component("mesecni-racun", {
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
-               <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="#/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -213,8 +213,16 @@ Vue.component("mesecni-racun", {
 		
 		isForbidden : function(active)
 		{
-			if(active.uloga !== 'admin')
+			if (active == null)
 			{
+				axios
+				.post('rest/forbidden');
+				window.location.href = "#/Forbidden"
+			}
+			else if(active.uloga !== 'admin')
+			{
+				axios
+				.post('rest/forbidden');
 				window.location.href = "#/Forbidden"
 			}
 		}

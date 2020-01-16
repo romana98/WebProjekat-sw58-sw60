@@ -18,7 +18,7 @@ Vue.component("izmena-brisanje-vm", {
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="#/login" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="#/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
