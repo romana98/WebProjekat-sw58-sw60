@@ -22,7 +22,7 @@ Vue.component("izmena-profila", {
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="#/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -252,17 +252,37 @@ Vue.component("izmena-profila", {
 				axios.get('rest/logOut')
 			}
 			
+		},
+		
+		isForbidden : function(active)
+		{
+			if (active == null)
+			{
+				window.location.href = "#/Forbidden"
+			}
+			else
+			{
+			axios
+			.post('rest/forbidden', {'salje': 'profil'}).then(response => {
+				if(response.data.toString() !== ("200"))
+				{
+					window.location.href = "#/Forbidden"
+				}
+			});
+			}
 		}
 
 
 	},
+	
 	mounted()
 	{
 		axios
 			.get('rest/korisnici/getActiveUser')
 			.then(response =>{
 				this.kor = response.data,
-				this.active = this.kor.uloga
+				this.active = this.kor.uloga,
+				this.isForbidden(response.data)
 			});
 	}
 	

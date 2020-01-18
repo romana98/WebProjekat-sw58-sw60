@@ -14,7 +14,7 @@ Vue.component("izmena-organizacija", {
 		<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="#/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -222,16 +222,23 @@ Vue.component("izmena-organizacija", {
 		{
 			if (active == null)
 			{
-				axios
-				.post('rest/forbidden');
 				window.location.href = "#/Forbidden"
 			}
 			else if(active.uloga === 'korisnik')
 			{
-				axios
-				.post('rest/forbidden');
 				window.location.href = "#/Forbidden"
 			}
+			else
+			{
+			axios
+			.post('rest/forbidden', {'salje': 'organizacijaIzmena'}).then(response => {
+				if(response.data.toString() !== ("200"))
+				{
+					window.location.href = "#/Forbidden"
+				}
+			});
+			}
+			
 		}
 		
 	},

@@ -18,7 +18,7 @@ Vue.component("izmena-brisanje-vm", {
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="#/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -269,6 +269,25 @@ Vue.component("izmena-brisanje-vm", {
 				month = '0'+(date.getMonth()+1);		
 			}
 			return date.getFullYear()+'-'+month+'-'+day +'T' +hours + ':' + minutes;
+		},
+		
+		isForbidden : function(active)
+		{
+			if (active == null)
+			{
+				window.location.href = "#/Forbidden"
+			}
+			else
+			{
+			axios
+			.post('rest/forbidden', {'salje': 'vmIzmena'}).then(response => {
+				if(response.data.toString() !== ("200"))
+				{
+					window.location.href = "#/Forbidden"
+				}
+			});
+			}
+			
 		}
 	},
 	mounted()
@@ -291,7 +310,8 @@ Vue.component("izmena-brisanje-vm", {
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{
-			this.active = response.data
+			this.active = response.data,
+			this.isForbidden(response.data)
 		});
 	}	
 });

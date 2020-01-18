@@ -17,7 +17,6 @@
 <fullyQualifiedTypeName name="classes.Files"/>
 <fullyQualifiedTypeName name="classes.Organizacija"/>
 <fullyQualifiedTypeName name="classes.Korisnik"/>
-<fullyQualifiedTypeName name="spark.Request"/>
 <fullyQualifiedTypeName name="classes.VM"/>
 <fullyQualifiedTypeName name="classes.Aplikacija"/>
 <fullyQualifiedTypeName name="classes.KategorijaVM"/>
@@ -34,4 +33,6 @@
 <fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="java.math.BigDecimal"/>
 <fullyQualifiedTypeName name="java.math.RoundingMode"/>
+<fullyQualifiedTypeName name="com.google.gson.JsonObject"/>
+<fullyQualifiedTypeName name="spark.Request"/>
 </qualifiedTypeNameHistroy>

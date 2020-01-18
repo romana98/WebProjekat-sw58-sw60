@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import classes.Aplikacija;
 import classes.Dates;
@@ -22,6 +23,7 @@ import classes.Organizacija;
 
 import classes.VM;
 import enums.Uloga;
+import spark.Request;
 import spark.Session;
 
 public class SparkMain {
@@ -635,11 +637,63 @@ public class SparkMain {
 		});
 		
 		post("rest/forbidden", (req, res) -> {
+			String payload = req.body();
+			HashMap<String, String> salje = g.fromJson(payload, new TypeToken<HashMap<String, String>>(){}.getType());
+			if(provera(salje, req))
+			{
+				res.status(200);
+				return("200");
+			}
 			res.status(403);
 			return("Access forbidden");
 		});
 	}
 
+	public static boolean provera(HashMap<String, String> salje, Request req)
+	{
+		Session ss = req.session(true);
+		Korisnik k = ss.attribute("user");
+		System.out.println("here");
+		if(salje.get("salje").equals("mesecni"))
+		{
+			if(k == null)
+				{return false;}
+			
+			if(k.getUloga().equals(Uloga.Admin))
+				{return true;}
+			else 
+				{return false;}
+		}
+		else if(salje.get("salje").equals("profil") || salje.get("salje").equals("vmIzmena") || salje.get("salje").equals("diskIzmena"))
+		{
+			if(k == null)
+				{return false;}
+		}
+		else if(salje.get("salje").equals("organizacijaIzmena") || salje.get("salje").equals("korisnikIzmena"))
+		{
+			if(k == null)
+			{return false;}
+		
+			if(!k.getUloga().equals(Uloga.Korisnik))
+				{return true;}
+			else 
+				{return false;}
+		}
+		else if(salje.get("salje").equals("kategorijaIzmena") || salje.get("salje").equals("korisnikIzmena"))
+		{
+			if(k == null)
+			{return false;}
+		
+			if(k.getUloga().equals(Uloga.SuperAdmin))
+				{return true;}
+			else 
+				{return false;}
+		}
+		
+		
+		
+		return true;
+	}
 	public static boolean isRemove(KategorijaVM kat) {
 		for (int i = 0; i < app.getVirtualneList().size(); i++) {
 			if (app.getVirtualneList().get(i).getKategorija().getIme().equals(kat.getIme())) {
