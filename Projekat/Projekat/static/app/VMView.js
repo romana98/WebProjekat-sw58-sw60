@@ -25,7 +25,7 @@ Vue.component("VMView", {
                   </div>
                 </div>
                 <div class="dropdown">
-                    <button v-if="active_admin" class="dropbtn">Organizations 
+                    <button v-if="active_superadmin" class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
                       <a href="#/OrganizationView">View organizations</a>
@@ -46,14 +46,14 @@ Vue.component("VMView", {
                     </div>
                   </div>
                   <div class="dropdown">
-                    <button v-if="active_admin" class="dropbtn">Categories
+                    <button v-if="active_superadmin" class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
                       <a href="#/CategoryView">View categories</a>
                     </div>
                   </div>
                   <div class="dropdown" v-if="active_user.uloga === 'admin'">
-                    <button class="dropbtn">Monthly receipt
+                    <button v-if="active_admin" class="dropbtn">Monthly receipt
                     </button>
                     <div class="dropdown-content">
                       <a href="#/MonthlyReceipt">Get Monthly Receipt</a>
