@@ -200,20 +200,12 @@ Vue.component("izmena-brisanje-disk", {
 		
 		cancel : function()
 		{
-			console.log(this.aktivnost);
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			if(this.active !== 'korisnik')
-			{
-				if (confirm('If you go back, your changes won\'t be saved, go back?') == true) {
-					axios
-					.post('rest/diskovi/Izmena', {"ime":''})
-						.then(response=> {window.location.href = "#/DicsView"})
-				}
-			}
-			else
-			{
+			
+			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
 				window.location.href = "#/DicsView";
 			}
+			
 			
 		},
 		

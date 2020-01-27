@@ -201,12 +201,11 @@ Vue.component("izmena-organizacija", {
 		cancel : function()
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
+			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
+				window.location.href = "#/OrganizationView";
+			}
+
 			
-			if (confirm('If you go back, your changes won\'t be saved, go back?') == true) {
-				axios
-				.post('rest/organizacije/Izmena', {"ime":''})
-					.then(response=> {window.location.href = "#/OrganizationView"})
-			}	
 		},
 		
 		logOut : function()

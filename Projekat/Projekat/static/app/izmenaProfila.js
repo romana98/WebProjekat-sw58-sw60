@@ -226,11 +226,8 @@ Vue.component("izmena-profila", {
 		cancel : function()
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			
-			if (confirm('If you go back, your changes won\'t be saved, go back?') == true) {
-				axios
-				.post('rest/korisnici/Izmena', {"email":''+"p"})
-					.then(response=> {window.location.href = "#/VMView"})
+			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
+				window.location.href = "#/VMView";
 			}
 			
 		},

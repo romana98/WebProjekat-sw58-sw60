@@ -191,11 +191,10 @@ Vue.component("izmena-brisanje-korisnika", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
-			if (confirm('If you go back, your changes won\'t be saved, go back?') == true) {
-				axios
-				.post('rest/korisnici/Izmena', {"email":''+"p"})
-					.then(response=> {window.location.href = "#/UserView"})
+			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
+				window.location.href = "#/UserView";
 			}
+			
 		},
 		
 		deleteUser : function(email)

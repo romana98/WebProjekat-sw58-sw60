@@ -212,11 +212,10 @@ Vue.component("izmena-brisanje-kategorija", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
-			if (confirm('If you go back, your changes won\'t be saved, go back?') == true) {
-				axios
-				.post('rest/kategorije/Izmena', {"ime":''})
-					.then(response=> {window.location.href = "#/CategoryView"})
+			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
+				window.location.href = "#/CategoryView";
 			}
+			
 		},
 		
 		deleteKat : function(ime)

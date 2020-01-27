@@ -211,19 +211,11 @@ Vue.component("izmena-brisanje-vm", {
 		cancel : function()
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			
-			if(this.active !== 'korisnik')
-			{
-				if (confirm('If you go back, your changes won\'t be saved, go back?') == true) {
-					axios
-					.post('rest/vm/Izmena', {"ime":''})
-						.then(response=> {window.location.href = "#/VMView"})
-				}
-			}
-			else
-			{
+		
+			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
 				window.location.href = "#/VMView";
 			}
+			
 		},
 		
 		deleteVM : function(ime)
