@@ -25,14 +25,14 @@ Vue.component("UserView", {
                   </div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropbtn">Organizations 
+                    <button v-if="active_admin" class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
                       <a href="#/OrganizationView">View organizations</a>
                     </div>
                   </div>
                   <div class="dropdown">
-                    <button class="dropbtn">Users
+                    <button v-if="active_admin" class="dropbtn">Users
                     </button>
                     <div class="dropdown-content">
                       <a href="#/UserView">View users</a>
@@ -46,7 +46,7 @@ Vue.component("UserView", {
                     </div>
                   </div>
                   <div class="dropdown">
-                    <button class="dropbtn">Categories
+                    <button v-if="active_admin" class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
                       <a href="#/CategoryView">View categories</a>
@@ -59,7 +59,7 @@ Vue.component("UserView", {
                       <a href="#/MonthlyReceipt">Get Monthly Receipt</a>
                     </div>
                   </div>
-              </div>           
+              </div>      
         </div>
         
         <div style="margin-left: 32%; margin-top: 30px;">
