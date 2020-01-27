@@ -89,7 +89,7 @@ Vue.component("AddCategory", {
             <button style="width: 100px;" v-on:click="back">Back</button>
             <button style="float: right; width: 100px;" v-on:click="addNew">Add</button><br><br>
             
-            <label v-if="prikazi" style="color:red">Vec postoji organizacija sa zadatim imenom!</label>
+            <label v-if="prikazi" style="color:red">Vec postoji kategorija sa zadatim imenom!</label>
           </form>
         </div >
 
@@ -133,7 +133,7 @@ Vue.component("AddCategory", {
 		{
 			
 			if (confirm('Are you sure?') == true) {
-				window.location.href = "#/OrganizationView";
+				window.location.href = "#/CategoryView";
 			}
 			
 		},
@@ -195,10 +195,10 @@ Vue.component("AddCategory", {
 			if(dont === false){
 			
 			axios
-			.post('rest/organizacije/addOrganizacija',  {"ime":'' + this.ime, "opis":'' + this.opis, "logo":''+this.logo })
+			.post('rest/kategorije/addKategorija',  {"ime":'' + this.ime, "br_jezgara":'' + this.br_jezgara, "RAM":''+this.ram, "GPU":''+this.gpu})
 			.then(response => {
 				if(response.data.toString() === "200"){
-					window.location.href = "#/OrganizationView"
+					window.location.href = "#/CategoryView"
 					this.prikazi = false;
 				}
 				else{

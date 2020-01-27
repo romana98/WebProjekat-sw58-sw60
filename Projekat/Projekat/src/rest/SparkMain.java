@@ -75,17 +75,17 @@ public class SparkMain {
 			return g.toJson(discs);
 		});
 
-		get("/rest/kategorije/getKategorije", (req, res) -> {
+		/*get("/rest/kategorije/getKategorije", (req, res) -> {
 			res.type("application/json");
 			Session ss = req.session(true);
 			Korisnik k = ss.attribute("user");
 			return g.toJson(app.getKategorijeList());
-			/*
+			
 			 * if (k.getUloga() == Uloga.SuperAdmin) { return
 			 * g.toJson(app.getOrganizacijeList()); } else { return
 			 * g.toJson(k.getOrganizacija()); }
-			 */
-		});
+			 
+		});*/
 
 		get("/rest/organizacije/getOrgID", (req, res) -> {
 			res.type("application/json");
@@ -209,7 +209,20 @@ public class SparkMain {
 			return g.toJson(vm);
 		});
 		
-		
+		post("rest/kategorije/addKategorija", (req, res) -> {
+			res.type("application/json");
+			String payload = req.body();
+			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
+			if(app.getKorisnikID(kat.getIme())==null) {
+				ArrayList<KategorijaVM> kategorije = app.getKategorijeList();
+				kategorije.add(kat);
+				app.setKategorijeList(kategorije);
+				app.popuniMape();
+				Files.UpisKategorija(app.getKategorijeList());
+				return "200";
+			}
+			return "400";
+		});
 		
 
 		post("rest/korisnici/addUser", (req, res) -> {
