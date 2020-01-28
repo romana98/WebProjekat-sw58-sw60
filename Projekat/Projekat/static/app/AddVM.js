@@ -25,50 +25,50 @@ Vue.component("AddVM", {
                <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
-            <div class="navbar">
+           <div class="navbar">
                 <div class="dropdown">
                   <button class="dropbtn">Virtual Machines
                   </button>
                   <div class="dropdown-content">
-                    <a href="#/VMView" v-on:click="a_clicked($event)">View VM's</a>
+                    <a href="#/VMView">View VM's</a>
                   </div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropbtn">Organizations 
+                    <button v-if="active_superadmin" class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/OrganizationView" v-on:click="a_clicked($event)">View organizations</a>
+                      <a href="#/OrganizationView">View organizations</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Users
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/UserView" v-on:click="a_clicked($event)">View users</a>
+                      <a href="#/UserView">View users</a>
                     </div>
                   </div>
                   <div class="dropdown">
                     <button class="dropbtn">Discs
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/DiscView" v-on:click="a_clicked($event)">View discs</a>
+                      <a href="#/DiscView">View discs</a>
                     </div>
                   </div>
                   <div class="dropdown">
-                    <button class="dropbtn">Categories
+                    <button v-if="active_superadmin" class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/CategoryView" v-on:click="a_clicked($event)">View categories</a>
+                      <a href="#/CategoryView">View categories</a>
                     </div>
                   </div>
-                  <div class="dropdown" v-if="active_user.uloga === 'admin'">
-                    <button class="dropbtn">Monthly receipt
+                  <div class="dropdown" v-if="active_admin">
+                    <button v-if="active_admin" class="dropbtn">Monthly receipt
                     </button>
                     <div class="dropdown-content">
-                      <a href="#/MonthlyReceipt" v-on:click="a_clicked($event)">Get Monthly Receipt</a>
+                      <a href="#/MonthlyReceipt">Get Monthly Receipt</a>
                     </div>
                   </div>
-              </div>           
+              </div>         
         </div>
 
         
@@ -260,9 +260,11 @@ Vue.component("AddVM", {
 			this.active_user = response.data;
 			if (this.active_user.uloga === "superadmin"){
 				this.active_superadmin = true;
+				this.active_admin = false;
 			}
 			else
 			{
+				this.active_admin = true;
 				this.active_superadmin = false;
 				this.selected_organizacija = this.active_user.organizacija.ime;
 				

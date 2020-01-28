@@ -115,7 +115,7 @@ Vue.component("OrganizationView", {
 			
 			this.$router.push({ name: 'organization', params: { ime: org.ime} });
 			//ovde saljes romani vm :))
-		}
+		},
 		
 		checkForbidden : function(){
 			
