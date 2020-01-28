@@ -109,15 +109,9 @@ Vue.component("izmena-brisanje-disk", {
 			</tr>
 			<tr>	
 			<td v-if="active.uloga === 'superadmin'">
-				<button class="dugme" type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
+				<button class="dugme" type="submit" v-on:click="deleteVM(vm.ime)">Delete Disc</button>
 			</td>
 			
-			<td v-if="active.uloga === 'superadmin' && aktivnost === ''">
-				<button class="dugme" type="submit" v-on:click="changeStateOff()">Turn off VM</button>
-			</td>
-			<td v-else-if="active.uloga === 'superadmin' && aktivnost !== ''">
-				<button class="dugme" type="submit" v-on:click="changeStateOn()">Turn on VM</button>
-			</td>
 			</tr>
 			</table>
 		</form>
@@ -132,23 +126,6 @@ Vue.component("izmena-brisanje-disk", {
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == false) {
 				event.preventDefault()
 			}
-		},
-		
-		changeStateOn : function()
-		{
-			document.getElementById("form").setAttribute("onsubmit","return false;");
-			var new_dates = {start_Date: "", finish_Date: ""};
-			new_dates.start_Date = this.getDate();
-			this.disk.mojaVirtualnaMasina.datumi.push(new_dates);
-			this.aktivnost = "";
-			
-		},
-		
-		changeStateOff : function()
-		{
-			document.getElementById("form").setAttribute("onsubmit","return false;");
-			this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date = this.getDate();
-			this.aktivnost = "off";
 		},
 		
 		save : function(disk, ime)
