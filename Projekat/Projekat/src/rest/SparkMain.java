@@ -212,16 +212,26 @@ public class SparkMain {
 		post("rest/kategorije/addKategorija", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
-			if(app.getKorisnikID(kat.getIme())==null) {
+			KategorijaVM kat;
+			try {
+				kat = g.fromJson(payload, KategorijaVM.class);
+			}
+			catch(Exception ex){
+				res.status(400);
+				return "Bad request";
+			}
+			
+			if(app.getKategorijeID(kat.getIme())==null) {
 				ArrayList<KategorijaVM> kategorije = app.getKategorijeList();
 				kategorije.add(kat);
 				app.setKategorijeList(kategorije);
 				app.popuniMape();
 				Files.UpisKategorija(app.getKategorijeList());
-				return "200";
+				res.status(200);
+				return "OK";
 			}
-			return "400";
+			res.status(401);
+			return "Already exists";
 		});
 		
 
@@ -662,51 +672,56 @@ public class SparkMain {
 		});
 	}
 
-	public static boolean provera(HashMap<String, String> salje, Request req)
-	{
+	public static boolean provera(HashMap<String, String> salje, Request req) {
 		Session ss = req.session(true);
 		Korisnik k = ss.attribute("user");
-		System.out.println("here");
-		if(salje.get("salje").equals("mesecni"))
-		{
-			if(k == null)
-				{return false;}
-			
-			if(k.getUloga().equals(Uloga.Admin))
-				{return true;}
-			else 
-				{return false;}
+		//sta moze samo admin
+		if (salje.get("salje").equals("mesecni")) {
+			if (k == null) {
+				return false;
+			}
+
+			if (k.getUloga().equals(Uloga.Admin)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (salje.get("salje").equals("profil") || salje.get("salje").equals("vmIzmena")
+				|| salje.get("salje").equals("diskIzmena")) {
+			if (k == null) {
+				return false;
+			}
+		} else if (salje.get("salje").equals("organizacijaIzmena") || salje.get("salje").equals("korisnikIzmena")
+				|| salje.get("salje").equals("AddDisc") || salje.get("salje").equals("AddVM")
+				|| salje.get("salje").equals("AddUser") || salje.get("salje").equals("UserView")) {
+			//sta mogu super admin i admin a ne moze korisnik
+			if (k == null) {
+				return false;
+			}
+
+			if (!k.getUloga().equals(Uloga.Korisnik)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (salje.get("salje").equals("kategorijaIzmena") || salje.get("salje").equals("korisnikIzmena") 
+					|| salje.get("salje").equals("AddCategory") || salje.get("salje").equals("CategoryView")
+					|| salje.get("salje").equals("AddOrganization")|| salje.get("salje").equals("OrganizationView")) {
+			//sta moze samo superadmin
+			if (k == null) {
+				return false;
+			}
+
+			if (k.getUloga().equals(Uloga.SuperAdmin)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
-		else if(salje.get("salje").equals("profil") || salje.get("salje").equals("vmIzmena") || salje.get("salje").equals("diskIzmena"))
-		{
-			if(k == null)
-				{return false;}
-		}
-		else if(salje.get("salje").equals("organizacijaIzmena") || salje.get("salje").equals("korisnikIzmena"))
-		{
-			if(k == null)
-			{return false;}
-		
-			if(!k.getUloga().equals(Uloga.Korisnik))
-				{return true;}
-			else 
-				{return false;}
-		}
-		else if(salje.get("salje").equals("kategorijaIzmena") || salje.get("salje").equals("korisnikIzmena"))
-		{
-			if(k == null)
-			{return false;}
-		
-			if(k.getUloga().equals(Uloga.SuperAdmin))
-				{return true;}
-			else 
-				{return false;}
-		}
-		
-		
-		
+
 		return true;
 	}
+
 	public static boolean isRemove(KategorijaVM kat) {
 		for (int i = 0; i < app.getVirtualneList().size(); i++) {
 			if (app.getVirtualneList().get(i).getKategorija().getIme().equals(kat.getIme())) {
@@ -760,6 +775,16 @@ public class SparkMain {
 		}
 
 		return false;
+	}
+
+	public static boolean checkEmptyArgs(ArrayList<String> args) {
+		//vraca true ako nema praznih argumenata
+		for (String arg : args) {
+			if (arg.equalsIgnoreCase("")) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static boolean checkVM(VM vm) {
@@ -827,7 +852,8 @@ public class SparkMain {
 			return false;
 		}
 		if (k.getEmail().equals("") || k.getIme().equals("") || k.getPrezime().equals("") || k.getLozinka().equals("")
-				|| !k.getEmail().contains("@") || !k.getEmail().contains(".") || !k.getIme().matches("[a-zA-Z]+") || !k.getPrezime().matches("[a-zA-Z]+")) {
+				|| !k.getEmail().contains("@") || !k.getEmail().contains(".") || !k.getIme().matches("[a-zA-Z]+")
+				|| !k.getPrezime().matches("[a-zA-Z]+")) {
 			return false;
 		}
 		return true;

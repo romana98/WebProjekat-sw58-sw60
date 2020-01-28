@@ -89,7 +89,7 @@ Vue.component("AddCategory", {
             <button style="width: 100px;" v-on:click="back">Back</button>
             <button style="float: right; width: 100px;" v-on:click="addNew">Add</button><br><br>
             
-            <label v-if="prikazi" style="color:red">Vec postoji kategorija sa zadatim imenom!</label>
+            <label v-if="this.prikazi" style="color:red">Vec postoji kategorija sa zadatim imenom!</label>
           </form>
         </div >
 
@@ -170,6 +170,7 @@ Vue.component("AddCategory", {
 			else{
 				if(isNaN(this.ram)){
 					document.getElementById("ram").setAttribute("style"," border-color:red");
+					dont = true;
 				}
 				else{
 					document.getElementById("ram").setAttribute("style"," border-color:none");
@@ -185,6 +186,7 @@ Vue.component("AddCategory", {
 				
 				if(isNaN(this.gpu)){
 					document.getElementById("gpu").setAttribute("style"," border-color:red");
+					dont = true;
 				}
 				else{
 					document.getElementById("gpu").setAttribute("style"," border-color:none");
@@ -195,18 +197,47 @@ Vue.component("AddCategory", {
 			
 			axios
 			.post('rest/kategorije/addKategorija',  {"ime":'' + this.ime, "br_jezgara":'' + this.br_jezgara, "RAM":''+this.ram, "GPU":''+this.gpu})
-			.then(response => {
-				if(response.data.toString() === "200"){
+			.then(response => {		
+				if(response.status === 200){
 					window.location.href = "#/CategoryView"
 					this.prikazi = false;
+				}
+				
+				
+				
+			}).catch(error => {
+				
+				if(error.response.status === 400){
+					window.location.href = "#/BadRequest"
+				}
+				else if(error.response.status === 403){
+					window.location.href = "#/Forbidden"
 				}
 				else{
 					this.prikazi = true;
 				}
+				
 			});	
 			}
 			
 			
+			
+		},
+		
+		checkForbidden : function(){
+			
+			axios
+			.post('rest/forbidden', {'salje': 'AddCategory'}).then(response => {
+				if(response.data.toString() !== ("200"))
+				{
+					window.location.href = "#/Forbidden"
+				}
+			}).catch(error => {
+				if (error.response.status === 403){
+					window.location.href = "#/Forbidden"
+
+				}
+			});
 			
 		}
 		
@@ -217,15 +248,16 @@ Vue.component("AddCategory", {
 		
 		axios.get('rest/korisnici/getActiveUser').then(response => {
 			this.active_user = response.data;
-			if (this.active_user.uloga === "admin"){
+			if (this.active_user.uloga === "superadmin"){
 				this.active_admin = true;
 			}
 			else
 			{
 				this.active_admin = false;
-				
 
 			}
+			this.checkForbidden();
+			
 			
 		}); 
 		

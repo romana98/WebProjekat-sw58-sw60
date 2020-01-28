@@ -115,8 +115,24 @@ Vue.component("CategoryView", {
 			
 			this.$router.push({ name: 'category', params: { kat_ime: kategorija.ime } });
 			
-		}
+		},
 		
+		checkForbidden : function(){
+			
+			axios
+			.post('rest/forbidden', {'salje': 'CategoryView'}).then(response => {
+				if(response.data.toString() !== ("200"))
+				{
+					window.location.href = "#/Forbidden"
+				}
+			}).catch(error => {
+				if (error.response.status === 403){
+					window.location.href = "#/Forbidden"
+
+				}
+			});
+			
+		}
 		
 	},
 	
@@ -146,7 +162,9 @@ Vue.component("CategoryView", {
 			else
 			{
 				this.active_superadmin = false;
+				
 			}
+			this.checkForbidden();
 		});
 		
 		

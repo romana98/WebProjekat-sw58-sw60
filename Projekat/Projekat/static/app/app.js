@@ -18,6 +18,7 @@ const izmenaBrisanjeKategorija = {template: '<izmena-brisanje-kategorija></izmen
 const MesecniRacun = {template: '<mesecni-racun></mesecni-racun>'}
 const NotFound = {template: '<not-found></not-found>'}
 const Forbidden = {template: '<forbidden></forbidden>'}
+const BadRequest = {template: '<badrequest></badrequest>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -41,6 +42,7 @@ const router = new VueRouter({
 		    { path: '/AddUser', name:'addUser', component: AddUser},
 		    { path: '/MonthlyReceipt', name:'monthly', component: MesecniRacun},
 		    { path: '/Forbidden', name:'forbidden', component: Forbidden},
+		    { path: '/BadRequest', name:'badrequest', component: BadRequest},
 		    { path: '*', name:'notFound', component: NotFound}
 	  ]
 });
