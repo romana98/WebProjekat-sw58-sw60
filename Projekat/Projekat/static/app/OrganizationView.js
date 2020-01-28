@@ -16,7 +16,7 @@ Vue.component("OrganizationView", {
                <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
-            <div class="navbar">
+             <div class="navbar">
                 <div class="dropdown">
                   <button class="dropbtn">Virtual Machines
                   </button>
@@ -25,14 +25,14 @@ Vue.component("OrganizationView", {
                   </div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropbtn">Organizations 
+                    <button v-if="active_superadmin" class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
                       <a href="#/OrganizationView">View organizations</a>
                     </div>
                   </div>
                   <div class="dropdown">
-                    <button class="dropbtn">Users
+                    <button v-if="active_admin" class="dropbtn">Users
                     </button>
                     <div class="dropdown-content">
                       <a href="#/UserView">View users</a>
@@ -46,20 +46,20 @@ Vue.component("OrganizationView", {
                     </div>
                   </div>
                   <div class="dropdown">
-                    <button class="dropbtn">Categories
+                    <button v-if="active_superadmin" class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
                       <a href="#/CategoryView">View categories</a>
                     </div>
                   </div>
                   <div class="dropdown" v-if="active_user.uloga === 'admin'">
-                    <button class="dropbtn">Monthly receipt
+                    <button v-if="active_admin" class="dropbtn">Monthly receipt
                     </button>
                     <div class="dropdown-content">
                       <a href="#/MonthlyReceipt">Get Monthly Receipt</a>
                     </div>
                   </div>
-              </div>           
+              </div>          
         </div>
         
         <div style="margin-left: 25%; margin-top: 30px;"> 
