@@ -10,7 +10,8 @@ Vue.component("izmena-brisanje-vm", {
 			today:'',
 			today_text:'',
 			active:null,
-			aktivnost:null
+			aktivnost:null,
+			active_superadmin : null
 		}
 	},
 	template:`
@@ -30,13 +31,13 @@ Vue.component("izmena-brisanje-vm", {
                   </div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropbtn">Organizations 
+                    <button v-if="active_superadmin" class="dropbtn">Organizations 
                     </button>
                     <div class="dropdown-content">
                       <a href="#/OrganizationView" v-on:click="a_clicked($event)">View organizations</a>
                     </div>
                   </div>
-                  <div class="dropdown">
+                  <div class="dropdown" v-if="active.uloga !== 'korisnik'">
                     <button class="dropbtn">Users
                     </button>
                     <div class="dropdown-content">
@@ -51,7 +52,7 @@ Vue.component("izmena-brisanje-vm", {
                     </div>
                   </div>
                   <div class="dropdown">
-                    <button class="dropbtn">Categories
+                    <button v-if="active_superadmin" class="dropbtn">Categories
                     </button>
                     <div class="dropdown-content">
                       <a href="#/CategoryView" v-on:click="a_clicked($event)">View categories</a>
@@ -61,10 +62,10 @@ Vue.component("izmena-brisanje-vm", {
                     <button class="dropbtn">Monthly receipt
                     </button>
                     <div class="dropdown-content">
-                       <a href="#/MonthlyReceipt" v-on:click="a_clicked($event)">Get Monthly Receipt</a>
+                      <a href="#/MonthlyReceipt">Get Monthly Receipt</a>
                     </div>
                   </div>
-              </div>           
+              </div>            
         </div>
 
 		<form id="form" class="login_form" method="post">
@@ -211,7 +212,12 @@ Vue.component("izmena-brisanje-vm", {
 		cancel : function()
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-		
+			console.log(this.active)
+			if(this.active.uloga === 'korisnik')
+			{
+				window.location.href = "#/VMView";
+			}
+			else
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
 				window.location.href = "#/VMView";
 			}
@@ -299,11 +305,21 @@ Vue.component("izmena-brisanje-vm", {
 				this.vm = response.data,
 				this.aktivnost = this.vm.datumi[this.vm.datumi.length-1].finish_Date
 			});	
+		
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{
-			this.active = response.data,
+			this.active = response.data;
+			if (this.active.uloga === "superadmin"){
+				this.active_superadmin = true;
+			}
+			else
+			{
+				this.active_superadmin = false;
+			}
+			
 			this.isForbidden(response.data)
 		});
+		
 	}	
 });
