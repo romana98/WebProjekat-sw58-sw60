@@ -104,9 +104,7 @@ Vue.component("AddDisc", {
 			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
-					.then(response=> {window.location.href = "#/login"})
 			}
-			
 		},
 		
 		back : function()

@@ -102,7 +102,6 @@ Vue.component("UserView", {
 			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
-					.then(response=> {window.location.href = "#/login"})
 			}
 			
 		},
