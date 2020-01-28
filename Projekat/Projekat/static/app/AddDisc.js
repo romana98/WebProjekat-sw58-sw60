@@ -186,6 +186,18 @@ Vue.component("AddDisc", {
 			
 			
 			
+		},
+		
+		checkForbidden : function(){
+			
+			axios
+			.post('rest/forbidden', {'salje': 'AddDisc'}).catch(error => {
+				if (error.response.status === 403){
+					window.location.href = "#/Forbidden"
+
+				}
+			});
+			
 		}
 		
 		
@@ -213,7 +225,7 @@ Vue.component("AddDisc", {
 				this.active_superadmin = true;
 
 			}
-			
+			this.checkForbidden();
 		}); 
 		
 		

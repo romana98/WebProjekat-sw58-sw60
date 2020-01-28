@@ -218,6 +218,19 @@ Vue.component("AddVM", {
 			
 			
 			
+		},
+		
+		
+		checkForbidden : function(){
+			
+			axios
+			.post('rest/forbidden', {'salje': 'AddVM'}).catch(error => {
+				if (error.response.status === 403){
+					window.location.href = "#/Forbidden"
+
+				}
+			});
+			
 		}
 		
 		
@@ -257,6 +270,7 @@ Vue.component("AddVM", {
 				
 
 			}
+			this.checkForbidden();
 			
 		}); 
 		

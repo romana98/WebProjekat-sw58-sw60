@@ -117,6 +117,18 @@ Vue.component("OrganizationView", {
 			//ovde saljes romani vm :))
 		}
 		
+		checkForbidden : function(){
+			
+			axios
+			.post('rest/forbidden', {'salje': 'AddOrganization'}).catch(error => {
+				if (error.response.status === 403){
+					window.location.href = "#/Forbidden"
+
+				}
+			});
+			
+		}
+		
 		
 	},
 	
@@ -146,6 +158,7 @@ Vue.component("OrganizationView", {
 			{
 				this.active_superadmin = false;
 			}
+			this.checkForbidden();
 		});
 		
 	}

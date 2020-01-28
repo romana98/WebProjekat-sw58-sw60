@@ -223,6 +223,18 @@ Vue.component("AddUser", {
 					this.selected_organizacija_type = response.data;
 					
 			});	
+		},
+		
+		checkForbidden : function(){
+			
+			axios
+			.post('rest/forbidden', {'salje': 'AddUser'}).catch(error => {
+				if (error.response.status === 403){
+					window.location.href = "#/Forbidden"
+
+				}
+			});
+			
 		}
 		
 		
@@ -245,6 +257,7 @@ Vue.component("AddUser", {
 				this.active_superadmin = false;
 				
 			}
+			this.checkForbidden();
 			
 		}); 
 		

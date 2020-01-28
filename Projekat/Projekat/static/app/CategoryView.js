@@ -120,12 +120,7 @@ Vue.component("CategoryView", {
 		checkForbidden : function(){
 			
 			axios
-			.post('rest/forbidden', {'salje': 'CategoryView'}).then(response => {
-				if(response.data.toString() !== ("200"))
-				{
-					window.location.href = "#/Forbidden"
-				}
-			}).catch(error => {
+			.post('rest/forbidden', {'salje': 'CategoryView'}).catch(error => {
 				if (error.response.status === 403){
 					window.location.href = "#/Forbidden"
 

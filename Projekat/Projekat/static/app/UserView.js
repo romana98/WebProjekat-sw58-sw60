@@ -116,6 +116,18 @@ Vue.component("UserView", {
 			
 			this.$router.push({ name: 'user', params: { email: korisnik.email } });
 			
+		},
+		
+		checkForbidden : function(){
+			
+			axios
+			.post('rest/forbidden', {'salje': 'UserView'}).catch(error => {
+				if (error.response.status === 403){
+					window.location.href = "#/Forbidden"
+
+				}
+			});
+			
 		}
 		
 		
@@ -148,6 +160,7 @@ Vue.component("UserView", {
 			{
 				this.active_superadmin = false;
 			}
+			this.checkForbidden();
 		});
 		
 		
