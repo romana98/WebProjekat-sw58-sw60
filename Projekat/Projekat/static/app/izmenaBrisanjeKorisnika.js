@@ -179,9 +179,9 @@ Vue.component("izmena-brisanje-korisnika", {
 				if(response.data.toString() === ("200"))
 				{
 					toast('User (' + kor.email + ') information is saved!');
-					window.location.href = "#/UserView"
+					this.$router.push({ name: 'UserView' })
 				}
-			});
+			}, error =>{});
 			
 			
 			
@@ -192,7 +192,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
-				window.location.href = "#/UserView";
+				this.$router.push({ name: 'UserView' })
 			}
 			
 		},
@@ -204,14 +204,15 @@ Vue.component("izmena-brisanje-korisnika", {
 			axios.get('rest/korisnici/getActiveUser')
 	        .then(response => {
 	      	  if (response.data.email === email){
-	      		toast('Error 400: Can\'t delete user!');
+	      		toast('Can\'t delete user!');
 	      	  }
 	      	  else{
 	      		axios
 				.post('rest/korisnici/Brisanje', {"email":''+email})
 				.then(response=> {
 					toast('User (' + email + ') deleted!'),
-					window.location.href = "#/UserView"})
+					this.$router.push({ name: 'UserView' })},
+					error => {toast('User doesn\'t exist!')})
 				
 	      	  }
 	        });
@@ -229,11 +230,11 @@ Vue.component("izmena-brisanje-korisnika", {
 		{
 			if (active == null)
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else if(active.uloga === 'korisnik')
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else
 			{
@@ -241,7 +242,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			.post('rest/forbidden', {'salje': 'korisnikIzmena'}).then(response => {
 				if(response.data.toString() !== ("200"))
 				{
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
 				}
 			});
 			}

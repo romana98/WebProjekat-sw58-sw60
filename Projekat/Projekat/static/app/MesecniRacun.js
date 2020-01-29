@@ -132,7 +132,7 @@ Vue.component("mesecni-racun", {
 		},
 		cancel()
 		{
-			window.location.href = "#/VMView";
+			this.$router.push({ name: 'VMView' })
 		},
 		getTable(d)
 		{
@@ -182,7 +182,7 @@ Vue.component("mesecni-racun", {
 							this.sum += this.resursi[key];
 						}
 					}
-				});	
+				}, error=>{});	
 			}
 		},
 		getDate()
@@ -215,11 +215,11 @@ Vue.component("mesecni-racun", {
 		{
 			if (active == null)
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else if(active.uloga !== 'admin')
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else
 			{
@@ -227,7 +227,7 @@ Vue.component("mesecni-racun", {
 			.post('rest/forbidden', {'salje': 'mesecni'}).then(response => {
 				if(response.data.toString() !== ("200"))
 				{
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
 				}
 			});
 			}

@@ -187,13 +187,13 @@ Vue.component("izmena-organizacija", {
 					if(response.data.toString() === ("200"))
 					{
 						toast('Organization (' + org.ime + ') information is saved!');	
-						window.location.href = "#/OrganizationView";
+						this.$router.push({ name: 'OrganizationView' })
 					}
 					else if(response.data.toString() === ("202"))
 					{
 						this.validate_name_exist = true; 
 					}
-				});
+				}, error=>{});
 				
 			
 		},
@@ -202,7 +202,7 @@ Vue.component("izmena-organizacija", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
-				window.location.href = "#/OrganizationView";
+				this.$router.push({ name: 'OrganizationView' })
 			}
 
 			
@@ -221,11 +221,11 @@ Vue.component("izmena-organizacija", {
 		{
 			if (active == null)
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else if(active.uloga === 'korisnik')
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else
 			{
@@ -233,7 +233,7 @@ Vue.component("izmena-organizacija", {
 			.post('rest/forbidden', {'salje': 'organizacijaIzmena'}).then(response => {
 				if(response.data.toString() !== ("200"))
 				{
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
 				}
 			});
 			}

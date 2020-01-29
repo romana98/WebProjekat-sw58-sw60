@@ -316,7 +316,6 @@ public class SparkMain {
 		});
 
 		post("rest/vm/Izmena", (req, res) -> {
-			res.type("application/json");
 			String payload = req.body();
 			String name = req.queryMap("imeOld").value();
 			VM vm = g.fromJson(payload, VM.class);
@@ -341,6 +340,11 @@ public class SparkMain {
 			String payload = req.body();
 			VM vm = g.fromJson(payload, VM.class);
 			if(vm == null)
+			{
+				res.status(400);
+				return ("400 Bad Request");
+			}
+			if(!app.getVirtualne().containsKey(vm.getIme()))
 			{
 				res.status(400);
 				return ("400 Bad Request");
@@ -427,6 +431,11 @@ public class SparkMain {
 				res.status(400);
 				return ("400 Bad Request");
 			}
+			if(!app.getDiskovi().containsKey(disk.getIme()))
+			{
+				res.status(400);
+				return ("400 Bad Request");
+			}
 			app.removeDisk(disk);
 
 			Files.UpisDisk(app.getDiskoviList());
@@ -436,7 +445,6 @@ public class SparkMain {
 		});
 
 		post("rest/diskovi/Izmena", (req, res) -> {
-			res.type("application/json");
 			String payload = req.body();
 			String name = req.queryMap("imeOld").value();
 			Disk disk = g.fromJson(payload, Disk.class);
@@ -490,7 +498,6 @@ public class SparkMain {
 		});
 
 		post("rest/kategorije/Brisanje", (req, res) -> {
-			res.type("application/json");
 			String payload = req.body();
 			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
 			if (isRemove(kat)) {
@@ -505,7 +512,6 @@ public class SparkMain {
 		});
 
 		post("rest/kategorije/Izmena", (req, res) -> {
-			res.type("application/json");
 			String payload = req.body();
 			String name = req.queryMap("imeOld").value();
 			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
@@ -542,7 +548,6 @@ public class SparkMain {
 		});
 
 		post("rest/organizacije/Izmena", (req, res) -> {
-			res.type("application/json");
 			String payload = req.body();
 			String name = req.queryMap("imeOld").value();
 			Organizacija o = g.fromJson(payload, Organizacija.class);
@@ -620,7 +625,6 @@ public class SparkMain {
 		});
 
 		post("rest/korisnici/Izmena", (req, res) -> {
-			res.type("application/json");
 			Session ss = req.session(true);
 			Korisnik active = ss.attribute("user");
 
@@ -647,6 +651,11 @@ public class SparkMain {
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
 			if(k == null)
+			{
+				res.status(400);
+				return ("400 Bad Request");
+			}
+			if(!app.getKorisnici().containsKey(k.getEmail()))
 			{
 				res.status(400);
 				return ("400 Bad Request");
@@ -723,6 +732,10 @@ public class SparkMain {
 	}
 
 	public static boolean isRemove(KategorijaVM kat) {
+		if(!app.getKategorije().containsKey(kat.getIme()))
+		{
+			return false;
+		}
 		for (int i = 0; i < app.getVirtualneList().size(); i++) {
 			if (app.getVirtualneList().get(i).getKategorija().getIme().equals(kat.getIme())) {
 				return false;
@@ -733,6 +746,10 @@ public class SparkMain {
 
 	public static boolean checkKat(KategorijaVM kat) {
 
+		if(!app.getKategorije().containsKey(kat.getIme()))
+		{
+			return false;
+		}
 		if (kat.getIme().equals("") || kat.getGPU() == 0 || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
 			return false;
 		}
@@ -756,6 +773,10 @@ public class SparkMain {
 
 	public static boolean checkOrganization(Organizacija o) {
 
+		if(!app.getOrganizacije().containsKey(o.getIme()))
+		{
+			return false;
+		}
 		if (o.getIme().equals("") || o.getOpis().equals("")) {
 			return false;
 		}
@@ -789,6 +810,10 @@ public class SparkMain {
 
 	public static boolean checkVM(VM vm) {
 
+		if(!app.getVirtualne().containsKey(vm.getIme()))
+		{
+			return false;
+		}
 		if (vm.getIme().equals("")) {
 			return false;
 		}
@@ -812,6 +837,10 @@ public class SparkMain {
 
 	public static boolean checkDisk(Disk d) {
 
+		if(!app.getDiskovi().containsKey(d.getIme()))
+		{
+			return false;
+		}
 		if (d.getIme().equals("") || d.getKapacitet() == 0) {
 			return false;
 		}
@@ -849,6 +878,10 @@ public class SparkMain {
 
 	public static boolean checkUser(Korisnik k) {
 		if (k.getEmail().equals("p")) {
+			return false;
+		}
+		if(!app.getKorisnici().containsKey(k.getEmail()))
+		{
 			return false;
 		}
 		if (k.getEmail().equals("") || k.getIme().equals("") || k.getPrezime().equals("") || k.getLozinka().equals("")

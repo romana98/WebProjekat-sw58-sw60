@@ -165,13 +165,13 @@ Vue.component("izmena-brisanje-disk", {
 					if(response.data.toString() === ("200"))
 					{
 						toast('Disc (' + disk.ime + ') information is saved!');	
-						window.location.href = "#/DicsView";
+						this.$router.push({ name: 'DicsView' })
 					}
 					else if(response.data.toString() === ("202"))
 					{
 						this.validate_name_exist = true; 
 					}
-				});	
+				}, error=>{});	
 			}
 		},
 		
@@ -181,11 +181,11 @@ Vue.component("izmena-brisanje-disk", {
 			
 			if(this.active.uloga === 'korisnik')
 			{
-				window.location.href = "#/DiscView";
+				this.$router.push({ name: 'DicsView' })
 			}
 			else
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
-				window.location.href = "#/DiscView";
+				this.$router.push({ name: 'DicsView' })
 			}
 			
 			
@@ -199,7 +199,8 @@ Vue.component("izmena-brisanje-disk", {
 			.post('rest/diskovi/Brisanje', {"ime":''+ime})
 			.then(response=> {
 				toast('Disk (' + ime + ') deleted!'),
-				window.location.href = "#/DicsView"})
+				this.$router.push({ name: 'DicsView' })},
+				error => {toast('Disc doesn\'t exist!')})
 		
 		},
 	
@@ -239,7 +240,7 @@ Vue.component("izmena-brisanje-disk", {
 		{
 			if (active == null)
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else
 			{
@@ -247,7 +248,7 @@ Vue.component("izmena-brisanje-disk", {
 			.post('rest/forbidden', {'salje': 'diskIzmena'}).then(response => {
 				if(response.data.toString() !== ("200"))
 				{
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
 				}
 			});
 			}

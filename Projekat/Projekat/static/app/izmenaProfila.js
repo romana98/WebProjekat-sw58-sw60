@@ -219,7 +219,7 @@ Vue.component("izmena-profila", {
 					{
 						this.validate_email_exist = true; 
 					}
-				});
+				}, error=>{});
 			
 		},
 		
@@ -227,7 +227,7 @@ Vue.component("izmena-profila", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
-				window.location.href = "#/VMView";
+				this.$router.push({ name: 'VMView' })
 			}
 			
 		},
@@ -255,7 +255,7 @@ Vue.component("izmena-profila", {
 		{
 			if (active == null)
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else
 			{
@@ -263,7 +263,7 @@ Vue.component("izmena-profila", {
 			.post('rest/forbidden', {'salje': 'profil'}).then(response => {
 				if(response.data.toString() !== ("200"))
 				{
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
 				}
 			});
 			}

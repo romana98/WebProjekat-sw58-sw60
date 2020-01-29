@@ -197,13 +197,13 @@ Vue.component("izmena-brisanje-kategorija", {
 					if(response.data.toString() === ("200"))
 					{
 						toast('Category (' + kat.ime + ') information is saved!');
-						window.location.href = "#/CategoryView";
+						this.$router.push({ name: 'CategoryView' });
 					}
 					else if(response.data.toString() === ("202"))
 					{
 						this.validate_name_exist = true; 
 					}
-				});	
+				}, error =>{});	
 			}
 			
 		},
@@ -213,7 +213,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
-				window.location.href = "#/CategoryView";
+				this.$router.push({ name: 'CategoryView' });
 			}
 			
 		},
@@ -221,20 +221,16 @@ Vue.component("izmena-brisanje-kategorija", {
 		deleteKat : function(ime)
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-      		
+      		console.log(ime)
 			axios
-			.post('rest/kategorije/Izmena', {"ime":''+ime})
+			.post('rest/kategorije/Brisanje', {"ime":''+ime})
 			.then(response=> {
 				if(response.data.toString() === ("200"))
 				{
 					toast('Category (' + ime + ') is deleted!');
-					window.location.href = "#/CategoryView";
+					this.$router.push({ name: 'CategoryView' });
 				}
-				else
-				{
-					toast('Category (' + ime + ') can\'t be deleted!');
-				}
-			})
+			}, error => {toast('Category (' + ime + ') can\'t be deleted!');})
 		
 		},
 	
@@ -249,11 +245,11 @@ Vue.component("izmena-brisanje-kategorija", {
 		{
 			if (active == null)
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else if(active.uloga !== 'superadmin')
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else
 			{
@@ -261,7 +257,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			.post('rest/forbidden', {'salje': 'kategorijaIzmena'}).then(response => {
 				if(response.data.toString() !== ("200"))
 				{
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
 				}
 			});
 			}
@@ -274,7 +270,6 @@ Vue.component("izmena-brisanje-kategorija", {
 			this.ime = this.$route.params.kat_ime;
 			
 		}
-		this.ime="PrvaKategorija";
 		axios
 			.get('rest/kategorije/getKategorija', { params: {"ime":''+this.ime}})
 			.then(response =>{

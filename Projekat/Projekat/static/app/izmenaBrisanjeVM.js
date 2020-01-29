@@ -199,13 +199,13 @@ Vue.component("izmena-brisanje-vm", {
 				if(response.data.toString() === ("200"))
 				{
 					toast('VM (' + vm.ime + ') information is saved!');
-					window.location.href = "#/VMView";
+					this.$router.push({ name: 'VMView' })
 				}
 				else if(response.data.toString() === ("202"))
 				{
 					this.validate_name_exist = true; 
 				}
-			});	
+			}, error=>{});	
 			
 		},
 		
@@ -215,11 +215,11 @@ Vue.component("izmena-brisanje-vm", {
 			console.log(this.active)
 			if(this.active.uloga === 'korisnik')
 			{
-				window.location.href = "#/VMView";
+				this.$router.push({ name: 'VMView' })
 			}
 			else
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
-				window.location.href = "#/VMView";
+				this.$router.push({ name: 'VMView' })
 			}
 			
 		},
@@ -232,7 +232,8 @@ Vue.component("izmena-brisanje-vm", {
 			.post('rest/vm/Brisanje', {"ime":''+ime})
 			.then(response=> {
 				toast('VM (' + ime + ') deleted!'),
-				window.location.href = "#/VMView"})
+				this.$router.push({ name: 'VMView' })},
+				error => {toast('VM doesn\'t exist!')})
 		
 		},
 	
@@ -273,7 +274,7 @@ Vue.component("izmena-brisanje-vm", {
 		{
 			if (active == null)
 			{
-				window.location.href = "#/Forbidden"
+				this.$router.push({ name: 'forbidden' })
 			}
 			else
 			{
@@ -281,7 +282,7 @@ Vue.component("izmena-brisanje-vm", {
 			.post('rest/forbidden', {'salje': 'vmIzmena'}).then(response => {
 				if(response.data.toString() !== ("200"))
 				{
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
 				}
 			});
 			}

@@ -492,6 +492,26 @@ public class Aplikacija {
 		this.diskoviList = diskoviList;
 	}
 
+	public HashMap<String, Korisnik> getKorisnici() {
+		return korisnici;
+	}
+
+	public HashMap<String, Organizacija> getOrganizacije() {
+		return organizacije;
+	}
+
+	public HashMap<String, KategorijaVM> getKategorije() {
+		return kategorije;
+	}
+
+	public HashMap<String, VM> getVirtualne() {
+		return virtualne;
+	}
+
+	public HashMap<String, Disk> getDiskovi() {
+		return diskovi;
+	}
+
 	
 	
 	
