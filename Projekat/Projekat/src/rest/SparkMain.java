@@ -746,10 +746,6 @@ public class SparkMain {
 
 	public static boolean checkKat(KategorijaVM kat) {
 
-		if(!app.getKategorije().containsKey(kat.getIme()))
-		{
-			return false;
-		}
 		if (kat.getIme().equals("") || kat.getGPU() == 0 || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
 			return false;
 		}
@@ -773,10 +769,6 @@ public class SparkMain {
 
 	public static boolean checkOrganization(Organizacija o) {
 
-		if(!app.getOrganizacije().containsKey(o.getIme()))
-		{
-			return false;
-		}
 		if (o.getIme().equals("") || o.getOpis().equals("")) {
 			return false;
 		}
@@ -810,10 +802,6 @@ public class SparkMain {
 
 	public static boolean checkVM(VM vm) {
 
-		if(!app.getVirtualne().containsKey(vm.getIme()))
-		{
-			return false;
-		}
 		if (vm.getIme().equals("")) {
 			return false;
 		}
@@ -837,10 +825,6 @@ public class SparkMain {
 
 	public static boolean checkDisk(Disk d) {
 
-		if(!app.getDiskovi().containsKey(d.getIme()))
-		{
-			return false;
-		}
 		if (d.getIme().equals("") || d.getKapacitet() == 0) {
 			return false;
 		}
@@ -880,10 +864,7 @@ public class SparkMain {
 		if (k.getEmail().equals("p")) {
 			return false;
 		}
-		if(!app.getKorisnici().containsKey(k.getEmail()))
-		{
-			return false;
-		}
+
 		if (k.getEmail().equals("") || k.getIme().equals("") || k.getPrezime().equals("") || k.getLozinka().equals("")
 				|| !k.getEmail().contains("@") || !k.getEmail().contains(".") || !k.getIme().matches("[a-zA-Z]+")
 				|| !k.getPrezime().matches("[a-zA-Z]+")) {
