@@ -127,7 +127,7 @@ Vue.component("izmena-brisanje-vm", {
 			<td v-if="active.uloga === 'admin' && aktivnost === ''">
 				<button class="dugme" type="submit" v-on:click="changeStateOff()">Turn off VM</button>
 			</td>
-			<td v-else-if="active.uloga === 'admin' && aktivnost !== ''">
+			<td v-else-if="active.uloga !== 'korisnik' && aktivnost !== ''">
 				<button class="dugme" type="submit" v-on:click="changeStateOn()">Turn on VM</button>
 			</td>
 			</tr>
