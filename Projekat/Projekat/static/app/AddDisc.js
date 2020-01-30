@@ -124,7 +124,7 @@ Vue.component("AddDisc", {
 
 				}}).then(response =>{
 					this.selected_vm = response.data;
-					console.log(this.selected_vm);
+					
 					
 			});	
 			

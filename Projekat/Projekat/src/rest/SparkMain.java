@@ -211,11 +211,77 @@ public class SparkMain {
 		
 	
 		
-		post("rest/fitler", (req,res) ->{
+		get("rest/filter", (req,res) ->{
 			res.type("application/json");
 			String naziv = req.queryMap("naziv").value();
-			return g.toJson("a");
-			//ovde si stao
+			boolean filtering;
+			int od;
+			int do_;
+			String filter = req.queryMap("filter").value();
+			try {
+				filtering = Boolean.parseBoolean(req.queryMap("filter_toggle").value());
+				od = Integer.parseInt(req.queryMap("od").value());
+				do_ = Integer.parseInt(req.queryMap("do").value());
+			}
+			catch(Exception e) {
+				res.status(400);
+				return g.toJson("Bad request");
+			}
+			
+			ArrayList<VM> name_vms = new ArrayList<VM>();
+			
+			
+			for (VM vm : app.getVirtualneList()) {
+				if(vm.getIme().contains(naziv)) {
+					name_vms.add(vm);
+				}
+			}
+			
+			if (name_vms.isEmpty()) {
+				res.status(201);
+				return g.toJson(name_vms);
+			}
+			
+			if(filtering) {
+				
+				ArrayList<VM> filter_vms = new ArrayList<VM>();
+
+				switch(filter) {
+					case "ram":
+						for(VM vm : name_vms) {
+							if (vm.getKategorija().getRAM() >= od && vm.getKategorija().getRAM() <= do_) {
+								filter_vms.add(vm);
+							}
+						}
+						break;
+					case "gpu":
+						for(VM vm : name_vms) {
+							if (vm.getKategorija().getGPU() >= od && vm.getKategorija().getGPU() <= do_) {
+								filter_vms.add(vm);
+							}
+						}
+						break;
+					case "br_jezgara":
+						for(VM vm : name_vms) {
+							if (vm.getKategorija().getBr_jezgara() >= od && vm.getKategorija().getBr_jezgara() <= do_) {
+								filter_vms.add(vm);
+							}
+						}
+						break;
+				}
+				if (filter_vms.isEmpty()) {
+					res.status(201);
+					return g.toJson(filter_vms);
+				}
+				else{
+					res.status(200);
+					return g.toJson(filter_vms);
+				}
+			}
+			else {
+				res.status(200);
+				return name_vms;
+			}
 		});
 		
 		post("rest/kategorije/addKategorija", (req, res) -> {

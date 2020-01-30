@@ -10,7 +10,8 @@ Vue.component("VMView", {
 		filter_toggle : true,
 		od :null,
 		do_ :null,
-		naziv : null
+		naziv : null,
+		noResult : false
 		}
 	},
 	template:`
@@ -97,6 +98,7 @@ Vue.component("VMView", {
         <input type="text" placeholder="Naziv" name="naziv" v-model="naziv"/><br><br>
         <input type="checkbox" name="filter" @click="toggle" checked="this.filter_toggle"> Filtering <br><br>
         <input type="submit"value="Primeni" @click="primeni"></button>
+        <label v-if="noResult" style="color:red">Nema rezultata</label>
       </form>
       
       <form class="pretragaForm">
@@ -153,23 +155,25 @@ Vue.component("VMView", {
 		},
 		
 		primeni : function(){
+			
 			event.preventDefault();
-			console.log(this.naziv);
-			console.log(this.filter);
-			console.log(this.filter_toggle);
-			console.log(this.od);
-			console.log(this.do_);
 			
 			axios
-			.post('rest/filter', {'naziv': this.naziv, 'filter': this.filter, 'filter_toggle':this.filter_toggle, 'od' : this.od,
-				'do' : this.do_}).then(response => {
-				if(response.data.toString() !== ("200"))
+			.get('rest/filter', {params: {naziv: this.naziv, filter: this.filter, filter_toggle:this.filter_toggle, od : this.od,
+				do : this.do_}}).then(response => {
+				if(response.status === 200)
 				{
-					
+						//sve ok
+						this.noResult = false;
+						this.vms = response.data;
+				}
+				else{
+					//toggle neki ispis da nema rezultata
+					this.noResult = true;
 				}
 			}).catch(error => {
-				if (error.response.status === 403){
-					
+				if (error.response.status === 400){
+					this.$router.push({ name: 'badrequest' })
 
 				}
 			});
