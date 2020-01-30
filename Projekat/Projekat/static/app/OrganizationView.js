@@ -83,7 +83,7 @@ Vue.component("OrganizationView", {
           </tr>
       </table>
       
-      <div v-if="active_admin">
+      <div v-if="active_admin" style="clear:left">
         <button @click="addNew" type="submit" style="width: 150px; margin-left: 240px;margin-top: 15px;">Add new organization</button>
 	 </div>
       

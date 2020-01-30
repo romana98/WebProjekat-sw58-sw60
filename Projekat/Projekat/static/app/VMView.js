@@ -5,7 +5,12 @@ Vue.component("VMView", {
 		vms : null,
 		active_admin : null,
 		active_superadmin : null,
-		help : null
+		help : null,
+		filter : null,
+		filter_toggle : true,
+		od :null,
+		do_ :null,
+		naziv : null
 		}
 	},
 	template:`
@@ -62,7 +67,10 @@ Vue.component("VMView", {
               </div>           
         </div>
         
-        <h2 style="margin: 15px;"><i>Table view</i></h2>
+        <h2 style="margin: 15px;float:left;padding-right:700px"><i>Table view</i></h2>
+        <h3 class="pretragaForm">Pretraga:</h3>
+		<h3 class="pretragaForm">Filtriranje: </h3>
+        
         
         <table class="viewTable">
           <tr>
@@ -83,11 +91,32 @@ Vue.component("VMView", {
           </tr>
       </table>
       
-      <div v-if="active_admin">
+      <br><br><br><br>
+      
+      <form class="pretragaForm" >
+        <input type="text" placeholder="Naziv" name="naziv" v-model="naziv"/><br><br>
+        <input type="checkbox" name="filter" @click="toggle" checked="this.filter_toggle"> Filtering <br><br>
+        <input type="submit"value="Primeni" @click="primeni"></button>
+      </form>
+      
+      <form class="pretragaForm">
+        <select style="width: 120px" v-model="filter">
+          <option value="br_jezgara">Broj jezgara</option>
+          <option value="gpu">GPU</option>
+          <option value="ram">RAM</option>
+        </select><br><br>
+        <input v-model="od" type="text" style="width: 50px" name="od" placeholder="Od"/>
+        <label> : </label>
+        <input v-model="do_" type="text" style="width: 50px" name="do" placeholder="Do"/>
+      </form>  
+     
+      <div v-if="active_admin" style="clear:left">
         <button @click="addNew" type="submit" style="width: 150px; margin: 10px;">Add new VM</button>
 	 </div>
+     
       
-        
+     
+      
         
         
         
@@ -116,8 +145,37 @@ Vue.component("VMView", {
 			console.log("Stisnut i poslat: " + VM.ime);
 			this.$router.push({ name: 'vm', params: { vm_ime: VM.ime.split('&')[0] } });
 			//ovde saljes romani vm :))
-		}
+		},
 		
+		toggle : function(){
+			this.filter_toggle = !this.filter_toggle;
+			
+		},
+		
+		primeni : function(){
+			event.preventDefault();
+			console.log(this.naziv);
+			console.log(this.filter);
+			console.log(this.filter_toggle);
+			console.log(this.od);
+			console.log(this.do_);
+			
+			axios
+			.post('rest/filter', {'naziv': this.naziv, 'filter': this.filter, 'filter_toggle':this.filter_toggle, 'od' : this.od,
+				'do' : this.do_}).then(response => {
+				if(response.data.toString() !== ("200"))
+				{
+					
+				}
+			}).catch(error => {
+				if (error.response.status === 403){
+					
+
+				}
+			});
+			
+			
+		}
 		
 	},
 	

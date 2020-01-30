@@ -209,6 +209,15 @@ public class SparkMain {
 			return g.toJson(vm);
 		});
 		
+	
+		
+		post("rest/fitler", (req,res) ->{
+			res.type("application/json");
+			String naziv = req.queryMap("naziv").value();
+			return g.toJson("a");
+			//ovde si stao
+		});
+		
 		post("rest/kategorije/addKategorija", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();

@@ -82,7 +82,7 @@ Vue.component("CategoryView", {
           </tr>
       </table>
       
-      <div v-if="active_admin || active_superadmin">
+      <div v-if="active_admin || active_superadmin" style="clear:left">
         <button v-if="active_superadmin" @click="addNew" type="submit" style="width: 150px; margin-left: 20%;margin-top: 15px;">Add new category</button>
 
 	 </div>

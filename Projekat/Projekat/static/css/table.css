@@ -1,3 +1,11 @@
+.pretragaForm 
+{
+  float:left;
+  width: 200px;
+  padding-left: 100px;
+
+}
+
 .poravnaj
 {
 	margin: auto;
@@ -176,6 +184,7 @@ div.background span {
       margin: 15px;
       border: 1px solid black;
       padding-right: 4px;
+      float:left;
     }
     .viewTable td,tr,th{
       margin: 75px;
