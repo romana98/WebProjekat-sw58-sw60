@@ -176,11 +176,8 @@ Vue.component("izmena-brisanje-korisnika", {
 			axios
 			.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga})
 			.then(response => {
-				if(response.data.toString() === ("200"))
-				{
 					toast('User (' + kor.email + ') information is saved!');
 					this.$router.push({ name: 'UserView' })
-				}
 			}, error =>{});
 			
 			

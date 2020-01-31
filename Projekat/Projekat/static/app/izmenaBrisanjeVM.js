@@ -196,16 +196,14 @@ Vue.component("izmena-brisanje-vm", {
 			axios
 			.post('rest/vm/Izmena',  {"ime":''+vm.ime, "datumi":vm.datumi}, {params:{"imeOld":''+ime}})
 			.then(response => {
-				if(response.data.toString() === ("200"))
-				{
 					toast('VM (' + vm.ime + ') information is saved!');
 					this.$router.push({ name: 'VMView' })
-				}
-				else if(response.data.toString() === ("202"))
+			}, error=>{
+				if(error.response.data.toString() === ("202"))
 				{
 					this.validate_name_exist = true; 
 				}
-			}, error=>{});	
+			});	
 			
 		},
 		

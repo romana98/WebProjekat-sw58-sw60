@@ -7,6 +7,8 @@ import static spark.Spark.staticFiles;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,10 +42,6 @@ public class SparkMain {
 		app = Files.Ucitavanje();
 
 		app.popuniMape();
-
-		get("/test", (req, res) -> {
-			return "Works";
-		});
 
 		get("/rest/organizacije/getOrganizacije", (req, res) -> {
 			res.type("application/json");
@@ -386,25 +384,31 @@ public class SparkMain {
 		post("rest/vm/Izmena", (req, res) -> {
 			String payload = req.body();
 			String name = req.queryMap("imeOld").value();
-			VM vm = g.fromJson(payload, VM.class);
+			VM vm  = null;
+			try {
+				vm = g.fromJson(payload, VM.class);
+			} catch (Exception e) {
+				res.status(400);
+				return ("400 Bad Request");
+			}
+			
 			if (checkVM(vm)) {
 				if (checkImeVM(vm, name)) {
 					res.status(400);
-					return ("400 Bad Request");
+					return ("202");
 				}
 
 				app.editVM(vm, name);
 				Files.UpisOrganizacija(app.getOrganizacijeList());
 				Files.UpisVM(app.getVirtualneList());
 				res.status(200);
-				return ("200");
+				return ("OK");
 			}
 			res.status(400);
 			return ("400 Bad Request");
 		});
 
 		post("rest/vm/Brisanje", (req, res) -> {
-			res.type("application/json");
 			String payload = req.body();
 			VM vm = g.fromJson(payload, VM.class);
 			if (vm == null) {
@@ -485,7 +489,6 @@ public class SparkMain {
 		});
 
 		post("rest/diskovi/Brisanje", (req, res) -> {
-			res.type("application/json");
 			String payload = req.body();
 			Disk disk = g.fromJson(payload, Disk.class);
 			if (disk == null) {
@@ -507,18 +510,24 @@ public class SparkMain {
 		post("rest/diskovi/Izmena", (req, res) -> {
 			String payload = req.body();
 			String name = req.queryMap("imeOld").value();
-			Disk disk = g.fromJson(payload, Disk.class);
+			Disk disk = null;
+			try {
+				disk = g.fromJson(payload, Disk.class);
+			} catch (Exception e) {
+				res.status(400);
+				return ("400 Bad Request");
+			}
 			if (checkDisk(disk)) {
 				if (checkImeDisk(disk, name)) {
 					res.status(400);
-					return ("400 Bad Request");
+					return ("202");
 				}
 
 				app.editDisk(disk, name);
 				Files.UpisDisk(app.getDiskoviList());
 				Files.UpisVM(app.getVirtualneList());
 				res.status(200);
-				return ("200");
+				return ("OK");
 			}
 			res.status(400);
 			return ("400 Bad Request");
@@ -534,7 +543,6 @@ public class SparkMain {
 			HashMap<String, Double> map = app.calculate(k, dates);
 			if (map.isEmpty()) {
 				res.status(400);
-				return ("400 Bad Request");
 			}
 			res.status(200);
 			return g.toJson(map);
@@ -562,7 +570,7 @@ public class SparkMain {
 
 				Files.UpisKategorija(app.getKategorijeList());
 				res.status(200);
-				return ("200");
+				return ("OK");
 			}
 			res.status(400);
 			return ("400 Bad Request");
@@ -571,18 +579,25 @@ public class SparkMain {
 		post("rest/kategorije/Izmena", (req, res) -> {
 			String payload = req.body();
 			String name = req.queryMap("imeOld").value();
-			KategorijaVM kat = g.fromJson(payload, KategorijaVM.class);
+			KategorijaVM kat = null;
+			try {
+				kat = g.fromJson(payload, KategorijaVM.class);
+			} catch (Exception e) {
+				res.status(400);
+				return ("400 Bad Request");
+			}
+			
 			if (checkKat(kat)) {
 				if (checkImeKat(kat, name)) {
 					res.status(400);
-					return ("400 Bad Request");
+					return ("202");
 				}
 
 				app.editKategorija(kat, name);
 				Files.UpisKategorija(app.getKategorijeList());
 				Files.UpisVM(app.getVirtualneList());
 				res.status(200);
-				return ("200");
+				return ("OK");
 			}
 			res.status(400);
 			return ("400 Bad Request");
@@ -592,7 +607,6 @@ public class SparkMain {
 		get("/rest/organizacije/getOrganizacija", (req, res) -> {
 			res.type("application/json");
 			Organizacija o = app.getOrganizacijaID(req.queryMap().value("ime"));
-			//Organizacija o = app.getOrganizacijaID("FTN");
 			if (o == null) {
 				o = new Organizacija();
 				res.status(400);
@@ -609,14 +623,14 @@ public class SparkMain {
 			if (checkOrganization(o)) {
 				if (checkImeOrg(o, name)) {
 					res.status(400);
-					return ("400 Bad Request");
+					return ("202");
 				}
 
 				app.editOrganizacija(o, name);
 				Files.UpisKorisnik(app.getKorisniciList());
 				Files.UpisOrganizacija(app.getOrganizacijeList());
 				res.status(200);
-				return ("200");
+				return ("OK");
 			}
 			res.status(400);
 			return ("400 Bad Request");
@@ -632,7 +646,6 @@ public class SparkMain {
 		});
 
 		get("rest/logOut", (req, res) -> {
-			res.type("application/json");
 			Session ss = req.session(false);
 			ss.invalidate();
 			res.status(200);
@@ -682,25 +695,34 @@ public class SparkMain {
 			Korisnik active = ss.attribute("user");
 
 			String payload = req.body();
+			String email = req.queryMap("emailOld").value();
+			String pass_nd = req.queryMap("pass_nd").value();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
 
 			if (checkUser(k)) {
 				if (k.getUloga() == null) {
-					if (checkEmail(k, active))
+					if (email.compareTo(active.getEmail()) != 0)
+					{
 						res.status(400);
-					return ("400 Bad Request");
+						return ("202");
+					}
+					else if(k.getLozinka().compareTo(pass_nd) != 0 && k.getLozinka().compareTo(active.getLozinka()) != 0)
+					{
+						res.status(400);
+						return ("400 Bad Request");
+					}
 				}
 				app.editKorisnik(k, active.getEmail());
 				Files.UpisKorisnik(app.getKorisniciList());
+				ss.attribute("user", app.getKorisnici().get(k.getEmail()));
 				res.status(200);
-				return ("200");
+				return ("OK");
 			}
 			res.status(400);
 			return ("400 Bad Request");
 		});
 
 		post("rest/korisnici/Brisanje", (req, res) -> {
-			res.type("application/json");
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
 			if (k == null) {
@@ -796,7 +818,7 @@ public class SparkMain {
 
 	public static boolean checkKat(KategorijaVM kat) {
 
-		if (kat.getIme().equals("") || kat.getGPU() == 0 || kat.getBr_jezgara() == 0 || kat.getRAM() == 0) {
+		if (kat.getIme().equals("") || kat.getGPU() <= 0 || kat.getBr_jezgara() <= 0 || kat.getRAM() <= 0) {
 			return false;
 		}
 		return true;
@@ -855,6 +877,16 @@ public class SparkMain {
 		if (vm.getIme().equals("")) {
 			return false;
 		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		
+		for (int i = 0; i < vm.getDatumi().size(); i++) {
+			try {
+				if(sdf.parse(vm.getDatumi().get(i).getStart_Date()).after(sdf.parse(vm.getDatumi().get(i).getFinish_Date())))
+					return false;
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
 		return true;
 	}
 
@@ -875,7 +907,7 @@ public class SparkMain {
 
 	public static boolean checkDisk(Disk d) {
 
-		if (d.getIme().equals("") || d.getKapacitet() == 0) {
+		if (d.getIme().equals("") || d.getKapacitet() <= 0) {
 			return false;
 		}
 		return true;
@@ -896,20 +928,6 @@ public class SparkMain {
 		return false;
 	}
 
-	public static boolean checkEmail(Korisnik k, Korisnik active) {
-		for (int i = 0; i < app.getKorisniciList().size(); i++) {
-			if (app.getKorisniciList().get(i).getEmail().equals(k.getEmail())) {
-				if (active.getEmail().equals(k.getEmail())) {
-					return false;
-				}
-				return true;
-			}
-
-		}
-
-		return false;
-	}
-
 	public static boolean checkUser(Korisnik k) {
 		if (k.getEmail().equals("p")) {
 			return false;
@@ -917,7 +935,7 @@ public class SparkMain {
 
 		if (k.getEmail().equals("") || k.getIme().equals("") || k.getPrezime().equals("") || k.getLozinka().equals("")
 				|| !k.getEmail().contains("@") || !k.getEmail().contains(".") || !k.getIme().matches("[a-zA-Z]+")
-				|| !k.getPrezime().matches("[a-zA-Z]+")) {
+				|| !k.getPrezime().matches("[a-zA-Z]+") || k.getEmail().indexOf('@') > k.getEmail().indexOf('.')) {
 			return false;
 		}
 		return true;

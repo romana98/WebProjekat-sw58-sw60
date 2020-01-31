@@ -170,19 +170,12 @@ Vue.component("mesecni-racun", {
 				axios
 				.post('rest/mesecni/getMesecniRacun',  {"start_Date":d.start_Date, "finish_Date":d.finish_Date})
 				.then(response => {
-					if(response.data.toString() === ("201"))
-					{
-						this.message = "There are no reports for selected period!";
-					}
-					else
-					{
 						this.resursi = response.data;
 						this.isDates = true;
 						for (var key in this.resursi) {
 							this.sum += this.resursi[key];
 						}
-					}
-				}, error=>{});	
+				}, error=>{this.message = "There are no reports for selected period!";});	
 			}
 		},
 		getDate()

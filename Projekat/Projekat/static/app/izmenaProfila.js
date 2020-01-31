@@ -13,7 +13,9 @@ Vue.component("izmena-profila", {
 		validate_lastname_let: false,
 		validate_match: false,
 		validate_email_form: false,
-		validate_email_exist: false
+		validate_email_exist: false,
+		email: '',
+		oldLoz:''
 		}
 	},
 	template:`
@@ -155,6 +157,15 @@ Vue.component("izmena-profila", {
 				this.validate_loz = false;
 			}
 			
+			if(this.loz.length === 0 && kor.lozinka != this.oldLoz)
+			{
+				this.validate_loz_nd = true; 
+			}
+			else
+			{
+				this.validate_loz_nd = false;
+			}
+			
 			if(loz!== kor.lozinka && loz!== '')
 			{
 				this.validate_match = true;
@@ -173,7 +184,7 @@ Vue.component("izmena-profila", {
 				this.validate_name = false;
 			}
 			
-			if(kor.ime.match(/^[A-Za-z]+$/))
+			if(!kor.ime.match(/^[A-Za-z]+$/))
 			{
 				this.validate_name_let = true;					
 			}
@@ -191,7 +202,7 @@ Vue.component("izmena-profila", {
 				this.validate_lastname = false;
 			}
 			
-			if(kor.prezime.match(/^[A-Za-z]+$/))
+			if(!kor.prezime.match(/^[A-Za-z]+$/))
 			{
 				this.validate_lastname_let = true;					
 			}
@@ -200,7 +211,7 @@ Vue.component("izmena-profila", {
 				this.validate_lastname_let = false;
 			}
 			
-			if(!kor.email.includes('@') || !kor.email.includes('.'))
+			if(!kor.email.includes('@') || !kor.email.includes('.') || kor.email.indexOf('@') > kor.email.indexOf('.'))
 			{
 				this.validate_email_form = true; 
 			}
@@ -209,17 +220,19 @@ Vue.component("izmena-profila", {
 				this.validate_email_form = false; 
 			}
 			
-			axios.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka})
+			axios.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka}, {params:{emailOld:''+this.email, pass_nd:''+this.loz}})
 				.then(response => {
-					if(response.data.toString() === ("200") && this.validate_match === false)
+					if(this.validate_match === false)
 					{
-						toast('User (' + kor.email + ') information is saved!');		
+						toast('User (' + kor.email + ') information is saved!');	
+						this.email = kor.email;
 					}
-					else if(response.data.toString() === ("202"))
+				}, error=>{
+					if(error.response.data.toString() === ("202"))
 					{
 						this.validate_email_exist = true; 
 					}
-				}, error=>{});
+				});
 			
 		},
 		
@@ -279,6 +292,8 @@ Vue.component("izmena-profila", {
 			.then(response =>{
 				this.kor = response.data;
 				this.active = response.data;
+				this.email = response.data.email;
+				this.oldLoz = response.data.lozinka;
 				if (this.active.uloga === "superadmin"){
 					this.active_superadmin = true;
 				}

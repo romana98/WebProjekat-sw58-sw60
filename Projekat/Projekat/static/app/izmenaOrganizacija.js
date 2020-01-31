@@ -185,15 +185,14 @@ Vue.component("izmena-organizacija", {
 				.post('rest/organizacije/Izmena', {"ime":''+org.ime, "opis":''+org.opis, "logo":''+org.logo}, {params:{imeOld:''+ime}})
 				.then(response => {
 					if(response.data.toString() === ("200"))
-					{
 						toast('Organization (' + org.ime + ') information is saved!');	
 						this.$router.push({ name: 'OrganizationView' })
-					}
-					else if(response.data.toString() === ("202"))
+				}, error=>{
+					if(error.response.data.toString() === ("202"))
 					{
 						this.validate_name_exist = true; 
 					}
-				}, error=>{});
+				});
 				
 			
 		},

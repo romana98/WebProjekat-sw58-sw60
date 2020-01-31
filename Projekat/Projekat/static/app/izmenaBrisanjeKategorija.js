@@ -194,16 +194,16 @@ Vue.component("izmena-brisanje-kategorija", {
 				axios
 				.post('rest/kategorije/Izmena', {ime:''+kat.ime, br_jezgara: kat.br_jezgara, RAM: kat.RAM, GPU: kat.GPU}, {params:{imeOld:''+ime}})
 				.then(response => {
-					if(response.data.toString() === ("200"))
-					{
 						toast('Category (' + kat.ime + ') information is saved!');
 						this.$router.push({ name: 'CategoryView' });
-					}
-					else if(response.data.toString() === ("202"))
+						
+				}, error =>{
+					if(error.response.data.toString() === ("202"))
 					{
 						this.validate_name_exist = true; 
 					}
-				}, error =>{});	
+					
+				});	
 			}
 			
 		},

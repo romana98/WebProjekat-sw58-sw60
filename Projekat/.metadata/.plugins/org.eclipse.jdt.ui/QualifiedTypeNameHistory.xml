@@ -24,7 +24,6 @@
 <fullyQualifiedTypeName name="classes.IzracunateCene"/>
 <fullyQualifiedTypeName name="classes.Disk"/>
 <fullyQualifiedTypeName name="enums.TipDiska"/>
-<fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.lang.Double"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="classes.Dates"/>
@@ -35,4 +34,5 @@
 <fullyQualifiedTypeName name="java.math.RoundingMode"/>
 <fullyQualifiedTypeName name="com.google.gson.JsonObject"/>
 <fullyQualifiedTypeName name="spark.Request"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
 </qualifiedTypeNameHistroy>
