@@ -55,7 +55,8 @@ Vue.component("login", {
 				if (response.data.toString() === ("200")){
 					this.notification = false;
 					this.returnData = "";
-					window.location.href = "#/VMView";
+					this.$router.push({ name: 'VMView' })
+
 				}
 				else if(response.data.toString() === ("201")){
 					this.notification = false;
@@ -85,7 +86,8 @@ Vue.component("login", {
 	      		  //iskuliraj
 	      	  }
 	      	  else{
-	      		window.location.href = "#/VMView";
+					this.$router.push({ name: 'VMView' })
+
 	      	  }
 	        });
 		

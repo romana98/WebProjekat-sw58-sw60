@@ -105,7 +105,8 @@ Vue.component("DiscView", {
 	
 		addNew : function()
 		{
-			window.location.href = "#/addDisc";
+			this.$router.push({ name: 'addDisc' })
+
 		},
 		
 		sendData : function(disk)

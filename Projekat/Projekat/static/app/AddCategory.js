@@ -132,7 +132,8 @@ Vue.component("AddCategory", {
 		{
 			
 			if (confirm('Are you sure?') == true) {
-				window.location.href = "#/CategoryView";
+				this.$router.push({ name: 'CategoryView' })
+
 			}
 			
 		},
@@ -199,7 +200,8 @@ Vue.component("AddCategory", {
 			.post('rest/kategorije/addKategorija',  {"ime":'' + this.ime, "br_jezgara":'' + this.br_jezgara, "RAM":''+this.ram, "GPU":''+this.gpu})
 			.then(response => {		
 				if(response.status === 200){
-					window.location.href = "#/CategoryView"
+					this.$router.push({ name: 'CategoryView' })
+
 					this.prikazi = false;
 				}
 				
@@ -208,10 +210,13 @@ Vue.component("AddCategory", {
 			}).catch(error => {
 				
 				if(error.response.status === 400){
-					window.location.href = "#/BadRequest"
+					this.$router.push({ name: 'badrequest' })
+
+						
 				}
 				else if(error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 				}
 				else{
 					this.prikazi = true;
@@ -230,11 +235,13 @@ Vue.component("AddCategory", {
 			.post('rest/forbidden', {'salje': 'AddCategory'}).then(response => {
 				if(response.data.toString() !== ("200"))
 				{
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 				}
 			}).catch(error => {
 				if (error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 
 				}
 			});

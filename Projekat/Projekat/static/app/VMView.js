@@ -146,7 +146,7 @@ Vue.component("VMView", {
 	
 		addNew : function()
 		{
-			window.location.href = "#/AddVM";
+			this.$router.push({ name: 'addVM' })
 		},
 		
 		sendData : function(VM)

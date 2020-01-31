@@ -107,7 +107,8 @@ Vue.component("CategoryView", {
 	
 		addNew : function()
 		{
-			window.location.href = "#/addCategory";
+			this.$router.push({ name: 'addCategory' })
+
 		},
 		
 		sendData : function(kategorija)
@@ -122,7 +123,8 @@ Vue.component("CategoryView", {
 			axios
 			.post('rest/forbidden', {'salje': 'CategoryView'}).catch(error => {
 				if (error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 
 				}
 			});

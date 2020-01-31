@@ -111,7 +111,8 @@ Vue.component("AddDisc", {
 		{
 			
 			if (confirm('Are you sure?') == true) {
-				window.location.href = "#/DiscView";
+				this.$router.push({ name: 'DiscView' })
+
 			}
 			
 		},
@@ -175,7 +176,8 @@ Vue.component("AddDisc", {
 					,"RAM" : this.selected_vm.kategorija.RAM,"GPU" : this.selected_vm.kategorija.GPU}} })
 			.then(response => {
 				if(response.data.toString() === "200"){
-					window.location.href = "#/DiscView"
+					this.$router.push({ name: 'DiscView' })
+
 					this.prikazi = false;
 				}
 				else{
@@ -193,7 +195,8 @@ Vue.component("AddDisc", {
 			axios
 			.post('rest/forbidden', {'salje': 'AddDisc'}).catch(error => {
 				if (error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 
 				}
 			});

@@ -128,7 +128,8 @@ Vue.component("AddUser", {
 		{
 			
 			if (confirm('Are you sure?') == true) {
-				window.location.href = "#/VMView";
+				this.$router.push({ name: 'VMView' })
+
 			}
 			
 		},
@@ -200,7 +201,8 @@ Vue.component("AddUser", {
 					"prezime" : this.prezime,"email" : this.email ,"lozinka" : this.sifra},{params:{email: this.email}})
 				.then(response => {
 					if(response.data.toString() === "200"){
-						window.location.href = "#/UserView";
+						this.$router.push({ name: 'forbidden' })
+
 						
 					}
 					else{
@@ -230,7 +232,8 @@ Vue.component("AddUser", {
 			axios
 			.post('rest/forbidden', {'salje': 'AddUser'}).catch(error => {
 				if (error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 
 				}
 			});

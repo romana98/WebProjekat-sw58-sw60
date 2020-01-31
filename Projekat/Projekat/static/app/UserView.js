@@ -108,7 +108,8 @@ Vue.component("UserView", {
 	
 		addNew : function()
 		{
-			window.location.href = "#/addUser";
+			this.$router.push({ name: 'addUser' })
+
 		},
 		
 		sendData : function(korisnik)
@@ -123,7 +124,8 @@ Vue.component("UserView", {
 			axios
 			.post('rest/forbidden', {'salje': 'UserView'}).catch(error => {
 				if (error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 
 				}
 			});

@@ -146,7 +146,8 @@ Vue.component("AddVM", {
 		{
 			
 			if (confirm('Are you sure?') == true) {
-				window.location.href = "#/VMView";
+				this.$router.push({ name: 'VMView' })
+
 			}
 			
 		},
@@ -207,7 +208,8 @@ Vue.component("AddVM", {
 				"diskovi":this.niz},{params:{OrgID: this.selected_organizacija}})
 			.then(response => {
 				if(response.data.toString() === "200"){
-					window.location.href = "#/VMView"
+					this.$router.push({ name: 'VMView' })
+
 					
 				}
 				else{
@@ -226,7 +228,8 @@ Vue.component("AddVM", {
 			axios
 			.post('rest/forbidden', {'salje': 'AddVM'}).catch(error => {
 				if (error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 
 				}
 			});

@@ -107,7 +107,7 @@ Vue.component("OrganizationView", {
 	
 		addNew : function()
 		{
-			window.location.href = "#/AddOrganization";
+			this.$router.push({ name: 'addOrganization' })
 		},
 		
 		sendData : function(org)
@@ -122,7 +122,7 @@ Vue.component("OrganizationView", {
 			axios
 			.post('rest/forbidden', {'salje': 'AddOrganization'}).catch(error => {
 				if (error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
 
 				}
 			});

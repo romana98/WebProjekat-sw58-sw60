@@ -131,7 +131,8 @@ Vue.component("AddOrganization", {
 		{
 			
 			if (confirm('Are you sure?') == true) {
-				window.location.href = "#/OrganizationView";
+				this.$router.push({ name: 'OrganizationView' })
+
 			}
 			
 		},
@@ -165,7 +166,8 @@ Vue.component("AddOrganization", {
 			.post('rest/organizacije/addOrganizacija',  {"ime":'' + this.ime, "opis":'' + this.opis, "logo":''+this.logo })
 			.then(response => {
 				if(response.data.toString() === "200"){
-					window.location.href = "#/OrganizationView"
+					this.$router.push({ name: 'OrganizationView' })
+
 					this.prikazi = false;
 				}
 				else{
@@ -182,7 +184,8 @@ Vue.component("AddOrganization", {
 			axios
 			.post('rest/forbidden', {'salje': 'AddOrganization'}).catch(error => {
 				if (error.response.status === 403){
-					window.location.href = "#/Forbidden"
+					this.$router.push({ name: 'forbidden' })
+
 
 				}
 			});
