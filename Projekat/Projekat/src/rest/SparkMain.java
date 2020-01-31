@@ -199,7 +199,8 @@ public class SparkMain {
 			
 			if (!(naziv == null)) {
 				for (VM vm : virtualne) {
-					if (vm.getIme().contains(naziv)) {
+					String ime = vm.getIme().split("&")[0];
+					if (ime.contains(naziv)) {
 						po_nazivu.add(vm);
 					}
 				}
