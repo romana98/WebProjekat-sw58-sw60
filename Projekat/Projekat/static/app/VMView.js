@@ -6,10 +6,15 @@ Vue.component("VMView", {
 		active_admin : null,
 		active_superadmin : null,
 		help : null,
-		filter : null,
-		filter_toggle : true,
-		od :null,
-		do_ :null,
+		filterRAM : true,
+		odRAM :null,
+		doRAM :null,
+		filterGPU : true,
+		odGPU :null,
+		doGPU :null,
+		filterCORE : true,
+		odCORE :null,
+		doCORE :null,
 		naziv : null,
 		noResult : false
 		}
@@ -96,20 +101,23 @@ Vue.component("VMView", {
       
       <form class="pretragaForm" >
         <input type="text" placeholder="Naziv" name="naziv" v-model="naziv"/><br><br>
-        <input type="checkbox" name="filter" @click="toggle" checked="this.filter_toggle"> Filtering <br><br>
         <input type="submit"value="Primeni" @click="primeni"></button>
         <label v-if="noResult" style="color:red">Nema rezultata</label>
       </form>
       
-      <form class="pretragaForm">
-        <select style="width: 120px" v-model="filter">
-          <option value="br_jezgara">Broj jezgara</option>
-          <option value="gpu">GPU</option>
-          <option value="ram">RAM</option>
-        </select><br><br>
-        <input v-model="od" type="text" style="width: 50px" name="od" placeholder="Od"/>
+      <form class="pretragaForm">       
+		<input type="checkbox" name="filter" @click="toggle('ram')" checked="this.filterRAM"> RAM &nbsp&nbsp       
+        <input v-model="odRAM" type="text" style="width: 50px" name="od" placeholder="Od"/>
         <label> : </label>
-        <input v-model="do_" type="text" style="width: 50px" name="do" placeholder="Do"/>
+        <input v-model="doRAM" type="text" style="width: 50px" name="do" placeholder="Do"/><br><br>
+        <input type="checkbox" name="filter" @click="toggle('gpu')" checked="this.filterGPU"> GPU &nbsp&nbsp&nbsp
+        <input v-model="odGPU" type="text" style="width: 50px" name="od" placeholder="Od"/>
+        <label> : </label>
+        <input v-model="doGPU" type="text" style="width: 50px" name="do" placeholder="Do"/><br><br>
+        <input type="checkbox" name="filter" @click="toggle('core')" checked="this.filterCORE"> Cores &nbsp&nbsp
+        <input v-model="odCORE" type="text" style="width: 50px" name="od" placeholder="Od"/>
+        <label> : </label>
+        <input v-model="doCORE" type="text" style="width: 50px" name="do" placeholder="Do"/>
       </form>  
      
       <div v-if="active_admin" style="clear:left">
@@ -149,8 +157,16 @@ Vue.component("VMView", {
 			//ovde saljes romani vm :))
 		},
 		
-		toggle : function(){
-			this.filter_toggle = !this.filter_toggle;
+		toggle : function(filter){
+			if(filter === "ram"){
+				this.filterRAM = !this.filterRAM;
+			}
+			else if(filter === "gpu"){
+				this.filterGPU = !this.filterGPU;
+			}
+			else{
+				this.filterCORE = !this.filterCORE;
+			}
 			
 		},
 		
@@ -159,8 +175,18 @@ Vue.component("VMView", {
 			event.preventDefault();
 			
 			axios
-			.get('rest/filter', {params: {naziv: this.naziv, filter: this.filter, filter_toggle:this.filter_toggle, od : this.od,
-				do : this.do_}}).then(response => {
+			.get('rest/filter', {params: {
+				naziv: this.naziv, 
+				filterRAM : this.filterRAM, 
+				odRAM : this.odRAM,
+				doRAM : this.doRAM,
+				filterGPU : this.filterGPU, 
+				odGPU : this.odGPU,
+				doGPU : this.doGPU,
+				filterCORE : this.filterCORE, 
+				odCORE : this.odCORE,
+				doCORE : this.doCORE 
+				}}).then(response => {
 				if(response.status === 200)
 				{
 						//sve ok

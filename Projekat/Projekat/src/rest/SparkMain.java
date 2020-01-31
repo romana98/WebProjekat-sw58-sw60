@@ -75,17 +75,17 @@ public class SparkMain {
 			return g.toJson(discs);
 		});
 
-		/*get("/rest/kategorije/getKategorije", (req, res) -> {
-			res.type("application/json");
-			Session ss = req.session(true);
-			Korisnik k = ss.attribute("user");
-			return g.toJson(app.getKategorijeList());
-			
-			 * if (k.getUloga() == Uloga.SuperAdmin) { return
-			 * g.toJson(app.getOrganizacijeList()); } else { return
-			 * g.toJson(k.getOrganizacija()); }
-			 
-		});*/
+		/*
+		 * get("/rest/kategorije/getKategorije", (req, res) -> {
+		 * res.type("application/json"); Session ss = req.session(true); Korisnik k =
+		 * ss.attribute("user"); return g.toJson(app.getKategorijeList());
+		 * 
+		 * if (k.getUloga() == Uloga.SuperAdmin) { return
+		 * g.toJson(app.getOrganizacijeList()); } else { return
+		 * g.toJson(k.getOrganizacija()); }
+		 * 
+		 * });
+		 */
 
 		get("/rest/organizacije/getOrgID", (req, res) -> {
 			res.type("application/json");
@@ -149,43 +149,8 @@ public class SparkMain {
 			res.type("application/json");
 			Session ss = req.session(true);
 			Korisnik k = ss.attribute("user");
-			if (k.getUloga() == Uloga.Admin) {
-				ArrayList<VM> virtualneAdminove = new ArrayList<VM>();
-				for (String r : k.getOrganizacija().getResursi()) {
-					if (app.getVirtualneID(r) != null) {
-						virtualneAdminove.add(app.getVirtualneID(r));
-					}
-				}
-				return g.toJson(virtualneAdminove);
-			} else if (k.getUloga() == Uloga.Korisnik) {
-				ArrayList<VM> virtualneKorisnika = new ArrayList<VM>();
-				for (Organizacija org : app.getOrganizacijeList()) {
-					for (String kor : org.getKorisnici()) {
-						if (kor.equalsIgnoreCase(k.getEmail())) {
-							for (String resurs : org.getResursi()) {
-								if (app.getVirtualneID(resurs) != null) {
-									virtualneKorisnika.add(app.getVirtualneID(resurs));
-								}
-							}
-						}
-					}
-				}
-				return g.toJson(virtualneKorisnika);
-			} else {
-				ArrayList<VM> virtualne = new ArrayList<VM>();
-				for (VM virt : app.getVirtualneList()) {
-					for (Organizacija org : app.getOrganizacijeList()) {
-						for (String resu : org.getResursi()) {
-							if (resu.equalsIgnoreCase(virt.getIme())) {
-								VM newVm = new VM(virt);
-								newVm.setIme(virt.getIme() + "&" + org.getIme());
-								virtualne.add(newVm);
-							}
-						}
-					}
-				}
-				return g.toJson(virtualne);
-			}
+			ArrayList<VM> virtualne = getVMs(k);
+			return g.toJson(virtualne);
 
 		});
 
@@ -195,108 +160,129 @@ public class SparkMain {
 			if (vm == null) {
 				vm = new VM();
 				res.status(400);
-			}
-			else
-			{
+			} else {
 				res.status(200);
 			}
 			return g.toJson(vm);
 		});
-		
+
 		get("/rest/virtualne/getVMID", (req, res) -> {
 			res.type("application/json");
 			VM vm = app.getVirtualneID(req.queryMap("VMID").value());
 			return g.toJson(vm);
 		});
-		
-	
-		
-		get("rest/filter", (req,res) ->{
+
+		get("rest/filter", (req, res) -> {
 			res.type("application/json");
 			String naziv = req.queryMap("naziv").value();
-			boolean filtering;
-			int od;
-			int do_;
-			String filter = req.queryMap("filter").value();
+			boolean filterGPU;
+			boolean filterRAM;
+			boolean filterCORE;
+
 			try {
-				filtering = Boolean.parseBoolean(req.queryMap("filter_toggle").value());
-				od = Integer.parseInt(req.queryMap("od").value());
-				do_ = Integer.parseInt(req.queryMap("do").value());
-			}
-			catch(Exception e) {
+				filterGPU = Boolean.parseBoolean(req.queryMap("filterGPU").value());
+				filterRAM = Boolean.parseBoolean(req.queryMap("filterRAM").value());
+				filterCORE = Boolean.parseBoolean(req.queryMap("filterCORE").value());
+			} catch (Exception e) {
 				res.status(400);
 				return g.toJson("Bad request");
 			}
-			
-			ArrayList<VM> name_vms = new ArrayList<VM>();
-			
-			
-			for (VM vm : app.getVirtualneList()) {
-				if(vm.getIme().contains(naziv)) {
-					name_vms.add(vm);
-				}
-			}
-			
-			if (name_vms.isEmpty()) {
-				res.status(201);
-				return g.toJson(name_vms);
-			}
-			
-			if(filtering) {
-				
-				ArrayList<VM> filter_vms = new ArrayList<VM>();
 
-				switch(filter) {
-					case "ram":
-						for(VM vm : name_vms) {
-							if (vm.getKategorija().getRAM() >= od && vm.getKategorija().getRAM() <= do_) {
-								filter_vms.add(vm);
-							}
-						}
-						break;
-					case "gpu":
-						for(VM vm : name_vms) {
-							if (vm.getKategorija().getGPU() >= od && vm.getKategorija().getGPU() <= do_) {
-								filter_vms.add(vm);
-							}
-						}
-						break;
-					case "br_jezgara":
-						for(VM vm : name_vms) {
-							if (vm.getKategorija().getBr_jezgara() >= od && vm.getKategorija().getBr_jezgara() <= do_) {
-								filter_vms.add(vm);
-							}
-						}
-						break;
+			Session ss = req.session(true);
+			Korisnik k = ss.attribute("user");
+			ArrayList<VM> virtualne = getVMs(k);
+
+			ArrayList<VM> po_nazivu = new ArrayList<VM>();
+			ArrayList<VM> posle_GPU = new ArrayList<VM>();
+			ArrayList<VM> posle_RAM = new ArrayList<VM>();
+			ArrayList<VM> posle_CORE = new ArrayList<VM>();
+			
+			if (!(naziv == null)) {
+				for (VM vm : virtualne) {
+					if (vm.getIme().contains(naziv)) {
+						po_nazivu.add(vm);
+					}
 				}
-				if (filter_vms.isEmpty()) {
-					res.status(201);
-					return g.toJson(filter_vms);
+			} else {
+				po_nazivu = virtualne;
+			}
+
+			if (filterGPU) {
+				int odGPU;
+				int doGPU;
+				try {
+					odGPU = Integer.parseInt(req.queryMap("odGPU").value());
+					doGPU = Integer.parseInt(req.queryMap("doGPU").value());
+				} catch (Exception e) {
+					res.status(400);
+					return g.toJson("Bad request");
 				}
-				else{
-					res.status(200);
-					return g.toJson(filter_vms);
+				for (VM vm : po_nazivu) {
+					if(vm.getKategorija().getGPU() > odGPU && vm.getKategorija().getGPU() < doGPU) {
+						posle_GPU.add(vm);
+					}
+				}
+
+			}
+			else {
+				posle_GPU = po_nazivu;
+			}
+
+			if (filterRAM) {
+				int odRAM;
+				int doRAM;
+				try {
+					odRAM = Integer.parseInt(req.queryMap("odRAM").value());
+					doRAM = Integer.parseInt(req.queryMap("doRAM").value());
+				} catch (Exception e) {
+					res.status(400);
+					return g.toJson("Bad request");
+				}
+				for (VM vm : posle_GPU) {
+					if(vm.getKategorija().getRAM() > odRAM && vm.getKategorija().getRAM() < doRAM) {
+						posle_RAM.add(vm);
+					}
 				}
 			}
 			else {
-				res.status(200);
-				return name_vms;
+				posle_RAM = posle_GPU;
 			}
+
+			if (filterCORE) {
+				int odCORE;
+				int doCORE;
+				try {
+					odCORE = Integer.parseInt(req.queryMap("odCORE").value());
+					doCORE = Integer.parseInt(req.queryMap("doCORE").value());
+				} catch (Exception e) {
+					res.status(400);
+					return g.toJson("Bad request");
+				}
+				for (VM vm : posle_RAM) {
+					if(vm.getKategorija().getBr_jezgara() > odCORE && vm.getKategorija().getBr_jezgara() < doCORE) {
+						posle_CORE.add(vm);
+					}
+				}
+			}
+			else {
+				posle_CORE = posle_RAM;
+			}
+
+			return g.toJson(posle_CORE);
 		});
-		
+
 		post("rest/kategorije/addKategorija", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
 			KategorijaVM kat;
 			try {
 				kat = g.fromJson(payload, KategorijaVM.class);
-			}
-			catch(Exception ex){
+			} catch (Exception ex) {
 				res.status(400);
 				return "Bad request";
 			}
-			
-			if(app.getKategorijeID(kat.getIme())==null) {
+
+			if (app.getKategorijeID(kat.getIme()) == null) {
 				ArrayList<KategorijaVM> kategorije = app.getKategorijeList();
 				kategorije.add(kat);
 				app.setKategorijeList(kategorije);
@@ -308,7 +294,6 @@ public class SparkMain {
 			res.status(401);
 			return "Already exists";
 		});
-		
 
 		post("rest/korisnici/addUser", (req, res) -> {
 			res.type("application/json");
@@ -414,13 +399,11 @@ public class SparkMain {
 			res.type("application/json");
 			String payload = req.body();
 			VM vm = g.fromJson(payload, VM.class);
-			if(vm == null)
-			{
+			if (vm == null) {
 				res.status(400);
 				return ("400 Bad Request");
 			}
-			if(!app.getVirtualne().containsKey(vm.getIme()))
-			{
+			if (!app.getVirtualne().containsKey(vm.getIme())) {
 				res.status(400);
 				return ("400 Bad Request");
 			}
@@ -437,21 +420,19 @@ public class SparkMain {
 			Disk disk = app.getDiskoviID(req.queryMap("ime").value());
 			if (disk == null) {
 				disk = new Disk();
-				res.status(400);	
-			}
-			else
-			{
+				res.status(400);
+			} else {
 				res.status(200);
 			}
 			return g.toJson(disk);
 		});
-		
+
 		post("rest/diskovi/addDisk", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
 			Disk disk = g.fromJson(payload, Disk.class);
 			System.out.println(disk.toString());
-			if(app.getDiskoviID(disk.getIme())!=null) {
+			if (app.getDiskoviID(disk.getIme()) != null) {
 				return g.toJson("201");
 			}
 			VM vm = app.getVirtualneID(disk.getMojaVirtualnaMasina().getIme());
@@ -463,16 +444,16 @@ public class SparkMain {
 			diskovi_list.add(disk);
 			app.setDiskoviList(diskovi_list);
 			//KOD SVIH DISKOVA MORAS PROMENITI VM KOJOJ PRIPADAJU JER JE PROMENJENA, TJ SAMO KOD ONIH KOJE PRIPADAJU TOJ VM KOJA SE IZMENILA
-			for (Organizacija org:app.getOrganizacijeList()) {
-				for(String resurs : org.getResursi()) {
+			for (Organizacija org : app.getOrganizacijeList()) {
+				for (String resurs : org.getResursi()) {
 					if (vm.getIme().equals(resurs)) {
 						ArrayList<String> resursi = org.getResursi();
 						resursi.add(disk.getIme());
 						org.setResursi(resursi);
-						for (Korisnik kor:app.getKorisniciList()) {
+						for (Korisnik kor : app.getKorisniciList()) {
 							if (kor.getOrganizacija().getIme().equals(org.getIme())) {
 								kor.setOrganizacija(org);
-							
+
 							}
 						}
 						Files.UpisDisk(app.getDiskoviList());
@@ -484,7 +465,7 @@ public class SparkMain {
 					}
 				}
 			}
-			
+
 			return g.toJson("201");
 			//sad gde sve ga treba dodati?
 			//nadjes vm, setujes je na disku 
@@ -492,22 +473,18 @@ public class SparkMain {
 			//e onda krece zabava, svugde de je vm ili gde je disk moras da updejtujes listu
 			//dakle sledece je da nadjes organizaciju kojoj vm pripada i u njene resurse dodas disk
 			//a zatim svakog korisnika cija je organizacija ona gore treba mu postaviti ovu sa izmenjenim resursima
-			
-			
-			
+
 		});
 
 		post("rest/diskovi/Brisanje", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
 			Disk disk = g.fromJson(payload, Disk.class);
-			if(disk == null)
-			{
+			if (disk == null) {
 				res.status(400);
 				return ("400 Bad Request");
 			}
-			if(!app.getDiskovi().containsKey(disk.getIme()))
-			{
+			if (!app.getDiskovi().containsKey(disk.getIme())) {
 				res.status(400);
 				return ("400 Bad Request");
 			}
@@ -547,8 +524,7 @@ public class SparkMain {
 			Session ss = req.session(true);
 			Korisnik k = ss.attribute("user");
 			HashMap<String, Double> map = app.calculate(k, dates);
-			if (map.isEmpty())
-			{
+			if (map.isEmpty()) {
 				res.status(400);
 				return ("400 Bad Request");
 			}
@@ -564,9 +540,7 @@ public class SparkMain {
 			if (kat == null) {
 				kat = new KategorijaVM();
 				res.status(400);
-			}
-			else
-			{
+			} else {
 				res.status(200);
 			}
 			return g.toJson(kat);
@@ -614,9 +588,7 @@ public class SparkMain {
 			if (o == null) {
 				o = new Organizacija();
 				res.status(400);
-			}
-			else
-			{
+			} else {
 				res.status(200);
 			}
 			return g.toJson(o);
@@ -691,9 +663,7 @@ public class SparkMain {
 			if (k == null) {
 				k = new Korisnik();
 				res.status(400);
-			}
-			else
-			{
+			} else {
 				res.status(200);
 			}
 			return g.toJson(k);
@@ -710,7 +680,7 @@ public class SparkMain {
 				if (k.getUloga() == null) {
 					if (checkEmail(k, active))
 						res.status(400);
-						return ("400 Bad Request");
+					return ("400 Bad Request");
 				}
 				app.editKorisnik(k, active.getEmail());
 				Files.UpisKorisnik(app.getKorisniciList());
@@ -725,13 +695,11 @@ public class SparkMain {
 			res.type("application/json");
 			String payload = req.body();
 			Korisnik k = g.fromJson(payload, Korisnik.class);
-			if(k == null)
-			{
+			if (k == null) {
 				res.status(400);
 				return ("400 Bad Request");
 			}
-			if(!app.getKorisnici().containsKey(k.getEmail()))
-			{
+			if (!app.getKorisnici().containsKey(k.getEmail())) {
 				res.status(400);
 				return ("400 Bad Request");
 			}
@@ -742,17 +710,17 @@ public class SparkMain {
 			Files.UpisOrganizacija(app.getOrganizacijeList());
 			return ("OK");
 		});
-		
+
 		post("rest/forbidden", (req, res) -> {
 			String payload = req.body();
-			HashMap<String, String> salje = g.fromJson(payload, new TypeToken<HashMap<String, String>>(){}.getType());
-			if(provera(salje, req))
-			{
+			HashMap<String, String> salje = g.fromJson(payload, new TypeToken<HashMap<String, String>>() {
+			}.getType());
+			if (provera(salje, req)) {
 				res.status(200);
-				return("200");
+				return ("200");
 			}
 			res.status(403);
-			return("Access forbidden");
+			return ("Access forbidden");
 		});
 	}
 
@@ -788,9 +756,9 @@ public class SparkMain {
 			} else {
 				return false;
 			}
-		} else if (salje.get("salje").equals("kategorijaIzmena") || salje.get("salje").equals("korisnikIzmena") 
-					|| salje.get("salje").equals("AddCategory") || salje.get("salje").equals("CategoryView")
-					|| salje.get("salje").equals("AddOrganization")|| salje.get("salje").equals("OrganizationView")) {
+		} else if (salje.get("salje").equals("kategorijaIzmena") || salje.get("salje").equals("korisnikIzmena")
+				|| salje.get("salje").equals("AddCategory") || salje.get("salje").equals("CategoryView")
+				|| salje.get("salje").equals("AddOrganization") || salje.get("salje").equals("OrganizationView")) {
 			//sta moze samo superadmin
 			if (k == null) {
 				return false;
@@ -807,8 +775,7 @@ public class SparkMain {
 	}
 
 	public static boolean isRemove(KategorijaVM kat) {
-		if(!app.getKategorije().containsKey(kat.getIme()))
-		{
+		if (!app.getKategorije().containsKey(kat.getIme())) {
 			return false;
 		}
 		for (int i = 0; i < app.getVirtualneList().size(); i++) {
@@ -946,6 +913,46 @@ public class SparkMain {
 			return false;
 		}
 		return true;
+	}
+
+	public static ArrayList<VM> getVMs(Korisnik k) {
+		if (k.getUloga() == Uloga.Admin) {
+			ArrayList<VM> virtualneAdminove = new ArrayList<VM>();
+			for (String r : k.getOrganizacija().getResursi()) {
+				if (app.getVirtualneID(r) != null) {
+					virtualneAdminove.add(app.getVirtualneID(r));
+				}
+			}
+			return virtualneAdminove;
+		} else if (k.getUloga() == Uloga.Korisnik) {
+			ArrayList<VM> virtualneKorisnika = new ArrayList<VM>();
+			for (Organizacija org : app.getOrganizacijeList()) {
+				for (String kor : org.getKorisnici()) {
+					if (kor.equalsIgnoreCase(k.getEmail())) {
+						for (String resurs : org.getResursi()) {
+							if (app.getVirtualneID(resurs) != null) {
+								virtualneKorisnika.add(app.getVirtualneID(resurs));
+							}
+						}
+					}
+				}
+			}
+			return virtualneKorisnika;
+		} else {
+			ArrayList<VM> virtualne = new ArrayList<VM>();
+			for (VM virt : app.getVirtualneList()) {
+				for (Organizacija org : app.getOrganizacijeList()) {
+					for (String resu : org.getResursi()) {
+						if (resu.equalsIgnoreCase(virt.getIme())) {
+							VM newVm = new VM(virt);
+							newVm.setIme(virt.getIme() + "&" + org.getIme());
+							virtualne.add(newVm);
+						}
+					}
+				}
+			}
+			return virtualne;
+		}
 	}
 
 }
