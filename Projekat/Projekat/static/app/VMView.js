@@ -101,23 +101,23 @@ Vue.component("VMView", {
       
       <form class="pretragaForm" >
         <input type="text" placeholder="Naziv" name="naziv" v-model="naziv"/><br><br>
-        <input type="submit"value="Primeni" @click="primeni"></button>
-        <label v-if="noResult" style="color:red">Nema rezultata</label>
+        <input type="submit"value="Primeni" @click="primeni"></button><br><br>
+        <label v-if="noResult" style="color:red">Nema rezultata.</label>
       </form>
       
       <form class="pretragaForm">       
 		<input type="checkbox" name="filter" @click="toggle('ram')" checked="this.filterRAM"> RAM &nbsp&nbsp       
-        <input v-model="odRAM" type="text" style="width: 50px" name="od" placeholder="Od"/>
+        <input v-model="odRAM" type="text" style="width: 50px" id="odRAM" placeholder="od"/>
         <label> : </label>
-        <input v-model="doRAM" type="text" style="width: 50px" name="do" placeholder="Do"/><br><br>
+        <input v-model="doRAM" type="text" style="width: 50px" id="doRAM" placeholder="do"/><br><br>
         <input type="checkbox" name="filter" @click="toggle('gpu')" checked="this.filterGPU"> GPU &nbsp&nbsp&nbsp
-        <input v-model="odGPU" type="text" style="width: 50px" name="od" placeholder="Od"/>
+        <input v-model="odGPU" type="text" style="width: 50px" id="odGPU" placeholder="od"/>
         <label> : </label>
-        <input v-model="doGPU" type="text" style="width: 50px" name="do" placeholder="Do"/><br><br>
+        <input v-model="doGPU" type="text" style="width: 50px" id="doGPU" placeholder="do"/><br><br>
         <input type="checkbox" name="filter" @click="toggle('core')" checked="this.filterCORE"> Cores &nbsp&nbsp
-        <input v-model="odCORE" type="text" style="width: 50px" name="od" placeholder="Od"/>
+        <input v-model="odCORE" type="text" style="width: 50px" id="odCORE" placeholder="od"/>
         <label> : </label>
-        <input v-model="doCORE" type="text" style="width: 50px" name="do" placeholder="Do"/>
+        <input v-model="doCORE" type="text" style="width: 50px" id="doCORE" placeholder="do"/>
       </form>  
      
       <div v-if="active_admin" style="clear:left">
@@ -173,6 +173,96 @@ Vue.component("VMView", {
 		primeni : function(){
 			
 			event.preventDefault();
+			//frontend zastita - za svako polje od do proveriti ukoliko je cekiran da li su popunjena i to brojevima
+			var dontRAM = false;
+			var dontGPU = false;
+			var dontCORE = false;
+			this.prikazi = false;
+			if (this.filterRAM){
+				
+				if (this.odRAM === null || this.odRAM.length === 0){
+					document.getElementById("odRAM").setAttribute("style","border-color:red;width: 50px");
+					dontRAM = true;
+				}
+				else{
+					document.getElementById("odRAM").setAttribute("style","border-color:none;width: 50px");
+					dontRAM = false;
+				}
+				if(this.doRAM === null || this.doRAM.length == 0){
+					document.getElementById("doRAM").setAttribute("style","border-color:red;width: 50px");
+					dontRAM = true;
+				}
+				else
+				{
+					document.getElementById("doRAM").setAttribute("style","border-color:none;width: 50px");
+					dontRAM = false;
+				}
+			}
+			else{
+				document.getElementById("doRAM").setAttribute("style","border-color:none;width: 50px");
+				document.getElementById("odRAM").setAttribute("style","border-color:none;width: 50px");
+				dontRAM = false;
+			}
+				
+			if (this.filterGPU){
+				
+				if(this.doGPU === null || this.doGPU.length == 0){
+					document.getElementById("doGPU").setAttribute("style","border-color:red;width: 50px");
+					dontGPU = true;
+				}
+				else
+				{
+					document.getElementById("doGPU").setAttribute("style","border-color:none;width: 50px");
+					dontGPU = false;
+				}
+				if(this.odGPU === null || this.odGPU.length == 0){
+					document.getElementById("odGPU").setAttribute("style","border-color:red;width: 50px");
+					dontGPU = true;
+				}
+				else
+				{
+					document.getElementById("odGPU").setAttribute("style","border-color:none;width: 50px");
+					dontGPU = false;
+				}
+			}
+			else{
+				document.getElementById("odGPU").setAttribute("style","border-color:none;width: 50px");
+				document.getElementById("doGPU").setAttribute("style","border-color:none;width: 50px");
+				dontGPU = false;
+			}
+				
+			if(this.filterCORE){
+				
+				
+				if(this.doCORE === null || this.doCORE.length == 0){
+					document.getElementById("doCORE").setAttribute("style","border-color:red;width: 50px");
+					dontCORE = true;
+				}
+				else
+				{
+					document.getElementById("doCORE").setAttribute("style","border-color:none;width: 50px");
+					dontCORE = false;
+				}
+				if(this.odCORE === null || this.odCORE.length == 0){
+					document.getElementById("odCORE").setAttribute("style","border-color:red;width: 50px");
+					dontCORE = true;
+				}
+				else
+				{
+					document.getElementById("odCORE").setAttribute("style","border-color:none;width: 50px");
+					dontCORE = false;
+				}
+			}
+			else{
+				document.getElementById("odCORE").setAttribute("style","border-color:none;width: 50px");
+				document.getElementById("doCORE").setAttribute("style","border-color:none;width: 50px");
+				dontCORE = false;
+			}
+				
+			
+			
+			if(!(dontRAM || dontGPU || dontCORE)){
+			
 			
 			axios
 			.get('rest/filter', {params: {
@@ -196,6 +286,7 @@ Vue.component("VMView", {
 				else{
 					//toggle neki ispis da nema rezultata
 					this.noResult = true;
+					this.vms = response.data;
 				}
 			}).catch(error => {
 				if (error.response.status === 400){
@@ -204,7 +295,7 @@ Vue.component("VMView", {
 				}
 			});
 			
-			
+			}
 		}
 		
 	},

@@ -267,8 +267,15 @@ public class SparkMain {
 			else {
 				posle_CORE = posle_RAM;
 			}
-
-			return g.toJson(posle_CORE);
+			if(posle_CORE.isEmpty()) {
+				res.status(201);
+				return g.toJson(virtualne);
+			}
+			else {
+				res.status(200);
+				return g.toJson(posle_CORE);
+			}
+			
 		});
 
 		post("rest/kategorije/addKategorija", (req, res) -> {
