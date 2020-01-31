@@ -180,7 +180,7 @@ Vue.component("VMView", {
 			this.prikazi = false;
 			if (this.filterRAM){
 				
-				if (this.odRAM === null || this.odRAM.length === 0){
+				if (this.odRAM === null || this.odRAM.length === 0 || isNaN(this.odRAM)){
 					document.getElementById("odRAM").setAttribute("style","border-color:red;width: 50px");
 					dontRAM = true;
 				}
@@ -188,7 +188,7 @@ Vue.component("VMView", {
 					document.getElementById("odRAM").setAttribute("style","border-color:none;width: 50px");
 					dontRAM = false;
 				}
-				if(this.doRAM === null || this.doRAM.length == 0){
+				if(this.doRAM === null || this.doRAM.length == 0 || isNaN(this.doRAM)){
 					document.getElementById("doRAM").setAttribute("style","border-color:red;width: 50px");
 					dontRAM = true;
 				}
@@ -206,7 +206,7 @@ Vue.component("VMView", {
 				
 			if (this.filterGPU){
 				
-				if(this.doGPU === null || this.doGPU.length == 0){
+				if(this.doGPU === null || this.doGPU.length == 0 || isNaN(this.doGPU)){
 					document.getElementById("doGPU").setAttribute("style","border-color:red;width: 50px");
 					dontGPU = true;
 				}
@@ -215,7 +215,7 @@ Vue.component("VMView", {
 					document.getElementById("doGPU").setAttribute("style","border-color:none;width: 50px");
 					dontGPU = false;
 				}
-				if(this.odGPU === null || this.odGPU.length == 0){
+				if(this.odGPU === null || this.odGPU.length == 0 || isNaN(this.odGPU)){
 					document.getElementById("odGPU").setAttribute("style","border-color:red;width: 50px");
 					dontGPU = true;
 				}
@@ -234,7 +234,7 @@ Vue.component("VMView", {
 			if(this.filterCORE){
 				
 				
-				if(this.doCORE === null || this.doCORE.length == 0){
+				if(this.doCORE === null || this.doCORE.length == 0|| isNaN(this.doCORE)){
 					document.getElementById("doCORE").setAttribute("style","border-color:red;width: 50px");
 					dontCORE = true;
 				}
@@ -243,7 +243,7 @@ Vue.component("VMView", {
 					document.getElementById("doCORE").setAttribute("style","border-color:none;width: 50px");
 					dontCORE = false;
 				}
-				if(this.odCORE === null || this.odCORE.length == 0){
+				if(this.odCORE === null || this.odCORE.length == 0|| isNaN(this.odCORE)){
 					document.getElementById("odCORE").setAttribute("style","border-color:red;width: 50px");
 					dontCORE = true;
 				}
