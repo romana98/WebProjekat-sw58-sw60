@@ -260,7 +260,7 @@ Vue.component("izmena-brisanje-disk", {
 			.then(response =>{
 				this.disk = response.data,
 				this.aktivnost = this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date
-			});	
+			},error => {this.$router.push({ name: 'forbidden' })});	
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{

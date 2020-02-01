@@ -257,7 +257,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			.then(response =>{
 				this.kor = response.data;
 				this.email = response.data.email;
-			});
+			},error => {this.$router.push({ name: 'forbidden' })});
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{

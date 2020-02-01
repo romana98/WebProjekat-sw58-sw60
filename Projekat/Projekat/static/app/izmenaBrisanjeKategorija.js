@@ -274,7 +274,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			.get('rest/kategorije/getKategorija', { params: {"ime":''+this.ime}})
 			.then(response =>{
 				this.kat = response.data
-		});	
+		},error => {this.$router.push({ name: 'forbidden' })});	
 		
 		axios
 		.get('rest/korisnici/getActiveUser')

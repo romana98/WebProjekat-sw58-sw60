@@ -302,7 +302,7 @@ Vue.component("izmena-profila", {
 					this.active_superadmin = false;
 				}
 				this.isForbidden(response.data)
-			});
+			},error => {this.$router.push({ name: 'forbidden' })});
 	}
 	
 });

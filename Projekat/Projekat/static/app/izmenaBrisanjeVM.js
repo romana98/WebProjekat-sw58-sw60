@@ -303,7 +303,7 @@ Vue.component("izmena-brisanje-vm", {
 			.then(response =>{
 				this.vm = response.data,
 				this.aktivnost = this.vm.datumi[this.vm.datumi.length-1].finish_Date
-			});	
+			},error => {this.$router.push({ name: 'forbidden' })});	
 		
 		axios
 		.get('rest/korisnici/getActiveUser')

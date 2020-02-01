@@ -252,7 +252,7 @@ Vue.component("izmena-organizacija", {
 			
 			.then(response =>{
 				this.org = response.data
-			});
+			},error => {this.$router.push({ name: 'forbidden' })});
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{
