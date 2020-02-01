@@ -701,7 +701,7 @@ public class SparkMain {
 
 			if (checkUser(k)) {
 				if (k.getUloga() == null) {
-					if (email.compareTo(active.getEmail()) != 0)
+					if (email.compareToIgnoreCase(active.getEmail()) != 0)
 					{
 						res.status(400);
 						return ("202");
@@ -712,9 +712,12 @@ public class SparkMain {
 						return ("400 Bad Request");
 					}
 				}
-				app.editKorisnik(k, active.getEmail());
+				app.editKorisnik(k, email);
 				Files.UpisKorisnik(app.getKorisniciList());
-				ss.attribute("user", app.getKorisnici().get(k.getEmail()));
+				if(k.getUloga() == null)
+				{
+						ss.attribute("user", app.getKorisnici().get(k.getEmail()));
+				}
 				res.status(200);
 				return ("OK");
 			}
@@ -747,7 +750,7 @@ public class SparkMain {
 			}.getType());
 			if (provera(salje, req)) {
 				res.status(200);
-				return ("200");
+				return ("OK");
 			}
 			res.status(403);
 			return ("Access forbidden");
@@ -809,7 +812,7 @@ public class SparkMain {
 			return false;
 		}
 		for (int i = 0; i < app.getVirtualneList().size(); i++) {
-			if (app.getVirtualneList().get(i).getKategorija().getIme().equals(kat.getIme())) {
+			if (app.getVirtualneList().get(i).getKategorija().getIme().equalsIgnoreCase(kat.getIme())) {
 				return false;
 			}
 		}
@@ -828,7 +831,7 @@ public class SparkMain {
 
 		for (int i = 0; i < app.getKategorijeList().size(); i++) {
 			if (app.getKategorijeList().get(i).getIme().equals(kat.getIme())) {
-				if (app.getKategorijeList().get(i).getIme().equals(name)) {
+				if (app.getKategorijeList().get(i).getIme().equalsIgnoreCase(name)) {
 					return false;
 				}
 				return true;
@@ -851,7 +854,7 @@ public class SparkMain {
 
 		for (int i = 0; i < app.getOrganizacijeList().size(); i++) {
 			if (app.getOrganizacijeList().get(i).getIme().equals(o.getIme())) {
-				if (app.getOrganizacijeList().get(i).getIme().equals(name)) {
+				if (app.getOrganizacijeList().get(i).getIme().equalsIgnoreCase(name)) {
 					return false;
 				}
 				return true;
@@ -894,7 +897,7 @@ public class SparkMain {
 
 		for (int i = 0; i < app.getVirtualneList().size(); i++) {
 			if (app.getVirtualneList().get(i).getIme().equals(vm.getIme())) {
-				if (app.getVirtualneList().get(i).getIme().equals(name)) {
+				if (app.getVirtualneList().get(i).getIme().equalsIgnoreCase(name)) {
 					return false;
 				}
 				return true;
@@ -917,7 +920,7 @@ public class SparkMain {
 
 		for (int i = 0; i < app.getDiskoviList().size(); i++) {
 			if (app.getDiskoviList().get(i).getIme().equals(d.getIme())) {
-				if (app.getDiskoviList().get(i).getIme().equals(name)) {
+				if (app.getDiskoviList().get(i).getIme().equalsIgnoreCase(name)) {
 					return false;
 				}
 				return true;
@@ -930,6 +933,11 @@ public class SparkMain {
 
 	public static boolean checkUser(Korisnik k) {
 		if (k.getEmail().equals("p")) {
+			return false;
+		}
+		
+		if(k.getUloga().equals(Uloga.SuperAdmin))
+		{
 			return false;
 		}
 

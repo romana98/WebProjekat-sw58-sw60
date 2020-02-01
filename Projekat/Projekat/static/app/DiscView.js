@@ -13,7 +13,7 @@ Vue.component("DiscView", {
 	<div class="background" v-if="active_user">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="/" v-on:click="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
              <div class="navbar">
@@ -94,9 +94,9 @@ Vue.component("DiscView", {
 	,
 	methods: {
 		
-		logOut : function()
+		logOut : function(event)
 		{
-			
+			event.preventDefault();
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
 			}

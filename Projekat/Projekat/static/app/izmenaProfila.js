@@ -24,7 +24,7 @@ Vue.component("izmena-profila", {
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="/" v-on:click="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -255,9 +255,9 @@ Vue.component("izmena-profila", {
 			
 		},
 		
-		logOut : function()
+		logOut : function(event)
 		{
-			
+			event.preventDefault();
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
 			}
@@ -274,7 +274,7 @@ Vue.component("izmena-profila", {
 			{
 			axios
 			.post('rest/forbidden', {'salje': 'profil'}).then(response => {
-				if(response.data.toString() !== ("200"))
+				if(response.data.toString() !== ("OK"))
 				{
 					this.$router.push({ name: 'forbidden' })
 				}

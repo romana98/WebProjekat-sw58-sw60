@@ -17,7 +17,7 @@ Vue.component("izmena-brisanje-disk", {
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
               <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+               <a href="/" v-on:click="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
             </div>
 <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -94,12 +94,6 @@ Vue.component("izmena-brisanje-disk", {
 				<td >{{disk.mojaVirtualnaMasina.ime}}</td>
 			</tr>
 			<tr>
-				<td v-if="aktivnost !== ''">VM turned: OFF</td>
-				<td v-else>VM turned: ON</td>
-				<td v-if="aktivnost !== ''"><input  type="datetime-local" :disabled="true" v-model="this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date"></input></td>
-				<td v-else><input  type="datetime-local" :disabled="true" v-model="this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].start_Date"></input></td>
-			</tr>
-			<tr>
 			<td>
 				<button class="dugme" :disabled="active.uloga === 'korisnik'" type="submit" v-on:click="save(disk, ime)">Save</button>
 			</td>
@@ -109,7 +103,7 @@ Vue.component("izmena-brisanje-disk", {
 			</tr>
 			<tr>	
 			<td v-if="active.uloga === 'superadmin'">
-				<button class="dugme" type="submit" v-on:click="deleteVM(vm.ime)">Delete Disc</button>
+				<button class="dugme" type="submit" v-on:click="deleteDisc(disk.ime)">Delete Disc</button>
 			</td>
 			
 			</tr>
@@ -202,9 +196,9 @@ Vue.component("izmena-brisanje-disk", {
 		
 		},
 	
-		logOut : function()
+		logOut : function(event)
 		{
-			
+			event.preventDefault();
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
 			}
@@ -244,7 +238,7 @@ Vue.component("izmena-brisanje-disk", {
 			{
 			axios
 			.post('rest/forbidden', {'salje': 'diskIzmena'}).then(response => {
-				if(response.data.toString() !== ("200"))
+				if(response.data.toString() !== ("OK"))
 				{
 					this.$router.push({ name: 'forbidden' })
 				}
