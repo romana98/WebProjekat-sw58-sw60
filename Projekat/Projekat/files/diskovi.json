@@ -1,1 +1,124 @@
-[{"tip":"hdd","kapacitet":45,"mojaVirtualnaMasina":{"kategorija":{"ime":"PrvaKategorija","br_jezgara":5,"RAM":4,"GPU":5},"datumi":[{"start_Date":"2015-02-12T22:50","finish_Date":"2015-02-14T22:51"},{"start_Date":"2015-04-12T22:50","finish_Date":"2015-04-14T22:51"}],"diskovi":["Disk2"],"ime":"VM2"},"ime":"Disk2"},{"tip":"hdd","kapacitet":4,"mojaVirtualnaMasina":{"kategorija":{"ime":"PrvaKategorija","br_jezgara":5,"RAM":4,"GPU":5},"datumi":[{"start_Date":"2015-02-12T22:50","finish_Date":"2015-02-14T22:51"},{"start_Date":"2015-04-12T22:50","finish_Date":"2015-04-14T22:51"}],"diskovi":["Disk2","newdisc"],"ime":"VM2"},"ime":"newdisc"},{"kapacitet":45,"mojaVirtualnaMasina":{"kategorija":{"ime":"PrvaKategorija","br_jezgara":5,"RAM":4,"GPU":5},"datumi":[{"start_Date":"2019-09-01T15:30","finish_Date":"2019-09-17T16:51"},{"start_Date":"2019-09-25T11:10","finish_Date":"2019-10-10T22:51"}],"diskovi":["Disk1"],"ime":"VM1"},"ime":"Disk1"}]
+[
+  {
+    "kapacitet": 45,
+    "mojaVirtualnaMasina": {
+      "kategorija": {
+        "ime": "Category1",
+        "br_jezgara": 5,
+        "RAM": 40,
+        "GPU": 30
+      },
+      "datumi": [],
+      "diskovi": [
+        "Disc1"
+      ],
+      "ime": "VM1"
+    },
+    "ime": "Disc1"
+  },
+  {
+    "kapacitet": 20,
+    "mojaVirtualnaMasina": {
+      "kategorija": {
+        "ime": "Category2",
+        "br_jezgara": 4,
+        "RAM": 10,
+        "GPU": 3
+      },
+      "datumi": [],
+      "diskovi": [
+        "Disc2"
+      ],
+      "ime": "VM2"
+    },
+    "ime": "Disc2"
+  },
+  {
+    "kapacitet": 70,
+    "mojaVirtualnaMasina": {
+      "kategorija": {
+        "ime": "Category1",
+        "br_jezgara": 5,
+        "RAM": 40,
+        "GPU": 30
+      },
+      "datumi": [],
+      "diskovi": [
+        "Disc1",
+        "Disc3"
+      ],
+      "ime": "VM1"
+    },
+    "ime": "Disc3"
+  },
+  {
+    "kapacitet": 50,
+    "mojaVirtualnaMasina": {
+      "kategorija": {
+        "ime": "Category4",
+        "br_jezgara": 1,
+        "RAM": 10,
+        "GPU": 5
+      },
+      "datumi": [],
+      "diskovi": [
+        "Disc4"
+      ],
+      "ime": "VM6"
+    },
+    "ime": "Disc4"
+  },
+  {
+    "kapacitet": 33,
+    "mojaVirtualnaMasina": {
+      "kategorija": {
+        "ime": "Category1",
+        "br_jezgara": 5,
+        "RAM": 40,
+        "GPU": 30
+      },
+      "datumi": [],
+      "diskovi": [
+        "Disc5",
+        "Disc7"
+      ],
+      "ime": "VM3"
+    },
+    "ime": "Disc5"
+  },
+  {
+    "kapacitet": 65,
+    "mojaVirtualnaMasina": {
+      "kategorija": {
+        "ime": "Category2",
+        "br_jezgara": 4,
+        "RAM": 10,
+        "GPU": 3
+      },
+      "datumi": [],
+      "diskovi": [
+        "Disc6"
+      ],
+      "ime": "VM5"
+    },
+    "ime": "Disc6"
+  },
+  {
+    "kapacitet": 80,
+    "mojaVirtualnaMasina": {
+      "kategorija": {
+        "ime": "Category1",
+        "br_jezgara": 5,
+        "RAM": 40,
+        "GPU": 30
+      },
+      "datumi": [],
+      "diskovi": [
+        "Disc5",
+        "Disc7"
+      ],
+      "ime": "VM3"
+    },
+    "ime": "Disc7"
+  }
+]

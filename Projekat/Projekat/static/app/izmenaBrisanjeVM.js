@@ -75,7 +75,7 @@ Vue.component("izmena-brisanje-vm", {
 				<td>Name:</td>
 				<td v-if="active.uloga !== 'korisnik'"><input type="text" name="ime" v-model="vm.ime"></input></td>
 				<td v-else>{{vm.ime}}</td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
@@ -125,7 +125,7 @@ Vue.component("izmena-brisanje-vm", {
 			<td>
 				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
 			</td>
-			<td v-if="active.uloga === 'admin' && aktivnost === ''">
+			<td v-if="active.uloga !== 'korisnik' && aktivnost === ''">
 				<button class="dugme" type="submit" v-on:click="changeStateOff()">Turn off VM</button>
 			</td>
 			<td v-else-if="active.uloga !== 'korisnik' && aktivnost !== ''">
@@ -305,8 +305,16 @@ Vue.component("izmena-brisanje-vm", {
 		axios
 			.get('rest/virtualne/getVM', { params: {"ime":''+this.ime}})
 			.then(response =>{
-				this.vm = response.data,
-				this.aktivnost = this.vm.datumi[this.vm.datumi.length-1].finish_Date
+				this.vm = response.data;
+				if(response.data.datumi.length !== 0)
+				{
+					this.aktivnost = response.data.datumi[this.vm.datumi.length-1].finish_Date
+				}
+				else
+				{
+					this.aktivnost = "off";
+				}
+				
 			},error => {this.$router.push({ name: 'forbidden' })});	
 		
 		axios

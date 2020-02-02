@@ -35,7 +35,7 @@ public class Files {
 	public static void UpisKorisnik(ArrayList<Korisnik> korisnici)
 	{
 		try (Writer writer = new FileWriter("./files/korisnici.json")) {
-		    gson = new GsonBuilder().create();
+		    gson = new GsonBuilder().setPrettyPrinting().create();
 		    gson.toJson(korisnici, writer);
 		
 		} catch (IOException e) {
@@ -46,7 +46,7 @@ public class Files {
 	public static void UpisOrganizacija(ArrayList<Organizacija> organizacije)
 	{
 		try (Writer writer = new FileWriter("./files/organizacije.json")) {
-		    gson = new GsonBuilder().create();
+		    gson = new GsonBuilder().setPrettyPrinting().create();
 		    gson.toJson(organizacije, writer);
 		
 		} catch (IOException e) {
@@ -57,7 +57,7 @@ public class Files {
 	public static void UpisVM(ArrayList<VM> vm)
 	{
 		try (Writer writer = new FileWriter("./files/virtualneMasine.json")) {
-		    gson = new GsonBuilder().create();
+		    gson = new GsonBuilder().setPrettyPrinting().create();
 		    gson.toJson(vm, writer);
 		
 		} catch (IOException e) {
@@ -68,7 +68,7 @@ public class Files {
 	public static void UpisDisk(ArrayList<Disk> diskovi)
 	{
 		try (Writer writer = new FileWriter("./files/diskovi.json")) {
-		    gson = new GsonBuilder().create();
+		    gson = new GsonBuilder().setPrettyPrinting().create();
 		    gson.toJson(diskovi, writer);
 		
 		} catch (IOException e) {
@@ -80,7 +80,7 @@ public class Files {
 	public static void UpisKategorija(ArrayList<KategorijaVM> kategorije)
 	{
 		try (Writer writer = new FileWriter("./files/kategorije.json")) {
-		    gson = new GsonBuilder().create();
+		    gson = new GsonBuilder().setPrettyPrinting().create();
 		    gson.toJson(kategorije, writer);
 		
 		} catch (IOException e) {

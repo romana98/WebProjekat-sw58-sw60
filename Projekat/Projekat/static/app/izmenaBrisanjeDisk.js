@@ -6,6 +6,7 @@ Vue.component("izmena-brisanje-disk", {
 			validate_name_exist: false,
 			validate_kapacitet_num: false,
 			validate_kapacitet: false,
+			validate_kapacitet_sign: false,
 			ime:'',
 			active:null,
 			aktivnost:null,
@@ -72,7 +73,7 @@ Vue.component("izmena-brisanje-disk", {
 				<td>Name:</td>
 				<td  v-if="active.uloga !== 'korisnik'"><input type="text" name="ime" v-model="disk.ime"></input></td>
 				<td v-else>{{disk.ime}}</td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
@@ -86,8 +87,9 @@ Vue.component("izmena-brisanje-disk", {
 			<tr>
 				<td>Capacity:</td>
 				<td ><input :disabled="active.uloga === 'korisnik'" type="text" name="kapacitet" v-model="disk.kapacitet"></input></td>
-				<td><label v-if="validate_kapacitet">You're missing field!</label>
-				<label v-else-if="validate_kapacitet_num">Not a number!</label></td>
+				<td><label v-if="validate_kapacitet">Field can't be empty!</label>
+				<label v-else-if="validate_kapacitet_num">Not a number!</label>
+				<label v-else-if="validate_kapacitet_sign">Number can't be negative or 0!</label></td>
 			</tr>
 			<tr>
 				<td>VM:</td>
@@ -152,6 +154,14 @@ Vue.component("izmena-brisanje-disk", {
 			else
 			{
 				this.validate_kapacitet_num = false;
+				if(parseInt(disk.kapacitet) <= 0)
+				{
+					this.validate_kapacitet_sign = true;
+				}
+				else
+				{
+					this.validate_kapacitet_sign = false;
+				}
 			
 				axios
 				.post('rest/diskovi/Izmena',  {ime:''+disk.ime, tip:''+disk.tip, kapacitet:''+disk.kapacitet, mojaVirtualnaMasina: disk.mojaVirtualnaMasina}, {params:{imeOld:''+ime}})

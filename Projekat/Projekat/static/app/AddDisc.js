@@ -15,7 +15,7 @@ Vue.component("AddDisc", {
 	<div>
 <div class="background" v-if="active_user">
              <div style="text-align: right; font-size: large;">
-             <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click.native="a_clicked($event)"> Profil </router-link>
+             <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </router-link>
                <router-link to="/" v-on:click.native="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </router-link>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>

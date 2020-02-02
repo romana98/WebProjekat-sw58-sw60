@@ -1,1 +1,145 @@
-[{"kategorija":{"ime":"PrvaKategorija","br_jezgara":5,"RAM":4,"GPU":5},"datumi":[{"start_Date":"2019-09-01T15:30","finish_Date":"2019-09-17T16:51"},{"start_Date":"2019-09-25T11:10","finish_Date":"2019-10-10T22:51"}],"diskovi":["Disk1"],"ime":"VM1"},{"kategorija":{"ime":"PrvaKategorija","br_jezgara":5,"RAM":4,"GPU":5},"datumi":[{"start_Date":"2015-02-12T22:50","finish_Date":"2015-02-14T22:51"},{"start_Date":"2015-04-12T22:50","finish_Date":"2015-04-14T22:51"}],"diskovi":["Disk2","newdisc"],"ime":"VM2"},{"kategorija":{"ime":"DrugaKategorija","br_jezgara":10,"RAM":8,"GPU":10},"datumi":[],"diskovi":[],"ime":"a"},{"kategorija":{"ime":"DrugaKategorija","br_jezgara":10,"RAM":8,"GPU":10},"datumi":[],"diskovi":[],"ime":"m"}]
+[
+  {
+    "kategorija": {
+      "ime": "Category1",
+      "br_jezgara": 5,
+      "RAM": 40,
+      "GPU": 30
+    },
+    "datumi": [
+      {
+        "start_Date": "2020-02-02T13:12",
+        "finish_Date": "2020-02-02T13:19"
+      },
+      {
+        "start_Date": "2020-02-02T13:19",
+        "finish_Date": ""
+      }
+    ],
+    "diskovi": [
+      "Disc1",
+      "Disc3"
+    ],
+    "ime": "VM1"
+  },
+  {
+    "kategorija": {
+      "ime": "Category2",
+      "br_jezgara": 4,
+      "RAM": 10,
+      "GPU": 3
+    },
+    "datumi": [
+      {
+        "start_Date": "2019-09-01T15:30",
+        "finish_Date": "2019-09-17T16:51"
+      },
+      {
+        "start_Date": "2019-09-25T11:10",
+        "finish_Date": "2019-10-10T22:51"
+      }
+    ],
+    "diskovi": [
+      "Disc2"
+    ],
+    "ime": "VM2"
+  },
+  {
+    "kategorija": {
+      "ime": "Category1",
+      "br_jezgara": 5,
+      "RAM": 40,
+      "GPU": 30
+    },
+    "datumi": [
+      {
+        "start_Date": "2019-02-12T22:50",
+        "finish_Date": "2019-03-15T22:51"
+      },
+      {
+        "start_Date": "2019-04-10T22:50",
+        "finish_Date": "2019-05-14T22:51"
+      }
+    ],
+    "diskovi": [
+      "Disc5",
+      "Disc7"
+    ],
+    "ime": "VM3"
+  },
+  {
+    "kategorija": {
+      "ime": "Category3",
+      "br_jezgara": 6,
+      "RAM": 75,
+      "GPU": 22
+    },
+    "datumi": [
+      {
+        "start_Date": "2019-02-20T22:50",
+        "finish_Date": "2019-03-10T22:51"
+      },
+      {
+        "start_Date": "2019-04-05T22:50",
+        "finish_Date": "2019-05-24T22:51"
+      }
+    ],
+    "diskovi": [],
+    "ime": "VM4"
+  },
+  {
+    "kategorija": {
+      "ime": "Category2",
+      "br_jezgara": 4,
+      "RAM": 10,
+      "GPU": 3
+    },
+    "datumi": [
+      {
+        "start_Date": "2019-01-20T22:50",
+        "finish_Date": "2019-02-10T22:51"
+      },
+      {
+        "start_Date": "2019-07-05T22:50",
+        "finish_Date": "2019-08-24T22:51"
+      }
+    ],
+    "diskovi": [
+      "Disc6"
+    ],
+    "ime": "VM5"
+  },
+  {
+    "kategorija": {
+      "ime": "Category4",
+      "br_jezgara": 1,
+      "RAM": 10,
+      "GPU": 5
+    },
+    "datumi": [
+      {
+        "start_Date": "2019-01-20T22:50",
+        "finish_Date": "2019-02-10T22:51"
+      },
+      {
+        "start_Date": "2019-06-10T22:50",
+        "finish_Date": ""
+      }
+    ],
+    "diskovi": [
+      "Disc4"
+    ],
+    "ime": "VM6"
+  },
+  {
+    "kategorija": {
+      "ime": "Category3",
+      "br_jezgara": 6,
+      "RAM": 75,
+      "GPU": 22
+    },
+    "datumi": [],
+    "diskovi": [],
+    "ime": "VM7"
+  }
+]

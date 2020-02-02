@@ -78,32 +78,32 @@ Vue.component("izmena-profila", {
 			<tr>
 				<td>Email:</td>
 				<td><input v-model=kor.email></input></td>
-				<td><label v-if="validate_email">You're missing field!</label>
+				<td><label v-if="validate_email">Field can't be empty!</label>
 				<label v-else-if="validate_email_form">Not correct form of email!</label>
 				<label v-else-if="validate_email_exist">Email already taken!</label></td>
 			</tr>
 			<tr>
 				<td>Name:</td>
 				<td><input v-model=kor.ime></input></td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>LastName:</td>
 				<td><input v-model=kor.prezime></input></td>
-				<td><label v-if="validate_lastname">You're missing field!</label>
+				<td><label v-if="validate_lastname">Field can't be empty!</label>
 				<label v-else-if="validate_lastname_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
 				<td><input v-model=kor.lozinka></input></td>
-				<td><label v-if="validate_loz">You're missing field!</label>
+				<td><label v-if="validate_loz">Field can't be empty!</label>
 				<label v-else-if="validate_match">Two password fields don't match!</label></td>
 			</tr>
 			<tr>
 				<td>Password 2nd time:</td>
 				<td><input v-model=loz></input></td>
-				<td><label v-if="validate_loz_nd">You're missing field!</label></td>
+				<td><label v-if="validate_loz_nd">Field can't be empty!</label></td>
 			</tr>
 			<tr>
 				<td>Organization:</td>

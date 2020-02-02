@@ -74,19 +74,19 @@ Vue.component("izmena-brisanje-korisnika", {
 			<tr>
 				<td>Name:</td>
 				<td><input type="text" name="ime" v-model="kor.ime"></input></td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Lastname:</td>
 				<td><input type="text" name="prezime" v-model="kor.prezime"></input></td>
-				<td><label v-if="validate_lastname">You're missing field!</label>
+				<td><label v-if="validate_lastname">Field can't be empty!</label>
 				<label v-else-if="validate_lastname_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
 				<td><input type="text" name="lozinka" v-model="kor.lozinka"></input></td>
-				<td><label v-if="validate_pass">You're missing field!</label></td>
+				<td><label v-if="validate_pass">Field can't be empty!</label></td>
 			</tr>
 			<tr>
 				<td>Organization:</td>
@@ -148,7 +148,7 @@ Vue.component("izmena-brisanje-korisnika", {
 				this.validate_name_let = false;
 			}
 			
-			if(kor.prezime.lenght === 0)
+			if(kor.prezime.length === 0)
 			{
 				this.validate_lastname = true;
 			}

@@ -70,13 +70,13 @@ Vue.component("izmena-organizacija", {
 			<tr>
 				<td>Name:</td>
 				<td><input type="text" name="ime" v-model="org.ime"></input></td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
 				<td>Description:</td>
 				<td><input type="text" name="opis" v-model="org.opis"></input></td>
-				<td><label v-if="validate_desc">You're missing field!</label></td>
+				<td><label v-if="validate_desc">Field can't be empty!</label></td>
 			</tr>
 			<tr>
 				<td>Logo:</td>

@@ -6,11 +6,14 @@ Vue.component("izmena-brisanje-kategorija", {
 			validate_name: false,
 			validate_name_exist: false,
 			validate_br_jez_num: false,
+			validate_br_jez_sign: false,
 			validate_br_jez: false,
 			validate_ram_num: false,
+			validate_ram_sign: false,
 			validate_ram: false,
 			validate_gpu: false,
 			validate_gpu_num: false,
+			validate_gpu_sign: false,
 			ime:''
 		}
 	},
@@ -73,26 +76,29 @@ Vue.component("izmena-brisanje-kategorija", {
 			<tr>
 				<td>Name:</td>
 				<td><input type="text" name="ime" v-model="kat.ime"></input></td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
 				<td>Num of Cores:</td>
 				<td><input type="text" name="jezgra" v-model="kat.br_jezgara"></input></td>
-				<td><label v-if="validate_br_jez">You're missing field!</label>
-				<label v-else-if="validate_br_jez_num">Not a number!</label></td>
+				<td><label v-if="validate_br_jez">Field can't be empty!</label>
+				<label v-else-if="validate_br_jez_num">Not a number!</label>
+				<label v-else-if="validate_br_jez_sign">Number can't be negative or 0!</label></td>
 			</tr>
 			<tr>
 				<td>RAM:</td>
 				<td><input type="text" name="ram" v-model="kat.RAM"></input></td>
-				<td><label v-if="validate_ram">You're missing field!</label>
-				<label v-else-if="validate_ram_num">Not a number!</label></td>
+				<td><label v-if="validate_ram">Field can't be empty!</label>
+				<label v-else-if="validate_ram_num">Not a number!</label>
+				<label v-else-if="validate_ram_sign">Number can't be negative or 0!</label></td>
 			</tr>
 			<tr>
 				<td>GPU:</td>
 				<td><input type="text" name="gpu" v-model="kat.GPU"></input></td>
-				<td><label v-if="validate_gpu">You're missing field!</label>
-				<label v-else-if="validate_gpu_num">Not a number!</label></td>
+				<td><label v-if="validate_gpu">Field can't be empty!</label>
+				<label v-else-if="validate_gpu_num">Not a number!</label>
+				<label v-else-if="validate_gpu_sign">Number can't be negative or 0!</label></td>
 			</tr>
 			<tr>
 			<td>
@@ -191,6 +197,32 @@ Vue.component("izmena-brisanje-kategorija", {
 			
 			if(!this.validate_br_jez_num && !this.validate_ram_num && !this.validate_gpu_num)
 			{
+				if(parseInt(kat.br_jezgara) <= 0)
+				{
+					this.validate_br_jez_sign = true;
+				}
+				else
+				{
+					this.validate_br_jez_sign = false;
+				}
+				
+				if(parseInt(kat.RAM) <= 0)
+				{
+					this.validate_ram_sign = true;
+				}
+				else
+				{
+					this.validate_ram_sign = false;
+				}
+				
+				if(parseInt(kat.GPU) <= 0)
+				{
+					this.validate_gpu_sign = true;
+				}
+				else
+				{
+					this.validate_gpu_sign = false;
+				}
 				axios
 				.post('rest/kategorije/Izmena', {ime:''+kat.ime, br_jezgara: kat.br_jezgara, RAM: kat.RAM, GPU: kat.GPU}, {params:{imeOld:''+ime}})
 				.then(response => {

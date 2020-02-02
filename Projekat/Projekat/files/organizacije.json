@@ -1,1 +1,65 @@
-[{"ime":"FTN","opis":"nesto lepo","logo":"","korisnici":["korisnik@super.com","admin@super.com"],"resursi":["VM2","Disk1","newdisc"]},{"ime":"PMF","opis":"nesto manje lepo","logo":"","korisnici":[],"resursi":["VM1","a","m","Disk1"]},{"ime":"UNS","opis":"neka nova organizacija","logo":"","korisnici":[],"resursi":[]},{"ime":"AC","opis":"Nova organizacija","logo":"","korisnici":[],"resursi":[]},{"ime":"Nova","opis":"Najnovijaaa","logo":"","korisnici":[],"resursi":[]},{"ime":"AJMO","opis":"undefined","logo":"","korisnici":[],"resursi":[]}]
+[
+  {
+    "ime": "Organization1",
+    "opis": "first organization",
+    "logo": "",
+    "korisnici": [
+      "korisnik@super.com",
+      "korisnik1@super.com",
+      "admin1@super.com"
+    ],
+    "resursi": [
+      "VM1",
+      "VM2",
+      "Disc1",
+      "Disc2",
+      "Disc3"
+    ]
+  },
+  {
+    "ime": "Organization2",
+    "opis": "second organization",
+    "logo": "",
+    "korisnici": [],
+    "resursi": [
+      "VM6",
+      "Disc4"
+    ]
+  },
+  {
+    "ime": "Organization3",
+    "opis": "third organization",
+    "logo": "",
+    "korisnici": [
+      "admin@super.com",
+      "korisnik2@super.com"
+    ],
+    "resursi": [
+      "VM3",
+      "VM4",
+      "Disc5",
+      "Disc7"
+    ]
+  },
+  {
+    "ime": "Organization4",
+    "opis": "fourth organization",
+    "logo": "",
+    "korisnici": [],
+    "resursi": [
+      "VM5",
+      "Disc6"
+    ]
+  },
+  {
+    "ime": "Organization5",
+    "opis": "fifth organization",
+    "logo": "",
+    "korisnici": [
+      "korisnik3@super.com"
+    ],
+    "resursi": [
+      "VM7"
+    ]
+  }
+]
