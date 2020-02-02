@@ -13,8 +13,8 @@ Vue.component("izmena-organizacija", {
 	<div>
 		<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+             <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click.native="a_clicked($event)"> Profil </router-link>
+               <router-link to="/" v-on:click.native="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </router-link>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -70,13 +70,13 @@ Vue.component("izmena-organizacija", {
 			<tr>
 				<td>Name:</td>
 				<td><input type="text" name="ime" v-model="org.ime"></input></td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
 				<td>Description:</td>
 				<td><input type="text" name="opis" v-model="org.opis"></input></td>
-				<td><label v-if="validate_desc">You're missing field!</label></td>
+				<td><label v-if="validate_desc">Field can't be empty!</label></td>
 			</tr>
 			<tr>
 				<td>Logo:</td>
@@ -184,7 +184,7 @@ Vue.component("izmena-organizacija", {
 				axios
 				.post('rest/organizacije/Izmena', {"ime":''+org.ime, "opis":''+org.opis, "logo":''+org.logo}, {params:{imeOld:''+ime}})
 				.then(response => {
-					if(response.data.toString() === ("200"))
+					if(response.data.toString() === ("OK"))
 						toast('Organization (' + org.ime + ') information is saved!');	
 						this.$router.push({ name: 'OrganizationView' })
 				}, error=>{
@@ -207,11 +207,14 @@ Vue.component("izmena-organizacija", {
 			
 		},
 		
-		logOut : function()
+		logOut : function(event)
 		{
-			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
+			}
+			else
+			{
+				event.preventDefault();
 			}
 			
 		},
@@ -230,7 +233,7 @@ Vue.component("izmena-organizacija", {
 			{
 			axios
 			.post('rest/forbidden', {'salje': 'organizacijaIzmena'}).then(response => {
-				if(response.data.toString() !== ("200"))
+				if(response.data.toString() !== ("OK"))
 				{
 					this.$router.push({ name: 'forbidden' })
 				}
@@ -252,7 +255,7 @@ Vue.component("izmena-organizacija", {
 			
 			.then(response =>{
 				this.org = response.data
-			});
+			},error => {this.$router.push({ name: 'forbidden' })});
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{

@@ -109,8 +109,6 @@ public class Aplikacija {
 	
 	public void editOrganizacija(Organizacija o, String name)
 	{
-		organizacije.remove(name);
-		organizacije.put(o.getIme(), o);
 		
 		int index = -1;
 		for (int i = 0; i < organizacijeList.size(); i++) {
@@ -133,13 +131,13 @@ public class Aplikacija {
 		organizacijeList.get(index).setOpis(o.getOpis());
 		organizacijeList.get(index).setLogo(o.getLogo());
 		
+	
+		organizacije.remove(name);
+		organizacije.put(o.getIme(), organizacijeList.get(index));
 	}
 	
 	public void editVM(VM vm, String name)
 	{
-		virtualne.remove(name);
-		virtualne.put(vm.getIme(), vm);
-		
 		int index = -1;
 		for (int i = 0; i < virtualneList.size(); i++) {
 			if(virtualneList.get(i).getIme().contentEquals(name))
@@ -166,12 +164,14 @@ public class Aplikacija {
 		virtualneList.get(index).setIme(vm.getIme());
 		virtualneList.get(index).setDatumi(vm.getDatumi());
 		
+		virtualne.remove(name);
+		virtualne.put(vm.getIme(), virtualneList.get(index));
+		
+		
 	}
 	
 	public void editDisk(Disk d, String name)
 	{
-		diskovi.remove(name);
-		diskovi.put(d.getIme(), d);
 		
 		
 		int index = -1;
@@ -223,13 +223,13 @@ public class Aplikacija {
 		diskoviList.get(index).setTip(d.getTip());
 		diskoviList.get(index).getMojaVirtualnaMasina().setDatumi(d.getMojaVirtualnaMasina().getDatumi());;
 		
+		diskovi.remove(name);
+		diskovi.put(d.getIme(), diskoviList.get(index));
+		
 	}
 	
 	public void editKategorija(KategorijaVM k, String name)
 	{
-		kategorije.remove(name);
-		kategorije.put(k.getIme(), k);
-		
 		
 		int index = -1;
 		for (int i = 0; i < kategorijeList.size(); i++) {
@@ -249,13 +249,15 @@ public class Aplikacija {
 		}
 		
 		kategorijeList.set(index, k);
+		kategorije.remove(name);
+		kategorije.put(k.getIme(), kategorijeList.get(index));
+		
+		
 	}
 	
 	public void editKorisnik(Korisnik k, String email)
 	{
 		
-		korisnici.remove(email);
-		korisnici.put(k.getEmail(), k);
 		
 		int index = -1;
 		for (int i = 0; i < korisniciList.size(); i++) {
@@ -272,7 +274,12 @@ public class Aplikacija {
 		if(k.getUloga() != null)
 			korisniciList.get(index).setUloga(k.getUloga());
 		korisniciList.get(index).setLozinka(k.getLozinka());
+		
+		korisnici.remove(email);
+		korisnici.put(k.getEmail(), korisniciList.get(index));
+		
 	}
+	
 	
 	public void removeVM(VM vm)
 	{

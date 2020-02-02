@@ -1,1 +1,158 @@
-[{"email":"mico@super.com","ime":"c","lozinka":"mico","prezime":"c","organizacija":{"ime":"","opis":"","logo":"","korisnici":[],"resursi":[]},"uloga":"superadmin"},{"email":"romana@super.com","ime":"Romana","lozinka":"romana","prezime":"Erdelji","organizacija":{"ime":"DrugaOrg","opis":"drugaorg","logo":"","korisnici":["romana@super.com"],"resursi":[]}}]
+[
+  {
+    "email": "romana@super.com",
+    "ime": "Romana",
+    "lozinka": "romana",
+    "prezime": "Erdelji",
+    "organizacija": {
+      "ime": "none",
+      "opis": "none",
+      "logo": "none",
+      "korisnici": [],
+      "resursi": []
+    },
+    "uloga": "superadmin"
+  },
+  {
+    "email": "vukasin@super.com",
+    "ime": "Vukasin",
+    "lozinka": "vukasin",
+    "prezime": "Ocokoljic",
+    "organizacija": {
+      "ime": "none",
+      "opis": "none",
+      "logo": "none",
+      "korisnici": [],
+      "resursi": []
+    },
+    "uloga": "superadmin"
+  },
+  {
+    "email": "korisnik@super.com",
+    "ime": "Pera",
+    "lozinka": "korisnik",
+    "prezime": "Peric",
+    "organizacija": {
+      "ime": "Organization1",
+      "opis": "first organization",
+      "logo": "",
+      "korisnici": [
+        "korisnik@super.com",
+        "korisnik1@super.com",
+        "admin1@super.com"
+      ],
+      "resursi": [
+        "VM1",
+        "VM2",
+        "Disc1",
+        "Disc2",
+        "Disc3"
+      ]
+    }
+  },
+  {
+    "email": "korisnik1@super.com",
+    "ime": "Jova",
+    "lozinka": "korisnik1",
+    "prezime": "Jovic",
+    "organizacija": {
+      "ime": "Organization1",
+      "opis": "first organization",
+      "logo": "",
+      "korisnici": [
+        "korisnik@super.com",
+        "korisnik1@super.com",
+        "admin1@super.com"
+      ],
+      "resursi": [
+        "VM1",
+        "VM2",
+        "Disc1",
+        "Disc2",
+        "Disc3"
+      ]
+    }
+  },
+  {
+    "email": "admin@super.com",
+    "ime": "Mika",
+    "lozinka": "admin",
+    "prezime": "Mikic",
+    "organizacija": {
+      "ime": "Organization3",
+      "opis": "third organization",
+      "logo": "",
+      "korisnici": [
+        "admin@super.com",
+        "korisnik2@super.com"
+      ],
+      "resursi": [
+        "VM3",
+        "VM4",
+        "Disc5",
+        "Disc7"
+      ]
+    }
+  },
+  {
+    "email": "admin1@super.com",
+    "ime": "Mira",
+    "lozinka": "admin1",
+    "prezime": "Miric",
+    "organizacija": {
+      "ime": "Organization1",
+      "opis": "first organization",
+      "logo": "",
+      "korisnici": [
+        "korisnik@super.com",
+        "korisnik1@super.com",
+        "admin1@super.com"
+      ],
+      "resursi": [
+        "VM1",
+        "VM2",
+        "Disc1",
+        "Disc2",
+        "Disc3"
+      ]
+    }
+  },
+  {
+    "email": "korisnik2@super.com",
+    "ime": "Ana",
+    "lozinka": "korisnik2",
+    "prezime": "Ana",
+    "organizacija": {
+      "ime": "Organization3",
+      "opis": "third organization",
+      "logo": "",
+      "korisnici": [
+        "admin@super.com",
+        "korisnik2@super.com"
+      ],
+      "resursi": [
+        "VM3",
+        "VM4",
+        "Disc5",
+        "Disc7"
+      ]
+    }
+  },
+  {
+    "email": "korisnik3@super.com",
+    "ime": "Alef",
+    "lozinka": "korisnik3",
+    "prezime": "Beta",
+    "organizacija": {
+      "ime": "Organization5",
+      "opis": "fifth organization",
+      "logo": "",
+      "korisnici": [
+        "korisnik3@super.com"
+      ],
+      "resursi": [
+        "VM7"
+      ]
+    }
+  }
+]

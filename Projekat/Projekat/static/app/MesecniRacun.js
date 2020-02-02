@@ -19,8 +19,8 @@ Vue.component("mesecni-racun", {
 	<div >
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+            <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;"> Profil </router-link>
+               <router-link to="/" v-on:click.native="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </router-link>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -123,11 +123,14 @@ Vue.component("mesecni-racun", {
 	`	
 	,
 	methods: {
-		logOut : function()
+		logOut : function(event)
 		{
-			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
+			}
+			else
+			{
+				event.preventDefault();
 			}
 		},
 		cancel()
@@ -218,7 +221,7 @@ Vue.component("mesecni-racun", {
 			{
 			axios
 			.post('rest/forbidden', {'salje': 'mesecni'}).then(response => {
-				if(response.data.toString() !== ("200"))
+				if(response.data.toString() !== ("OK"))
 				{
 					this.$router.push({ name: 'forbidden' })
 				}

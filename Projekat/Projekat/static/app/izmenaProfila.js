@@ -23,8 +23,8 @@ Vue.component("izmena-profila", {
 	
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+             <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click.native="a_clicked($event)"> Profil </router-link>
+               <router-link to="/" v-on:click.native="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </router-link>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -78,32 +78,32 @@ Vue.component("izmena-profila", {
 			<tr>
 				<td>Email:</td>
 				<td><input v-model=kor.email></input></td>
-				<td><label v-if="validate_email">You're missing field!</label>
+				<td><label v-if="validate_email">Field can't be empty!</label>
 				<label v-else-if="validate_email_form">Not correct form of email!</label>
 				<label v-else-if="validate_email_exist">Email already taken!</label></td>
 			</tr>
 			<tr>
 				<td>Name:</td>
 				<td><input v-model=kor.ime></input></td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>LastName:</td>
 				<td><input v-model=kor.prezime></input></td>
-				<td><label v-if="validate_lastname">You're missing field!</label>
+				<td><label v-if="validate_lastname">Field can't be empty!</label>
 				<label v-else-if="validate_lastname_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
 				<td><input v-model=kor.lozinka></input></td>
-				<td><label v-if="validate_loz">You're missing field!</label>
+				<td><label v-if="validate_loz">Field can't be empty!</label>
 				<label v-else-if="validate_match">Two password fields don't match!</label></td>
 			</tr>
 			<tr>
 				<td>Password 2nd time:</td>
 				<td><input v-model=loz></input></td>
-				<td><label v-if="validate_loz_nd">You're missing field!</label></td>
+				<td><label v-if="validate_loz_nd">Field can't be empty!</label></td>
 			</tr>
 			<tr>
 				<td>Organization:</td>
@@ -255,11 +255,14 @@ Vue.component("izmena-profila", {
 			
 		},
 		
-		logOut : function()
+		logOut : function(event)
 		{
-			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
+			}
+			else
+			{
+				event.preventDefault();
 			}
 			
 		},
@@ -274,7 +277,7 @@ Vue.component("izmena-profila", {
 			{
 			axios
 			.post('rest/forbidden', {'salje': 'profil'}).then(response => {
-				if(response.data.toString() !== ("200"))
+				if(response.data.toString() !== ("OK"))
 				{
 					this.$router.push({ name: 'forbidden' })
 				}
@@ -302,7 +305,7 @@ Vue.component("izmena-profila", {
 					this.active_superadmin = false;
 				}
 				this.isForbidden(response.data)
-			});
+			},error => {this.$router.push({ name: 'forbidden' })});
 	}
 	
 });

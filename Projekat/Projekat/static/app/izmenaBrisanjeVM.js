@@ -18,8 +18,8 @@ Vue.component("izmena-brisanje-vm", {
 	<div >
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+             <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click.native="a_clicked($event)"> Profil </router-link>
+               <router-link to="/" v-on:click.native="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </router-link>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -68,13 +68,14 @@ Vue.component("izmena-brisanje-vm", {
               </div>            
         </div>
 
+
 		<form id="form" class="login_form" method="post">
 		<table class="poravnaj"  v-if="vm && active">
 			<tr>
 				<td>Name:</td>
 				<td v-if="active.uloga !== 'korisnik'"><input type="text" name="ime" v-model="vm.ime"></input></td>
 				<td v-else>{{vm.ime}}</td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
@@ -124,7 +125,7 @@ Vue.component("izmena-brisanje-vm", {
 			<td>
 				<button class="dugme" :disabled="active.uloga === 'korisnik'"  type="submit" v-on:click="deleteVM(vm.ime)">Delete VM</button>
 			</td>
-			<td v-if="active.uloga === 'admin' && aktivnost === ''">
+			<td v-if="active.uloga !== 'korisnik' && aktivnost === ''">
 				<button class="dugme" type="submit" v-on:click="changeStateOff()">Turn off VM</button>
 			</td>
 			<td v-else-if="active.uloga !== 'korisnik' && aktivnost !== ''">
@@ -235,11 +236,14 @@ Vue.component("izmena-brisanje-vm", {
 		
 		},
 	
-		logOut : function()
+		logOut : function(event)
 		{
-			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
+			}
+			else
+			{
+				event.preventDefault();
 			}
 		},
 		getDate()
@@ -278,7 +282,7 @@ Vue.component("izmena-brisanje-vm", {
 			{
 			axios
 			.post('rest/forbidden', {'salje': 'vmIzmena'}).then(response => {
-				if(response.data.toString() !== ("200"))
+				if(response.data.toString() !== ("OK"))
 				{
 					this.$router.push({ name: 'forbidden' })
 				}
@@ -301,9 +305,17 @@ Vue.component("izmena-brisanje-vm", {
 		axios
 			.get('rest/virtualne/getVM', { params: {"ime":''+this.ime}})
 			.then(response =>{
-				this.vm = response.data,
-				this.aktivnost = this.vm.datumi[this.vm.datumi.length-1].finish_Date
-			});	
+				this.vm = response.data;
+				if(response.data.datumi.length !== 0)
+				{
+					this.aktivnost = response.data.datumi[this.vm.datumi.length-1].finish_Date
+				}
+				else
+				{
+					this.aktivnost = "off";
+				}
+				
+			},error => {this.$router.push({ name: 'forbidden' })});	
 		
 		axios
 		.get('rest/korisnici/getActiveUser')

@@ -16,8 +16,8 @@ Vue.component("izmena-brisanje-korisnika", {
 	<div >
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+             <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click.native="a_clicked($event)"> Profil </router-link>
+               <router-link to="/" v-on:click.native="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </router-link>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -74,19 +74,19 @@ Vue.component("izmena-brisanje-korisnika", {
 			<tr>
 				<td>Name:</td>
 				<td><input type="text" name="ime" v-model="kor.ime"></input></td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Lastname:</td>
 				<td><input type="text" name="prezime" v-model="kor.prezime"></input></td>
-				<td><label v-if="validate_lastname">You're missing field!</label>
+				<td><label v-if="validate_lastname">Field can't be empty!</label>
 				<label v-else-if="validate_lastname_let">Must conatin only letters!</label></td>
 			</tr>
 			<tr>
 				<td>Password:</td>
 				<td><input type="text" name="lozinka" v-model="kor.lozinka"></input></td>
-				<td><label v-if="validate_pass">You're missing field!</label></td>
+				<td><label v-if="validate_pass">Field can't be empty!</label></td>
 			</tr>
 			<tr>
 				<td>Organization:</td>
@@ -139,7 +139,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			{
 				this.validate_name = false;
 			}
-			if(kor.ime.match(/^[A-Za-z]+$/))
+			if(!kor.ime.match(/^[A-Za-z]+$/))
 			{
 				this.validate_name_let = true;					
 			}
@@ -148,7 +148,7 @@ Vue.component("izmena-brisanje-korisnika", {
 				this.validate_name_let = false;
 			}
 			
-			if(kor.prezime.lenght === 0)
+			if(kor.prezime.length === 0)
 			{
 				this.validate_lastname = true;
 			}
@@ -156,7 +156,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			{
 				this.validate_lastname = false;
 			}
-			if(kor.prezime.match(/^[A-Za-z]+$/))
+			if(!kor.prezime.match(/^[A-Za-z]+$/))
 			{
 				this.validate_lastname_let = true;					
 			}
@@ -174,7 +174,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			}
 			
 			axios
-			.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga})
+			.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga}, {params:{emailOld:''+this.email}})
 			.then(response => {
 					toast('User (' + kor.email + ') information is saved!');
 					this.$router.push({ name: 'UserView' })
@@ -214,11 +214,14 @@ Vue.component("izmena-brisanje-korisnika", {
 	      	  }
 	        });
 		},
-		logOut : function()
+		logOut : function(event)
 		{
-			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
+			}
+			else
+			{
+				event.preventDefault();
 			}
 			
 		},
@@ -237,7 +240,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			{
 			axios
 			.post('rest/forbidden', {'salje': 'korisnikIzmena'}).then(response => {
-				if(response.data.toString() !== ("200"))
+				if(response.data.toString() !== ("OK"))
 				{
 					this.$router.push({ name: 'forbidden' })
 				}
@@ -255,8 +258,9 @@ Vue.component("izmena-brisanje-korisnika", {
 		axios
 			.get('rest/korisnici/getKorisnik', { params: {"email":''+this.email}})
 			.then(response =>{
-				this.kor = response.data
-			});
+				this.kor = response.data;
+				this.email = response.data.email;
+			},error => {this.$router.push({ name: 'forbidden' })});
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{

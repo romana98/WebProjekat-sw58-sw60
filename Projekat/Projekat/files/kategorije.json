@@ -1,1 +1,27 @@
-[{"ime":"PrvaKat","br_jezgara":2,"RAM":2,"GPU":2}]
+[
+  {
+    "ime": "Category1",
+    "br_jezgara": 5,
+    "RAM": 40,
+    "GPU": 30
+  },
+  {
+    "ime": "Category2",
+    "br_jezgara": 4,
+    "RAM": 10,
+    "GPU": 3
+  },
+  {
+    "ime": "Category3",
+    "br_jezgara": 6,
+    "RAM": 75,
+    "GPU": 22
+  },
+  {
+    "ime": "Category4",
+    "br_jezgara": 1,
+    "RAM": 10,
+    "GPU": 5
+  }
+]
+

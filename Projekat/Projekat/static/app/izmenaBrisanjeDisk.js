@@ -6,6 +6,7 @@ Vue.component("izmena-brisanje-disk", {
 			validate_name_exist: false,
 			validate_kapacitet_num: false,
 			validate_kapacitet: false,
+			validate_kapacitet_sign: false,
 			ime:'',
 			active:null,
 			aktivnost:null,
@@ -16,8 +17,8 @@ Vue.component("izmena-brisanje-disk", {
 	<div >
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="/" v-on:click="logOut()" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+              <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click.native="a_clicked($event)"> Profil </router-link>
+               <router-link to="/" v-on:click.native="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </router-link>
             </div>
 <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -72,7 +73,7 @@ Vue.component("izmena-brisanje-disk", {
 				<td>Name:</td>
 				<td  v-if="active.uloga !== 'korisnik'"><input type="text" name="ime" v-model="disk.ime"></input></td>
 				<td v-else>{{disk.ime}}</td>
-				<td><label v-if="validate_name">You're missing field!</label>
+				<td><label v-if="validate_name">Field can't be empty!</label>
 				<label v-else-if="validate_name_exist">Name already taken!</label></td>
 			</tr>
 			<tr>
@@ -86,18 +87,13 @@ Vue.component("izmena-brisanje-disk", {
 			<tr>
 				<td>Capacity:</td>
 				<td ><input :disabled="active.uloga === 'korisnik'" type="text" name="kapacitet" v-model="disk.kapacitet"></input></td>
-				<td><label v-if="validate_kapacitet">You're missing field!</label>
-				<label v-else-if="validate_kapacitet_num">Not a number!</label></td>
+				<td><label v-if="validate_kapacitet">Field can't be empty!</label>
+				<label v-else-if="validate_kapacitet_num">Not a number!</label>
+				<label v-else-if="validate_kapacitet_sign">Number can't be negative or 0!</label></td>
 			</tr>
 			<tr>
 				<td>VM:</td>
 				<td >{{disk.mojaVirtualnaMasina.ime}}</td>
-			</tr>
-			<tr>
-				<td v-if="aktivnost !== ''">VM turned: OFF</td>
-				<td v-else>VM turned: ON</td>
-				<td v-if="aktivnost !== ''"><input  type="datetime-local" :disabled="true" v-model="this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date"></input></td>
-				<td v-else><input  type="datetime-local" :disabled="true" v-model="this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].start_Date"></input></td>
 			</tr>
 			<tr>
 			<td>
@@ -109,7 +105,7 @@ Vue.component("izmena-brisanje-disk", {
 			</tr>
 			<tr>	
 			<td v-if="active.uloga === 'superadmin'">
-				<button class="dugme" type="submit" v-on:click="deleteVM(vm.ime)">Delete Disc</button>
+				<button class="dugme" type="submit" v-on:click="deleteDisc(disk.ime)">Delete Disc</button>
 			</td>
 			
 			</tr>
@@ -158,6 +154,14 @@ Vue.component("izmena-brisanje-disk", {
 			else
 			{
 				this.validate_kapacitet_num = false;
+				if(parseInt(disk.kapacitet) <= 0)
+				{
+					this.validate_kapacitet_sign = true;
+				}
+				else
+				{
+					this.validate_kapacitet_sign = false;
+				}
 			
 				axios
 				.post('rest/diskovi/Izmena',  {ime:''+disk.ime, tip:''+disk.tip, kapacitet:''+disk.kapacitet, mojaVirtualnaMasina: disk.mojaVirtualnaMasina}, {params:{imeOld:''+ime}})
@@ -202,11 +206,15 @@ Vue.component("izmena-brisanje-disk", {
 		
 		},
 	
-		logOut : function()
+		logOut : function(event)
 		{
 			
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
+			}
+			else
+			{
+				event.preventDefault();
 			}
 		},
 		getDate()
@@ -244,7 +252,7 @@ Vue.component("izmena-brisanje-disk", {
 			{
 			axios
 			.post('rest/forbidden', {'salje': 'diskIzmena'}).then(response => {
-				if(response.data.toString() !== ("200"))
+				if(response.data.toString() !== ("OK"))
 				{
 					this.$router.push({ name: 'forbidden' })
 				}
@@ -266,7 +274,7 @@ Vue.component("izmena-brisanje-disk", {
 			.then(response =>{
 				this.disk = response.data,
 				this.aktivnost = this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date
-			});	
+			},error => {this.$router.push({ name: 'forbidden' })});	
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{
