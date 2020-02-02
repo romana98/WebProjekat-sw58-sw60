@@ -2,6 +2,7 @@ package classes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Aplikacija {
 	private HashMap<String, Korisnik> korisnici = new HashMap<>();
@@ -99,7 +100,7 @@ public class Aplikacija {
 				break;
 			}
 		}
-		
+
 		mapa.put(name, resurs.getCena(date));
 			
 		}
@@ -160,6 +161,13 @@ public class Aplikacija {
 			}
 		}
 		
+		Iterator<Dates> itr = vm.getDatumi().iterator();
+	    while (itr.hasNext()) {
+	      Dates d = itr.next();
+	      if (d.getStart_Date().compareTo("") == 0 && d.getFinish_Date().compareTo("") == 0) {
+	    	  vm.getDatumi().remove(d);
+	      }
+	    }
 		
 		virtualneList.get(index).setIme(vm.getIme());
 		virtualneList.get(index).setDatumi(vm.getDatumi());
@@ -328,7 +336,7 @@ public class Aplikacija {
 	
 	public void removeDisk(Disk d)
 	{
-		int indexD = -1, indexVM = -1, indexVD = -1;
+		int indexD = -1, indexVM = -1, indexVD = -1, indexO = -1, indexR = -1;
 		for (int i = 0; i < diskoviList.size(); i++) {
 			if(diskoviList.get(i).getIme().equals(d.getIme()))
 			{
@@ -336,6 +344,26 @@ public class Aplikacija {
 				break;
 			}
 		}
+		
+		
+		
+		for(int i = 0; i < organizacijeList.size(); i++)
+		{
+			for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
+				if(organizacijeList.get(i).getResursi().get(j).equals(d.getIme()))
+				{
+					indexR = j;
+					break;
+				}
+				
+			}
+			if(indexR != -1)
+			{
+				indexO = i;
+				break;
+			}
+		}
+		
 		for (int i = 0; i < virtualneList.size(); i++) {
 			
 			for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++)
@@ -359,6 +387,8 @@ public class Aplikacija {
 		diskovi.remove(d.getIme());
 		virtualneList.get(indexVM).getDiskovi().remove(indexVD);
 		virtualne.put(virtualneList.get(indexVM).getIme(), virtualneList.get(indexVM));
+		organizacijeList.get(indexO).getResursi().remove(indexR);
+		organizacije.put(organizacijeList.get(indexO).getIme(), organizacijeList.get(indexO));
 
 	}
 	

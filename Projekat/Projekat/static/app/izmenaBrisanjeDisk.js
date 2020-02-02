@@ -9,7 +9,6 @@ Vue.component("izmena-brisanje-disk", {
 			validate_kapacitet_sign: false,
 			ime:'',
 			active:null,
-			aktivnost:null,
 			tipovi: ['hdd', 'ssd']
 		}
 	},
@@ -272,8 +271,7 @@ Vue.component("izmena-brisanje-disk", {
 		axios
 			.get('rest/diskovi/getDisk', { params: {"ime":''+this.ime}})
 			.then(response =>{
-				this.disk = response.data,
-				this.aktivnost = this.disk.mojaVirtualnaMasina.datumi[this.disk.mojaVirtualnaMasina.datumi.length-1].finish_Date
+				this.disk = response.data;
 			},error => {this.$router.push({ name: 'forbidden' })});	
 		axios
 		.get('rest/korisnici/getActiveUser')

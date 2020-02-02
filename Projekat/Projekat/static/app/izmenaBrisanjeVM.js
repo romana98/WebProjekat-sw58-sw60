@@ -5,6 +5,8 @@ Vue.component("izmena-brisanje-vm", {
 			validate_name: false,
 			validate_name_exist: false,
 			validate_date: false,
+			validate_date1: false,
+			validate_date2: false,
 			name:'',
 			ime:null,
 			today:'',
@@ -105,7 +107,9 @@ Vue.component("izmena-brisanje-vm", {
 			
 			<tr>
 				<td>Dates:</td>
-				<td><label v-if="validate_date">Finish date can't be before start date!</label></td>
+				<td><label v-if="validate_date">Finish date can't be before start date!</label>
+				<label v-else-if="validate_date1">Finish date missing!</label>
+				<label v-else-if="validate_date2">Start date missing!</label></td>
 			</tr>
 			<tr v-for="(d, index) in vm.datumi">
 				<td ><input  type="datetime-local" :disabled="active.uloga !== 'superadmin'" :max="today" v-model="d.start_Date"></input></td>
@@ -172,6 +176,8 @@ Vue.component("izmena-brisanje-vm", {
 			
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			this.validate_date = false;
+			this.validate_date1 = false;
+			this.validate_date2 = false;
 			this.validate_name_exist = false;
 			
 			if(vm.ime.length === 0 )
@@ -183,15 +189,27 @@ Vue.component("izmena-brisanje-vm", {
 				this.validate_name = false;
 			}
 
+			let iterations = vm.datumi.length-1
 			for(d in vm.datumi)
 			{
 				let d_s = new Date(vm.datumi[d].start_Date);
 				let d_f = new Date(vm.datumi[d].finish_Date);
 				let isTrue = d_s.getTime() > d_f.getTime();
+			
 				if(isTrue)
 				{
 					this.validate_date = true;
 				}
+				
+				if (d_f == 'Invalid Date' && --iterations && d_s != 'Invalid Date')
+				{
+					this.validate_date1 = true;
+				}
+				if (d_s == 'Invalid Date' && d_f != 'Invalid Date')
+				{
+					this.validate_date2 = true;
+				}
+			        
 			}
 			
 			axios

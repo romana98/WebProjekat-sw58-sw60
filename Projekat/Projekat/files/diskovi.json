@@ -1,5 +1,6 @@
 [
   {
+    "tip": "hdd",
     "kapacitet": 45,
     "mojaVirtualnaMasina": {
       "kategorija": {
@@ -17,6 +18,7 @@
     "ime": "Disc1"
   },
   {
+    "tip": "ssd",
     "kapacitet": 20,
     "mojaVirtualnaMasina": {
       "kategorija": {
@@ -34,6 +36,7 @@
     "ime": "Disc2"
   },
   {
+    "tip": "ssd",
     "kapacitet": 70,
     "mojaVirtualnaMasina": {
       "kategorija": {
@@ -52,6 +55,7 @@
     "ime": "Disc3"
   },
   {
+    "tip": "ssd",
     "kapacitet": 50,
     "mojaVirtualnaMasina": {
       "kategorija": {
@@ -69,6 +73,7 @@
     "ime": "Disc4"
   },
   {
+    "tip": "hdd",
     "kapacitet": 33,
     "mojaVirtualnaMasina": {
       "kategorija": {
@@ -87,6 +92,7 @@
     "ime": "Disc5"
   },
   {
+    "tip": "ssd",
     "kapacitet": 65,
     "mojaVirtualnaMasina": {
       "kategorija": {
@@ -104,13 +110,14 @@
     "ime": "Disc6"
   },
   {
-    "kapacitet": 80,
+    "tip": "hdd",
+    "kapacitet": 45,
     "mojaVirtualnaMasina": {
       "kategorija": {
         "ime": "Category1",
         "br_jezgara": 5,
         "RAM": 40,
-        "GPU": 30
+        "GPU": 35
       },
       "datumi": [],
       "diskovi": [

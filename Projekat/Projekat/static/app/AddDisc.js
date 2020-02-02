@@ -79,8 +79,8 @@ Vue.component("AddDisc", {
             <label  style="text-align: right;">Kapacitet: </label>
             <input id="kapacitet" class="addForm" type="text" style="width: 160px" v-model="kapacitet"><br><br>
             
-            <label  style="text-align: right;">Virtualna masina: </label>
-            <select  id="virtm" class="addForm" style="width: 160px;" v-model="virtm" @change="onVMChange">
+            <label v-if="active_superadmin" style="text-align: right;">Virtualna masina: </label>
+            <select v-if="active_superadmin" id="virtm" class="addForm" style="width: 160px;" v-model="virtm" @change="onVMChange">
             	<option v-for="vm in vms">{{vm.ime.split('&')[0]}}</option>
             </select><br><br>
             
@@ -178,7 +178,7 @@ Vue.component("AddDisc", {
 				mojaVirtualnaMasina:{"ime": this.selected_vm.ime, kategorija:{"ime": this.selected_vm.kategorija.ime, "br_jezgara" : this.selected_vm.kategorija.br_jezgara
 					,"RAM" : this.selected_vm.kategorija.RAM,"GPU" : this.selected_vm.kategorija.GPU}} })
 			.then(response => {
-				if(response.status === 200){
+				if(response.data.toString() === "200"){
 					this.$router.push({ name: 'DiscView' })
 
 					this.prikazi = false;

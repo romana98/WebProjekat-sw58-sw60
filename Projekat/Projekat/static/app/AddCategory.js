@@ -67,7 +67,7 @@ Vue.component("AddCategory", {
         
         <div  style="margin-left: 40%; margin-top: 30px;width: 305px;">
         
-          <h2>Add new Category</h2><br>
+          <h2>Add new Organization</h2><br>
           
           <form action="" style="width: 285px;" onsubmit="return false;">
 
