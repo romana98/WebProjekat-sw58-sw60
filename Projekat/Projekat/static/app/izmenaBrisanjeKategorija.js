@@ -110,7 +110,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			</tr>
 			<tr>	
 			<td>
-				<button class="dugme" type="submit" v-on:click="deleteKat(kat.ime)">Delete Category</button>
+				<button class="dugme" type="submit" v-on:click="deleteKat(ime)">Delete Category</button>
 			</td>
 			</tr>
 			</table>
@@ -253,7 +253,6 @@ Vue.component("izmena-brisanje-kategorija", {
 		deleteKat : function(ime)
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-      		console.log(ime)
 			axios
 			.post('rest/kategorije/Brisanje', {"ime":''+ime})
 			.then(response=> {

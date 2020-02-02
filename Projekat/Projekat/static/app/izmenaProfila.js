@@ -240,7 +240,7 @@ Vue.component("izmena-profila", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
-				this.$router.push({ name: 'VMView' })
+				this.$router.push({ name: 'UserView' })
 			}
 			
 		},
