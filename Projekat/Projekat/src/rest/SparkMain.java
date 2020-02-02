@@ -311,14 +311,11 @@ public class SparkMain {
 			String payload = req.body();
 			Korisnik kor = g.fromJson(payload, Korisnik.class);
 			if (app.getKorisnikID(kor.getEmail()) != null) {
-				res.status(201);
-				return g.toJson("Already exists");
+				return g.toJson("201");
 
 			}
 			//napravi korisnika i updejtuj
-			
-			
-			//updejtovanje organizacije
+
 			ArrayList<String> korisnici = app.getOrganizacijaID(kor.getOrganizacija().getIme()).getKorisnici();
 			korisnici.add(kor.getEmail());
 			app.getOrganizacijaID(kor.getOrganizacija().getIme()).setKorisnici(korisnici);
@@ -336,8 +333,7 @@ public class SparkMain {
 			Files.UpisKorisnik(app.getKorisniciList());
 			Files.UpisOrganizacija(app.getOrganizacijeList());
 			app.popuniMape();
-			res.status(200);
-			return g.toJson("Ok");
+			return g.toJson("200");
 
 		});
 
@@ -346,16 +342,14 @@ public class SparkMain {
 			String payload = req.body();
 			Organizacija org = g.fromJson(payload, Organizacija.class);
 			if (app.getOrganizacijaID(org.getIme()) != null) {
-				res.status(201);
-				return g.toJson("Already exists");
+				return g.toJson("201");
 			}
 			ArrayList<Organizacija> orgs = app.getOrganizacijeList();
 			orgs.add(org);
 			app.setOrganizacijaID(org.getIme(), org);
 			app.setOrganizacijeList(orgs);
 			Files.UpisOrganizacija(orgs);
-			res.status(200);
-			return g.toJson("Ok");
+			return g.toJson("200");
 
 		});
 
@@ -364,8 +358,7 @@ public class SparkMain {
 			String payload = req.body();
 			VM vm = g.fromJson(payload, VM.class);
 			if (app.getVirtualneID(vm.getIme()) != null) {
-				res.status(201);
-				return g.toJson("Already exists");
+				return g.toJson("201");
 			}
 			app.getVirtualneList().add(vm);
 			app.setVirtualne(vm.getIme(), vm);
@@ -386,13 +379,11 @@ public class SparkMain {
 							}
 						}
 						Files.UpisKorisnik(app.getKorisniciList());
-						res.status(200);
-						return g.toJson("Ok");
+						return g.toJson("200");
 					}
 				}
 			}
-			res.status(201);
-			return g.toJson("Already exists");
+			return g.toJson("201");
 		});
 
 		post("rest/vm/Izmena", (req, res) -> {
@@ -459,8 +450,7 @@ public class SparkMain {
 			Disk disk = g.fromJson(payload, Disk.class);
 			System.out.println(disk.toString());
 			if (app.getDiskoviID(disk.getIme()) != null) {
-				res.status(201);
-				return g.toJson("Already exists");
+				return g.toJson("201");
 			}
 			VM vm = app.getVirtualneID(disk.getMojaVirtualnaMasina().getIme());
 			ArrayList<String> diskovi = vm.getDiskovi();
@@ -488,13 +478,12 @@ public class SparkMain {
 						Files.UpisOrganizacija(app.getOrganizacijeList());
 						Files.UpisVM(app.getVirtualneList());
 						app.popuniMape();
-						res.status(200);
-						return g.toJson("Ok");
+						return g.toJson("200");
 					}
 				}
 			}
-			res.status(201);
-			return g.toJson("Already exists");
+
+			return g.toJson("201");
 			//sad gde sve ga treba dodati?
 			//nadjes vm, setujes je na disku 
 			//zatim toj vm dodas disk,
@@ -519,6 +508,7 @@ public class SparkMain {
 
 			Files.UpisDisk(app.getDiskoviList());
 			Files.UpisVM(app.getVirtualneList());
+			Files.UpisOrganizacija(app.getOrganizacijeList());
 			res.status(200);
 			return ("OK");
 		});
@@ -543,6 +533,7 @@ public class SparkMain {
 				app.editDisk(disk, name);
 				Files.UpisDisk(app.getDiskoviList());
 				Files.UpisVM(app.getVirtualneList());
+				Files.UpisOrganizacija(app.getOrganizacijeList());
 				res.status(200);
 				return ("OK");
 			}
@@ -557,11 +548,19 @@ public class SparkMain {
 			Dates dates = g.fromJson(payload, Dates.class);
 			Session ss = req.session(true);
 			Korisnik k = ss.attribute("user");
-			HashMap<String, Double> map = app.calculate(k, dates);
+			HashMap<String, Double> map = new HashMap<String, Double>();
+			if(checkDates(dates))
+			{
+				map = app.calculate(k, dates);
+			}
+			
 			if (map.isEmpty()) {
 				res.status(400);
 			}
-			res.status(200);
+			else
+			{
+				res.status(200);
+			}
 			return g.toJson(map);
 		});
 
@@ -889,6 +888,25 @@ public class SparkMain {
 
 		return false;
 	}
+	public static boolean checkDates(Dates d)
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		
+		try {
+			if(d.getFinish_Date().compareTo("") != 0 && d.getStart_Date().compareTo("") != 0)
+			{
+				if(sdf.parse(d.getStart_Date()).after(sdf.parse(d.getFinish_Date())))
+					return false;
+			}
+			else
+			{
+				return false;
+			}
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
 
 	public static boolean checkEmptyArgs(ArrayList<String> args) {
 		//vraca true ako nema praznih argumenata
@@ -909,10 +927,14 @@ public class SparkMain {
 		
 		for (int i = 0; i < vm.getDatumi().size(); i++) {
 			try {
-				if(vm.getDatumi().get(i).getFinish_Date().compareTo("") != 0)
+				if(vm.getDatumi().get(i).getFinish_Date().compareTo("") != 0 && vm.getDatumi().get(i).getStart_Date().compareTo("") != 0)
 				{
 					if(sdf.parse(vm.getDatumi().get(i).getStart_Date()).after(sdf.parse(vm.getDatumi().get(i).getFinish_Date())))
 						return false;
+				}
+				else if(vm.getDatumi().get(i).getFinish_Date().compareTo("") != 0 && vm.getDatumi().get(i).getStart_Date().compareTo("") == 0 && i != vm.getDatumi().size() -1)
+				{
+					return false;
 				}
 			} catch (ParseException e) {
 				return false;

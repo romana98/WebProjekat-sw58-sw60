@@ -48,10 +48,13 @@
         "VM2",
         "Disc1",
         "Disc2",
-        "Disc3"
+        "Disc3",
+        "pera"
       ]
     },
-	"uloga": "korisnik"
+
+    "uloga": "korisnik"
+
   },
   {
     "email": "korisnik1@super.com",
@@ -74,10 +77,12 @@
         "VM2",
         "Disc1",
         "Disc2",
-        "Disc3"
+        "Disc3",
+        "pera"
       ]
     },
-	"uloga": "korisnik"
+    "uloga": "korisnik"
+
   },
   {
     "email": "admin@super.com",
@@ -96,10 +101,13 @@
         "VM3",
         "VM4",
         "Disc5",
-        "Disc7"
+        "Disc7",
+        "D7"
       ]
     },
-	"uloga": "admin"
+
+    "uloga": "admin"
+
   },
   {
     "email": "admin1@super.com",
@@ -122,10 +130,13 @@
         "VM2",
         "Disc1",
         "Disc2",
-        "Disc3"
+        "Disc3",
+        "pera"
       ]
     },
-	"uloga": "admin"
+
+    "uloga": "admin"
+
   },
   {
     "email": "korisnik2@super.com",
@@ -144,10 +155,13 @@
         "VM3",
         "VM4",
         "Disc5",
-        "Disc7"
+        "Disc7",
+        "D7"
       ]
     },
-	"uloga": "korisnik"
+
+    "uloga": "korisnik"
+
   },
   {
     "email": "korisnik3@super.com",

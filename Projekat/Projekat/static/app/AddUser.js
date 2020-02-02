@@ -1,3 +1,4 @@
+//POTPUNO NEZAVRSENO
 Vue.component("AddUser", {
 	data: function (){
 		return {
@@ -7,7 +8,6 @@ Vue.component("AddUser", {
 		ime : null,
 		prikazi : false,
 		active_superadmin : null,
-		active_admin : null,
 		active_user : null,
 		prezime : null,
 		email : null,
@@ -93,8 +93,8 @@ Vue.component("AddUser", {
             <label>Password: </label>
             <input id="sifra" class="addForm" type="text" v-model="sifra"><br><br>
             
-            <label style="text-align: right;">Uloga: </label>
-            <select id="uloga" class="addForm" style="width: 160px;" v-model="uloga">
+            <label v-if="active_superadmin" style="text-align: right;">Uloga: </label>
+            <select v-if="active_superadmin" id="uloga" class="addForm" style="width: 160px;" v-model="uloga">
             	<option value="korisnik">Korisnik</option>
               	<option value="admin">Admin</option>
             </select><br><br>
@@ -131,7 +131,7 @@ Vue.component("AddUser", {
 		{
 			
 			if (confirm('Are you sure?') == true) {
-				this.$router.push({ name: 'UserView' })
+				this.$router.push({ name: 'VMView' })
 
 			}
 			
@@ -174,29 +174,26 @@ Vue.component("AddUser", {
 				document.getElementById("sifra").setAttribute("style","border-color:none");
 				
 			}
-			if (this.active_superadmin){
-				
-				if (this.selected_organizacija === null || this.selected_organizacija.length === 0){
-					document.getElementById("organizacija").setAttribute("style","width: 160px;border: 1px solid red;");
-					dont = true;
-				}
-				else{
-					if(this.active_superadmin === false){
-						document.getElementById("organizacija").setAttribute("style","width: 160px;border: 1px solid black;)");
-					}
-				}
+			
+			if (this.selected_organizacija === null || this.selected_organizacija.length === 0){
+				document.getElementById("organizacija").setAttribute("style","width: 160px;border: 1px solid red;");
+				dont = true;
 			}
 			else{
-				this.selected_organizacija = this.organizacije;
+				if(this.active_superadmin === false){
+					document.getElementById("organizacija").setAttribute("style","width: 160px;border: 1px solid black;)");
+				}
 			}
+			
 			if (this.uloga === null || this.uloga.length === 0){
-					document.getElementById("uloga").setAttribute("style","width: 160px;border: 1px solid red;");
-					dont = true;
+				document.getElementById("uloga").setAttribute("style","width: 160px;border: 1px solid red;");
+				dont = true;
 			}
 			else{
-					document.getElementById("uloga").setAttribute("style","width: 160px;border: 1px solid black;");
-					
+				document.getElementById("uloga").setAttribute("style","width: 160px;border: 1px solid black;");
+				
 			}
+			
 			
 			
 			if(dont === false){
@@ -206,8 +203,8 @@ Vue.component("AddUser", {
 					"opis":'' + this.selected_organizacija_type.opis, "logo":''+this.selected_organizacija_type.logo},
 					"prezime" : this.prezime,"email" : this.email ,"lozinka" : this.sifra, "uloga" : this.uloga},{params:{email: this.email}})
 				.then(response => {
-					if(response.status === 200){
-						this.$router.push({ name: 'UserView' })
+					if(response.data.toString() === "200"){
+						this.$router.push({ name: 'forbidden' })
 
 						
 					}
