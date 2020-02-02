@@ -18,8 +18,8 @@ Vue.component("izmena-brisanje-kategorija", {
 	<div >
 	<div class="background" v-if="active">
              <div style="text-align: right; font-size: large;">
-              <a href="#/Profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click="a_clicked($event)"> Profil </a>
-               <a href="/" v-on:click="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </a>
+              <router-link to="/profil" style="width: 10px;height: 5px; margin: 5px;" v-on:click.native="a_clicked($event)"> Profil </router-link>
+               <router-link to="/" v-on:click.native="logOut($event)" style="width: 10px;height: 5px; margin: 5px;"> Log out </router-link>
             </div>
             <h1 style="font-size: xx-large; ">Welcome to Cloud</h1>
             <div class="navbar">
@@ -236,9 +236,12 @@ Vue.component("izmena-brisanje-kategorija", {
 	
 		logOut : function(event)
 		{
-			event.preventDefault();
 			if (confirm('Are you sure?') == true) {
 				axios.get('rest/logOut')
+			}
+			else
+			{
+				event.preventDefault();
 			}
 		},
 		isForbidden : function(active)
