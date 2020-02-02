@@ -125,19 +125,25 @@ public class SparkMain {
 			res.type("application/json");
 			Session ss = req.session(true);
 			Korisnik k = ss.attribute("user");
+			ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
 			if (k.getUloga() == Uloga.Admin) {
-				ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
 				for (String kor : k.getOrganizacija().getKorisnici()) {
 					if (app.getKorisnikID(kor) != null) {
-						korisnici.add(app.getKorisnikID(kor));
-						//System.out.println(app.getKorisnikID(kor));
+						if(app.getKorisnikID(kor).getUloga() != Uloga.SuperAdmin) {
+							korisnici.add(app.getKorisnikID(kor));
+
+						}
 					}
 				}
 				return g.toJson(korisnici);
 
 			} else {
-
-				return g.toJson(app.getKorisniciList());
+				for (Korisnik kor:app.getKorisniciList()) {
+					if(kor.getUloga() != Uloga.SuperAdmin) {
+						korisnici.add(kor);
+					}
+				}
+				return g.toJson(korisnici);
 			}
 
 		});
@@ -203,7 +209,7 @@ public class SparkMain {
 			if (!(naziv == null)) {
 				for (VM vm : virtualne) {
 					String ime = vm.getIme().split("&")[0];
-					if (ime.contains(naziv)) {
+					if (ime.toLowerCase().contains(naziv.toLowerCase())) {
 						po_nazivu.add(vm);
 					}
 				}
@@ -309,9 +315,29 @@ public class SparkMain {
 		post("rest/korisnici/addUser", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			Korisnik kor = g.fromJson(payload, Korisnik.class);
+			Korisnik kor;
+			
+			try {
+				kor = g.fromJson(payload, Korisnik.class);
+			}
+			catch(Exception e) {
+				res.status(400);
+				return g.toJson("Bad request");
+			}
+			
+			if(!kor.getEmail().contains("@") || !kor.getEmail().contains(".") || kor.getEmail().indexOf('@') > kor.getEmail().indexOf('.')) {
+				res.status(202);
+				return g.toJson("Bad email");
+			}
+			
+			if(kor.getUloga() == null && kor.getOrganizacija() == null) {
+				res.status(400);
+				return g.toJson("Bad request");
+			}
+			
 			if (app.getKorisnikID(kor.getEmail()) != null) {
-				return g.toJson("201");
+				res.status(201);
+				return g.toJson("Already exists");
 
 			}
 			//napravi korisnika i updejtuj
@@ -333,32 +359,54 @@ public class SparkMain {
 			Files.UpisKorisnik(app.getKorisniciList());
 			Files.UpisOrganizacija(app.getOrganizacijeList());
 			app.popuniMape();
-			return g.toJson("200");
+			res.status(200);
+			return g.toJson("Ok");
 
 		});
 
 		post("rest/organizacije/addOrganizacija", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			Organizacija org = g.fromJson(payload, Organizacija.class);
+			Organizacija org;
+			try {
+				org = g.fromJson(payload, Organizacija.class);
+			}catch(Exception e) {
+				res.status(400);
+				return g.toJson("Bad request");
+			}
+			
+			
+			
 			if (app.getOrganizacijaID(org.getIme()) != null) {
-				return g.toJson("201");
+				res.status(201);
+				return g.toJson("Already exists");
 			}
 			ArrayList<Organizacija> orgs = app.getOrganizacijeList();
 			orgs.add(org);
 			app.setOrganizacijaID(org.getIme(), org);
 			app.setOrganizacijeList(orgs);
 			Files.UpisOrganizacija(orgs);
-			return g.toJson("200");
+			res.status(200);
+			return g.toJson("Ok");
 
 		});
 
 		post("rest/vm/addVM", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			VM vm = g.fromJson(payload, VM.class);
+			VM vm;
+			try {
+				vm  = g.fromJson(payload, VM.class);
+			}catch(Exception e) {
+				res.status(400);
+				return g.toJson("Bad request");
+			}
+			
+			
+			
 			if (app.getVirtualneID(vm.getIme()) != null) {
-				return g.toJson("201");
+				res.status(201);
+				return g.toJson("Already exists");
 			}
 			app.getVirtualneList().add(vm);
 			app.setVirtualne(vm.getIme(), vm);
@@ -379,11 +427,13 @@ public class SparkMain {
 							}
 						}
 						Files.UpisKorisnik(app.getKorisniciList());
-						return g.toJson("200");
+						res.status(200);
+						return g.toJson("Ok");
 					}
 				}
 			}
-			return g.toJson("201");
+			res.status(201);
+			return g.toJson("Already exists");
 		});
 
 		post("rest/vm/Izmena", (req, res) -> {
@@ -447,10 +497,18 @@ public class SparkMain {
 		post("rest/diskovi/addDisk", (req, res) -> {
 			res.type("application/json");
 			String payload = req.body();
-			Disk disk = g.fromJson(payload, Disk.class);
-			System.out.println(disk.toString());
+			Disk disk;
+			try {
+				disk = g.fromJson(payload, Disk.class);
+			}catch(Exception e) {
+				res.status(400);
+				return g.toJson("Bad request");
+			}
+			
+			
 			if (app.getDiskoviID(disk.getIme()) != null) {
-				return g.toJson("201");
+				res.status(201);
+				return g.toJson("Already exists");
 			}
 			VM vm = app.getVirtualneID(disk.getMojaVirtualnaMasina().getIme());
 			ArrayList<String> diskovi = vm.getDiskovi();
@@ -478,12 +536,13 @@ public class SparkMain {
 						Files.UpisOrganizacija(app.getOrganizacijeList());
 						Files.UpisVM(app.getVirtualneList());
 						app.popuniMape();
-						return g.toJson("200");
+						res.status(200);
+						return g.toJson("Ok");
 					}
 				}
 			}
-
-			return g.toJson("201");
+			res.status(201);
+			return g.toJson("Already exists");
 			//sad gde sve ga treba dodati?
 			//nadjes vm, setujes je na disku 
 			//zatim toj vm dodas disk,

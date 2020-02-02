@@ -12,7 +12,8 @@ Vue.component("AddUser", {
 		prezime : null,
 		email : null,
 		uloga : null,
-		sifra : null
+		sifra : null,
+		prikazi1 :false
 		}
 	},
 	template:`
@@ -103,6 +104,8 @@ Vue.component("AddUser", {
             <button style="float: right; width: 100px;" v-on:click="addNew">Add</button><br><br>
             
             <label v-if="prikazi" style="color:red">User with that email already exists!</label>
+			<label v-if="prikazi1" style="color:red">Email is not good!</label>
+
           </form>
         </div >
 
@@ -203,13 +206,21 @@ Vue.component("AddUser", {
 					"opis":'' + this.selected_organizacija_type.opis, "logo":''+this.selected_organizacija_type.logo},
 					"prezime" : this.prezime,"email" : this.email ,"lozinka" : this.sifra, "uloga" : this.uloga},{params:{email: this.email}})
 				.then(response => {
-					if(response.data.toString() === "200"){
-						this.$router.push({ name: 'forbidden' })
+					if(response.status === 200){
+						this.$router.push({ name: 'UserView' })
 
 						
 					}
-					else{
+					else if(response.status === 201){
 						this.prikazi = true;
+						this.prikazi1 = false;
+					}
+					else if(response.status == 202){
+						this.prikazi1 = true;
+						this.prikazi = false;
+					}
+					else{
+						this.$router.push({ name: 'badrequest' })
 					}
 				});	
 				}

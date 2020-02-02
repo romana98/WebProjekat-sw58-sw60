@@ -117,8 +117,14 @@ Vue.component("UserView", {
 		
 		sendData : function(korisnik)
 		{
+			if(this.active_user.email === korisnik.email){
+				this.$router.push({ name: 'profil' });			
+			}
+			else{
+				this.$router.push({ name: 'user', params: { email: korisnik.email } });
+
+			}
 			
-			this.$router.push({ name: 'user', params: { email: korisnik.email } });
 			
 		},
 		
@@ -165,7 +171,6 @@ Vue.component("UserView", {
 			{
 				this.active_superadmin = false;
 			}
-			
 		});
 		
 		

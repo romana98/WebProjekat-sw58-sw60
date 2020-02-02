@@ -73,7 +73,7 @@ Vue.component("VMView", {
               </div>           
         </div>
         
-        <h2 style="margin: 15px;float:left;padding-right:700px"><i>Table view</i></h2>
+        <h2 style="margin: 15px;float:left;padding-right:600px"><i>Table view</i></h2>
         <h3 class="pretragaForm">Pretraga:</h3>
 		<h3 class="pretragaForm">Filtriranje: </h3>
         
@@ -155,7 +155,6 @@ Vue.component("VMView", {
 		sendData : function(VM)
 		{
 			
-			console.log("Stisnut i poslat: " + VM.ime);
 			this.$router.push({ name: 'vm', params: { vm_ime: VM.ime.split('&')[0] } });
 			//ovde saljes romani vm :))
 		},

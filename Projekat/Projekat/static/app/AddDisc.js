@@ -178,13 +178,17 @@ Vue.component("AddDisc", {
 				mojaVirtualnaMasina:{"ime": this.selected_vm.ime, kategorija:{"ime": this.selected_vm.kategorija.ime, "br_jezgara" : this.selected_vm.kategorija.br_jezgara
 					,"RAM" : this.selected_vm.kategorija.RAM,"GPU" : this.selected_vm.kategorija.GPU}} })
 			.then(response => {
-				if(response.data.toString() === "200"){
+				if(response.status === 200){
 					this.$router.push({ name: 'DiscView' })
 
 					this.prikazi = false;
 				}
-				else{
+				else if(response.status === 201){
 					this.prikazi = true;
+				}
+				else{
+					this.$router.push({ name: 'badrequest' })
+
 				}
 			});	
 			}

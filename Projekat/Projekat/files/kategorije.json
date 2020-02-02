@@ -28,5 +28,11 @@
     "br_jezgara": 3,
     "RAM": 44,
     "GPU": 33
+  },
+  {
+    "ime": "Micova Kategorija",
+    "br_jezgara": 5,
+    "RAM": 6,
+    "GPU": 88
   }
 ]

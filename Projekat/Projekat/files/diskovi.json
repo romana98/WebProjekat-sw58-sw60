@@ -56,7 +56,7 @@
   },
   {
     "tip": "ssd",
-    "kapacitet": 50,
+    "kapacitet": 5,
     "mojaVirtualnaMasina": {
       "kategorija": {
         "ime": "Category4",

@@ -6,12 +6,25 @@
       "RAM": 40,
       "GPU": 35
     },
-    "datumi": [],
+    "datumi": [
+      {
+        "start_Date": "2020-02-02T23:59",
+        "finish_Date": "2020-02-02T23:59"
+      },
+      {
+        "start_Date": "2020-02-02T23:59",
+        "finish_Date": "2020-02-02T23:59"
+      },
+      {
+        "start_Date": "2020-02-02T23:59",
+        "finish_Date": "2020-02-02T23:59"
+      }
+    ],
     "diskovi": [
       "Disc1",
       "Disc3"
     ],
-    "ime": "VM1"
+    "ime": "MicoVM"
   },
   {
     "kategorija": {
@@ -33,7 +46,104 @@
       "RAM": 40,
       "GPU": 35
     },
-    "datumi": [],
+    "datumi": [
+      {
+        "start_Date": "2020-02-03T00:05",
+        "finish_Date": "2020-02-03T00:07"
+      },
+      {
+        "start_Date": "2020-02-03T00:13",
+        "finish_Date": "2020-02-03T00:13"
+      },
+      {
+        "start_Date": "2020-02-03T00:13",
+        "finish_Date": "2020-02-03T00:13"
+      },
+      {
+        "start_Date": "2020-02-03T00:13",
+        "finish_Date": "2020-02-03T00:13"
+      },
+      {
+        "start_Date": "2020-02-03T00:13",
+        "finish_Date": "2020-02-03T00:13"
+      },
+      {
+        "start_Date": "2020-02-03T00:13",
+        "finish_Date": "2020-02-03T00:13"
+      },
+      {
+        "start_Date": "2020-02-03T00:13",
+        "finish_Date": "2020-02-03T00:13"
+      },
+      {
+        "start_Date": "2020-02-03T00:13",
+        "finish_Date": "2020-02-03T00:13"
+      },
+      {
+        "start_Date": "2020-02-03T00:13",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": "2020-02-03T00:14"
+      },
+      {
+        "start_Date": "2020-02-03T00:14",
+        "finish_Date": ""
+      }
+    ],
     "diskovi": [
       "Disc5",
       "Disc7"
@@ -96,5 +206,44 @@
     "datumi": [],
     "diskovi": [],
     "ime": "VM7"
+  },
+  {
+    "kategorija": {
+      "ime": "Category1",
+      "br_jezgara": 5,
+      "RAM": 40,
+      "GPU": 35
+    },
+    "datumi": [],
+    "diskovi": [
+      "Disc4"
+    ],
+    "ime": "Vm11"
+  },
+  {
+    "kategorija": {
+      "ime": "Category1",
+      "br_jezgara": 5,
+      "RAM": 40,
+      "GPU": 35
+    },
+    "datumi": [],
+    "diskovi": [],
+    "ime": "a"
+  },
+  {
+    "kategorija": {
+      "ime": "Micova Kategorija",
+      "br_jezgara": 5,
+      "RAM": 6,
+      "GPU": 88
+    },
+    "datumi": [],
+    "diskovi": [
+      "Disc1",
+      "Disc2",
+      "Disc3"
+    ],
+    "ime": "Micova virtuelna 2"
   }
 ]
