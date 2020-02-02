@@ -147,7 +147,12 @@ public class SparkMain {
 			res.type("application/json");
 			Session ss = req.session(true);
 			Korisnik k = ss.attribute("user");
+			if (k == null) {
+				res.status(400);
+				return g.toJson("Korisnik null");
+			}
 			ArrayList<VM> virtualne = getVMs(k);
+			res.status(200);
 			return g.toJson(virtualne);
 
 		});
@@ -814,7 +819,15 @@ public class SparkMain {
 			} else {
 				return false;
 			}
+		} else if(salje.get("salje").equals("DiscView") || salje.get("salje").equals("VMView")) {
+				if (k == null) {
+					return false;
+				}
+				else {
+					return true;
+				}
 		}
+		
 
 		return true;
 	}

@@ -211,12 +211,17 @@ Vue.component("AddDisc", {
 	
 	mounted(){
 		
+		this.checkForbidden();
 		
 		axios
         .get("/rest/virtuelne/VM")
         .then(response => {
-      	  this.vms = response.data;
-      	  console.log
+        	if(response.status === 200){
+        		this.vms = response.data;
+        	}
+        	else{
+        		this.$router.push({ name: 'forbidden' })
+        	}
         });
 		
 		axios.get('rest/korisnici/getActiveUser').then(response => {
@@ -231,7 +236,7 @@ Vue.component("AddDisc", {
 				this.active_superadmin = true;
 
 			}
-			this.checkForbidden();
+			
 		}); 
 		
 		

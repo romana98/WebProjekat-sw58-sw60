@@ -6,7 +6,9 @@
     "korisnici": [
       "korisnik@super.com",
       "korisnik1@super.com",
-      "admin1@super.com"
+      "admin1@super.com",
+      "korisnik5@super.com",
+      "admin5@super.com"
     ],
     "resursi": [
       "VM1",

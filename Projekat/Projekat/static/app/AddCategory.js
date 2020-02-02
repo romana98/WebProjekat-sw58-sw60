@@ -257,6 +257,8 @@ Vue.component("AddCategory", {
 	
 	mounted(){
 		
+		this.checkForbidden();
+		
 		axios.get('rest/korisnici/getActiveUser').then(response => {
 			this.active_user = response.data;
 			if (this.active_user.uloga === "superadmin"){
@@ -268,7 +270,7 @@ Vue.component("AddCategory", {
 				this.active_admin = true;
 				this.active_superadmin = false;
 			}
-			this.checkForbidden();
+			
 			
 			
 		}); 

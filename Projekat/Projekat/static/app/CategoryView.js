@@ -140,7 +140,7 @@ Vue.component("CategoryView", {
 		
 		//ovde prilikom slanja zahteva vraca mi se samo za onog trenutnog korisnika sta treba da mu prikaze, sto se tice buttona njega moram rucno skinuti, dakle
 		//iskoristicu metodu getactiveuser, pokupiti korisnika i gledati v-if active_user.uloga == "korisnik" onda ne prikazi dugme
-		
+		this.checkForbidden();
 		axios
         .get('/rest/kategorije/getKategorije')
         .then(response => {
@@ -164,7 +164,7 @@ Vue.component("CategoryView", {
 				this.active_superadmin = false;
 				
 			}
-			this.checkForbidden();
+			
 		});
 		
 		

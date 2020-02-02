@@ -200,6 +200,8 @@ Vue.component("AddOrganization", {
 	
 	mounted(){
 		
+		this.checkForbidden();
+		
 		axios.get('rest/korisnici/getActiveUser').then(response => {
 			this.active_user = response.data;
 			if (this.active_user.uloga === "admin"){
@@ -212,7 +214,7 @@ Vue.component("AddOrganization", {
 				this.active_superadmin = true;
 
 			}
-			this.checkForbidden();
+			
 			
 		}); 
 		

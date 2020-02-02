@@ -137,6 +137,8 @@ Vue.component("OrganizationView", {
 	
 	mounted(){
 		
+		this.checkForbidden();
+		
 		axios
         .get('/rest/organizacije/getOrganizacije')
         .then(response => {
@@ -161,7 +163,7 @@ Vue.component("OrganizationView", {
 			{
 				this.active_superadmin = false;
 			}
-			this.checkForbidden();
+			
 		});
 		
 	}

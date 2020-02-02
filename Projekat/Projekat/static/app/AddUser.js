@@ -204,7 +204,7 @@ Vue.component("AddUser", {
 				
 			axios.post('rest/korisnici/addUser',  {"ime":'' + this.ime, organizacija:{"ime":'' + this.selected_organizacija_type.ime, 
 					"opis":'' + this.selected_organizacija_type.opis, "logo":''+this.selected_organizacija_type.logo},
-					"prezime" : this.prezime,"email" : this.email ,"lozinka" : this.sifra},{params:{email: this.email}})
+					"prezime" : this.prezime,"email" : this.email ,"lozinka" : this.sifra, "uloga" : this.uloga},{params:{email: this.email}})
 				.then(response => {
 					if(response.status === 200){
 						this.$router.push({ name: 'UserView' })
@@ -250,6 +250,8 @@ Vue.component("AddUser", {
 	},
 	
 	mounted(){
+		this.checkForbidden();
+		
 		axios
         .get("/rest/organizacije/getOrgs")
         .then(response => {
@@ -267,7 +269,7 @@ Vue.component("AddUser", {
 				this.active_superadmin = false;
 				this.active_admin = true;
 			}
-			this.checkForbidden();
+			
 			
 		}); 
 		

@@ -116,12 +116,26 @@ Vue.component("DiscView", {
 			
 			this.$router.push({ name: 'disc', params: { disk_ime: disk.ime } });
 			
+		},
+		
+		checkForbidden : function(){
+			
+			axios
+			.post('rest/forbidden', {'salje': 'DiscView'}).catch(error => {
+				if (error.response.status === 403){
+					this.$router.push({ name: 'forbidden' })
+
+
+				}
+			});
+			
 		}
 		
 		
 	},
 	
 	mounted(){
+		this.checkForbidden();
 		
 		axios
         .get('/rest/diskovi/getDiskovi')
