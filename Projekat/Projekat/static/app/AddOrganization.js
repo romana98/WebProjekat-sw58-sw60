@@ -165,7 +165,7 @@ Vue.component("AddOrganization", {
 			axios
 			.post('rest/organizacije/addOrganizacija',  {"ime":'' + this.ime, "opis":'' + this.opis, "logo":''+this.logo })
 			.then(response => {
-				if(response.data.toString() === "200"){
+				if(response.status === 200){
 					this.$router.push({ name: 'OrganizationView' })
 
 					this.prikazi = false;

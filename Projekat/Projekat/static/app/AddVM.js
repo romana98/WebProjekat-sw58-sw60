@@ -207,7 +207,7 @@ Vue.component("AddVM", {
 				"br_jezgara":''+ this.selected_kategorija.br_jezgara, "RAM":'' + this.selected_kategorija.RAM, "GPU":'' + this.selected_kategorija.GPU},
 				"diskovi":this.niz},{params:{OrgID: this.selected_organizacija}})
 			.then(response => {
-				if(response.data.toString() === "200"){
+				if(response.status === 200){
 					this.$router.push({ name: 'VMView' })
 
 					
@@ -240,6 +240,8 @@ Vue.component("AddVM", {
 	},
 	
 	mounted(){
+		this.checkForbidden();
+		
 		axios
         .get("/rest/organizacije/getOrgs")
         .then(response => {
@@ -275,7 +277,7 @@ Vue.component("AddVM", {
 				
 
 			}
-			this.checkForbidden();
+			
 			
 		}); 
 		

@@ -306,11 +306,14 @@ public class SparkMain {
 			String payload = req.body();
 			Korisnik kor = g.fromJson(payload, Korisnik.class);
 			if (app.getKorisnikID(kor.getEmail()) != null) {
-				return g.toJson("201");
+				res.status(201);
+				return g.toJson("Already exists");
 
 			}
 			//napravi korisnika i updejtuj
-
+			
+			
+			//updejtovanje organizacije
 			ArrayList<String> korisnici = app.getOrganizacijaID(kor.getOrganizacija().getIme()).getKorisnici();
 			korisnici.add(kor.getEmail());
 			app.getOrganizacijaID(kor.getOrganizacija().getIme()).setKorisnici(korisnici);
@@ -328,7 +331,8 @@ public class SparkMain {
 			Files.UpisKorisnik(app.getKorisniciList());
 			Files.UpisOrganizacija(app.getOrganizacijeList());
 			app.popuniMape();
-			return g.toJson("200");
+			res.status(200);
+			return g.toJson("Ok");
 
 		});
 
@@ -337,14 +341,16 @@ public class SparkMain {
 			String payload = req.body();
 			Organizacija org = g.fromJson(payload, Organizacija.class);
 			if (app.getOrganizacijaID(org.getIme()) != null) {
-				return g.toJson("201");
+				res.status(201);
+				return g.toJson("Already exists");
 			}
 			ArrayList<Organizacija> orgs = app.getOrganizacijeList();
 			orgs.add(org);
 			app.setOrganizacijaID(org.getIme(), org);
 			app.setOrganizacijeList(orgs);
 			Files.UpisOrganizacija(orgs);
-			return g.toJson("200");
+			res.status(200);
+			return g.toJson("Ok");
 
 		});
 
@@ -353,7 +359,8 @@ public class SparkMain {
 			String payload = req.body();
 			VM vm = g.fromJson(payload, VM.class);
 			if (app.getVirtualneID(vm.getIme()) != null) {
-				return g.toJson("201");
+				res.status(201);
+				return g.toJson("Already exists");
 			}
 			app.getVirtualneList().add(vm);
 			app.setVirtualne(vm.getIme(), vm);
@@ -374,11 +381,13 @@ public class SparkMain {
 							}
 						}
 						Files.UpisKorisnik(app.getKorisniciList());
-						return g.toJson("200");
+						res.status(200);
+						return g.toJson("Ok");
 					}
 				}
 			}
-			return g.toJson("201");
+			res.status(201);
+			return g.toJson("Already exists");
 		});
 
 		post("rest/vm/Izmena", (req, res) -> {
@@ -445,7 +454,8 @@ public class SparkMain {
 			Disk disk = g.fromJson(payload, Disk.class);
 			System.out.println(disk.toString());
 			if (app.getDiskoviID(disk.getIme()) != null) {
-				return g.toJson("201");
+				res.status(201);
+				return g.toJson("Already exists");
 			}
 			VM vm = app.getVirtualneID(disk.getMojaVirtualnaMasina().getIme());
 			ArrayList<String> diskovi = vm.getDiskovi();
@@ -473,12 +483,13 @@ public class SparkMain {
 						Files.UpisOrganizacija(app.getOrganizacijeList());
 						Files.UpisVM(app.getVirtualneList());
 						app.popuniMape();
-						return g.toJson("200");
+						res.status(200);
+						return g.toJson("Ok");
 					}
 				}
 			}
-
-			return g.toJson("201");
+			res.status(201);
+			return g.toJson("Already exists");
 			//sad gde sve ga treba dodati?
 			//nadjes vm, setujes je na disku 
 			//zatim toj vm dodas disk,
