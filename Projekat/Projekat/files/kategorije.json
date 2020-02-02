@@ -3,7 +3,7 @@
     "ime": "Category1",
     "br_jezgara": 5,
     "RAM": 40,
-    "GPU": 30
+    "GPU": 35
   },
   {
     "ime": "Category2",
@@ -22,6 +22,11 @@
     "br_jezgara": 1,
     "RAM": 10,
     "GPU": 5
+  },
+  {
+    "ime": "Category5",
+    "br_jezgara": 3,
+    "RAM": 44,
+    "GPU": 33
   }
 ]
-

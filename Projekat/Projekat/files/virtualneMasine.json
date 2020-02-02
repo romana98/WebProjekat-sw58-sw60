@@ -4,18 +4,9 @@
       "ime": "Category1",
       "br_jezgara": 5,
       "RAM": 40,
-      "GPU": 30
+      "GPU": 35
     },
-    "datumi": [
-      {
-        "start_Date": "2020-02-02T13:12",
-        "finish_Date": "2020-02-02T13:19"
-      },
-      {
-        "start_Date": "2020-02-02T13:19",
-        "finish_Date": ""
-      }
-    ],
+    "datumi": [],
     "diskovi": [
       "Disc1",
       "Disc3"
@@ -29,16 +20,7 @@
       "RAM": 10,
       "GPU": 3
     },
-    "datumi": [
-      {
-        "start_Date": "2019-09-01T15:30",
-        "finish_Date": "2019-09-17T16:51"
-      },
-      {
-        "start_Date": "2019-09-25T11:10",
-        "finish_Date": "2019-10-10T22:51"
-      }
-    ],
+    "datumi": [],
     "diskovi": [
       "Disc2"
     ],
@@ -49,18 +31,9 @@
       "ime": "Category1",
       "br_jezgara": 5,
       "RAM": 40,
-      "GPU": 30
+      "GPU": 35
     },
-    "datumi": [
-      {
-        "start_Date": "2019-02-12T22:50",
-        "finish_Date": "2019-03-15T22:51"
-      },
-      {
-        "start_Date": "2019-04-10T22:50",
-        "finish_Date": "2019-05-14T22:51"
-      }
-    ],
+    "datumi": [],
     "diskovi": [
       "Disc5",
       "Disc7"
@@ -94,16 +67,7 @@
       "RAM": 10,
       "GPU": 3
     },
-    "datumi": [
-      {
-        "start_Date": "2019-01-20T22:50",
-        "finish_Date": "2019-02-10T22:51"
-      },
-      {
-        "start_Date": "2019-07-05T22:50",
-        "finish_Date": "2019-08-24T22:51"
-      }
-    ],
+    "datumi": [],
     "diskovi": [
       "Disc6"
     ],
@@ -116,16 +80,7 @@
       "RAM": 10,
       "GPU": 5
     },
-    "datumi": [
-      {
-        "start_Date": "2019-01-20T22:50",
-        "finish_Date": "2019-02-10T22:51"
-      },
-      {
-        "start_Date": "2019-06-10T22:50",
-        "finish_Date": ""
-      }
-    ],
+    "datumi": [],
     "diskovi": [
       "Disc4"
     ],
