@@ -163,9 +163,11 @@ Vue.component("izmena-organizacija", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			this.validate_name_exist = false;
+			var go = true;
 			if(org.ime.length === 0)
 			{
 				this.validate_name = true; 
+				go = false;
 			}
 			else
 			{
@@ -175,24 +177,36 @@ Vue.component("izmena-organizacija", {
 			if(org.opis.length === 0)
 			{
 				this.validate_desc = true; 
+				go = false;
 			}
 			else
 			{
 				this.validate_desc= false;
 			}
 			
+			if(go)
+			{
 				axios
 				.post('rest/organizacije/Izmena', {"ime":''+org.ime, "opis":''+org.opis, "logo":''+org.logo}, {params:{imeOld:''+ime}})
 				.then(response => {
 					if(response.data.toString() === ("OK"))
 						toast('Organization (' + org.ime + ') information is saved!');	
-						this.$router.push({ name: 'OrganizationView' })
+						if(this.active.uloga === "admin")
+						{
+							this.$router.push({ name: 'profil' })
+						}
+						else
+						{
+							this.$router.push({ name: 'OrganizationView' })
+						}
 				}, error=>{
 					if(error.response.data.toString() === ("202"))
 					{
 						this.validate_name_exist = true; 
 					}
 				});
+			}
+				
 				
 			
 		},
@@ -201,7 +215,14 @@ Vue.component("izmena-organizacija", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			if (confirm('If you go back, your changes won\'t be saved, go back?') == true){
-				this.$router.push({ name: 'OrganizationView' })
+				if(this.active.uloga === "admin")
+				{
+					this.$router.push({ name: 'profil' })
+				}
+				else
+				{
+					this.$router.push({ name: 'OrganizationView' })
+				}
 			}
 
 			

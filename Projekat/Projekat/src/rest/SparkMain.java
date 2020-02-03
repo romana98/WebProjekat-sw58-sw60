@@ -477,6 +477,7 @@ public class SparkMain {
 			app.removeVM(vm);
 
 			Files.UpisVM(app.getVirtualneList());
+			Files.UpisDisk(app.getDiskoviList());
 			Files.UpisOrganizacija(app.getOrganizacijeList());
 			return ("OK");
 		});
@@ -954,7 +955,7 @@ public class SparkMain {
 		try {
 			if(d.getFinish_Date().compareTo("") != 0 && d.getStart_Date().compareTo("") != 0)
 			{
-				if(sdf.parse(d.getStart_Date()).after(sdf.parse(d.getFinish_Date())))
+				if(sdf.parse(d.getStart_Date()).after(sdf.parse(d.getFinish_Date())) || sdf.parse(d.getStart_Date()).equals(sdf.parse(d.getFinish_Date())))
 					return false;
 			}
 			else

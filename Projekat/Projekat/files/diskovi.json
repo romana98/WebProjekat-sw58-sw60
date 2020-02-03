@@ -4,16 +4,14 @@
     "kapacitet": 45,
     "mojaVirtualnaMasina": {
       "kategorija": {
-        "ime": "Category1",
-        "br_jezgara": 5,
-        "RAM": 40,
-        "GPU": 30
+        "ime": "",
+        "br_jezgara": 0,
+        "RAM": 0,
+        "GPU": 0
       },
       "datumi": [],
-      "diskovi": [
-        "Disc1"
-      ],
-      "ime": "VM1"
+      "diskovi": [],
+      "ime": ""
     },
     "ime": "Disc1"
   },
@@ -40,17 +38,14 @@
     "kapacitet": 70,
     "mojaVirtualnaMasina": {
       "kategorija": {
-        "ime": "Category1",
-        "br_jezgara": 5,
-        "RAM": 40,
-        "GPU": 30
+        "ime": "",
+        "br_jezgara": 0,
+        "RAM": 0,
+        "GPU": 0
       },
       "datumi": [],
-      "diskovi": [
-        "Disc1",
-        "Disc3"
-      ],
-      "ime": "VM1"
+      "diskovi": [],
+      "ime": ""
     },
     "ime": "Disc3"
   },

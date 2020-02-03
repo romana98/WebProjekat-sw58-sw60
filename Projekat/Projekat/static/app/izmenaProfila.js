@@ -137,11 +137,13 @@ Vue.component("izmena-profila", {
 		},
 		save : function(kor, loz)
 		{
+			var go = true;
 			this.validate_email_exist = false;
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			if(kor.email.length === 0)
 			{
 				this.validate_email = true; 
+				go = false;
 			}
 			else
 			{
@@ -151,6 +153,7 @@ Vue.component("izmena-profila", {
 			if(kor.lozinka.length === 0)
 			{
 				this.validate_loz = true; 
+				go = false;
 			}
 			else
 			{
@@ -160,6 +163,7 @@ Vue.component("izmena-profila", {
 			if(this.loz.length === 0 && kor.lozinka != this.oldLoz)
 			{
 				this.validate_loz_nd = true; 
+				go = false;
 			}
 			else
 			{
@@ -169,6 +173,7 @@ Vue.component("izmena-profila", {
 			if(loz!== kor.lozinka && loz!== '')
 			{
 				this.validate_match = true;
+				go = false;
 			}
 			else
 			{
@@ -177,7 +182,8 @@ Vue.component("izmena-profila", {
 			
 			if(kor.ime.length === 0 )
 			{
-				this.validate_name = true;					
+				this.validate_name = true;	
+				go = false;
 			}
 			else
 			{
@@ -186,7 +192,8 @@ Vue.component("izmena-profila", {
 			
 			if(!kor.ime.match(/^[A-Za-z]+$/))
 			{
-				this.validate_name_let = true;					
+				this.validate_name_let = true;	
+				go = false;
 			}
 			else
 			{
@@ -196,6 +203,7 @@ Vue.component("izmena-profila", {
 			if(kor.prezime.lenght === 0)
 			{
 				this.validate_lastname = true;
+				go = false;
 			}
 			else
 			{
@@ -204,7 +212,8 @@ Vue.component("izmena-profila", {
 			
 			if(!kor.prezime.match(/^[A-Za-z]+$/))
 			{
-				this.validate_lastname_let = true;					
+				this.validate_lastname_let = true;	
+				go = false;
 			}
 			else
 			{
@@ -214,13 +223,15 @@ Vue.component("izmena-profila", {
 			if(!kor.email.includes('@') || !kor.email.includes('.') || kor.email.indexOf('@') > kor.email.indexOf('.'))
 			{
 				this.validate_email_form = true; 
+				go = false;
 			}
 			else
 			{
 				this.validate_email_form = false; 
 			}
-			
-			axios.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka}, {params:{emailOld:''+this.email, pass_nd:''+this.loz}})
+			if(go)
+			{
+				axios.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka}, {params:{emailOld:''+this.email, pass_nd:''+this.loz}})
 				.then(response => {
 					if(this.validate_match === false)
 					{
@@ -234,6 +245,9 @@ Vue.component("izmena-profila", {
 					}
 				});
 			
+			}
+			
+				
 		},
 		
 		cancel : function()

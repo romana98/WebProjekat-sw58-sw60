@@ -1,33 +1,6 @@
 [
   {
     "kategorija": {
-      "ime": "Category1",
-      "br_jezgara": 5,
-      "RAM": 40,
-      "GPU": 35
-    },
-    "datumi": [
-      {
-        "start_Date": "2020-02-02T23:59",
-        "finish_Date": "2020-02-02T23:59"
-      },
-      {
-        "start_Date": "2020-02-02T23:59",
-        "finish_Date": "2020-02-02T23:59"
-      },
-      {
-        "start_Date": "2020-02-02T23:59",
-        "finish_Date": "2020-02-02T23:59"
-      }
-    ],
-    "diskovi": [
-      "Disc1",
-      "Disc3"
-    ],
-    "ime": "MicoVM"
-  },
-  {
-    "kategorija": {
       "ime": "Category2",
       "br_jezgara": 4,
       "RAM": 10,
@@ -206,44 +179,5 @@
     "datumi": [],
     "diskovi": [],
     "ime": "VM7"
-  },
-  {
-    "kategorija": {
-      "ime": "Category1",
-      "br_jezgara": 5,
-      "RAM": 40,
-      "GPU": 35
-    },
-    "datumi": [],
-    "diskovi": [
-      "Disc4"
-    ],
-    "ime": "Vm11"
-  },
-  {
-    "kategorija": {
-      "ime": "Category1",
-      "br_jezgara": 5,
-      "RAM": 40,
-      "GPU": 35
-    },
-    "datumi": [],
-    "diskovi": [],
-    "ime": "a"
-  },
-  {
-    "kategorija": {
-      "ime": "Micova Kategorija",
-      "br_jezgara": 5,
-      "RAM": 6,
-      "GPU": 88
-    },
-    "datumi": [],
-    "diskovi": [
-      "Disc1",
-      "Disc2",
-      "Disc3"
-    ],
-    "ime": "Micova virtuelna 2"
   }
 ]
