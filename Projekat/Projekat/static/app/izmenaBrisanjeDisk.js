@@ -128,10 +128,12 @@ Vue.component("izmena-brisanje-disk", {
 			
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			validate_name_exist: false
+			var go = true;
 			
 			if(disk.ime.length === 0 )
 			{
-				this.validate_name = true;					
+				this.validate_name = true;	
+				go = false;
 			}
 			else
 			{
@@ -139,7 +141,8 @@ Vue.component("izmena-brisanje-disk", {
 			}
 			if(disk.kapacitet.length === 0 )
 			{
-				this.validate_kapacitet = true;					
+				this.validate_kapacitet = true;	
+				go = false;
 			}
 			else
 			{
@@ -149,6 +152,7 @@ Vue.component("izmena-brisanje-disk", {
 			if(isNaN(disk.kapacitet))
 			{
 				this.validate_kapacitet_num = true;
+				go = false;
 			}
 			else
 			{
@@ -156,23 +160,28 @@ Vue.component("izmena-brisanje-disk", {
 				if(parseInt(disk.kapacitet) <= 0)
 				{
 					this.validate_kapacitet_sign = true;
+					go = false;
 				}
 				else
 				{
 					this.validate_kapacitet_sign = false;
 				}
 			
-				axios
-				.post('rest/diskovi/Izmena',  {ime:''+disk.ime, tip:''+disk.tip, kapacitet:''+disk.kapacitet, mojaVirtualnaMasina: disk.mojaVirtualnaMasina}, {params:{imeOld:''+ime}})
-				.then(response => {
-						toast('Disc (' + disk.ime + ') information is saved!');	
-						this.$router.push({ name: 'DiscView' })
-					
-				}, error=>{
-					if(error.response.data.toString() === ("202"))
+				if(go)
 				{
-					this.validate_name_exist = true; 
-				}});	
+					axios
+					.post('rest/diskovi/Izmena',  {ime:''+disk.ime, tip:''+disk.tip, kapacitet:''+disk.kapacitet, mojaVirtualnaMasina: disk.mojaVirtualnaMasina}, {params:{imeOld:''+ime}})
+					.then(response => {
+							toast('Disc (' + disk.ime + ') information is saved!');	
+							this.$router.push({ name: 'DiscView' })
+						
+					}, error=>{
+						if(error.response.data.toString() === ("202"))
+					{
+						this.validate_name_exist = true; 
+					}});
+				}
+					
 			}
 		},
 		

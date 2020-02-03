@@ -130,10 +130,11 @@ Vue.component("izmena-brisanje-korisnika", {
 		save : function(kor)
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
-			
+			var go = true;
 			if(kor.ime.length === 0 )
 			{
-				this.validate_name = true;					
+				this.validate_name = true;	
+				go = false;
 			}
 			else
 			{
@@ -141,7 +142,8 @@ Vue.component("izmena-brisanje-korisnika", {
 			}
 			if(!kor.ime.match(/^[A-Za-z]+$/))
 			{
-				this.validate_name_let = true;					
+				this.validate_name_let = true;	
+				go = false;
 			}
 			else
 			{
@@ -151,6 +153,7 @@ Vue.component("izmena-brisanje-korisnika", {
 			if(kor.prezime.length === 0)
 			{
 				this.validate_lastname = true;
+				go = false;
 			}
 			else
 			{
@@ -158,7 +161,8 @@ Vue.component("izmena-brisanje-korisnika", {
 			}
 			if(!kor.prezime.match(/^[A-Za-z]+$/))
 			{
-				this.validate_lastname_let = true;					
+				this.validate_lastname_let = true;	
+				go = false;
 			}
 			else
 			{
@@ -167,20 +171,23 @@ Vue.component("izmena-brisanje-korisnika", {
 			if(kor.lozinka.length === 0)
 			{
 				this.validate_pass = true; 
+				go = false;
 			}
 			else
 			{
 				this.validate_pass = false;
 			}
 			
-			axios
-			.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga}, {params:{emailOld:''+this.email}})
-			.then(response => {
-					toast('User (' + kor.email + ') information is saved!');
-					this.$router.push({ name: 'UserView' })
-			}, error =>{});
-			
-			
+			if(go)
+			{
+				axios
+				.post('rest/korisnici/Izmena', {"email":''+kor.email, "ime" : ''+ kor.ime, "prezime":''+kor.prezime, "lozinka":''+kor.lozinka, "uloga":''+kor.uloga}, {params:{emailOld:''+this.email}})
+				.then(response => {
+						toast('User (' + kor.email + ') information is saved!');
+						this.$router.push({ name: 'UserView' })
+				}, error =>{});
+			}
+					
 			
 		},
 		

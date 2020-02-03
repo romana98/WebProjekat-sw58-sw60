@@ -477,6 +477,7 @@ public class SparkMain {
 			app.removeVM(vm);
 
 			Files.UpisVM(app.getVirtualneList());
+			Files.UpisDisk(app.getDiskoviList());
 			Files.UpisOrganizacija(app.getOrganizacijeList());
 			return ("OK");
 		});
@@ -954,7 +955,7 @@ public class SparkMain {
 		try {
 			if(d.getFinish_Date().compareTo("") != 0 && d.getStart_Date().compareTo("") != 0)
 			{
-				if(sdf.parse(d.getStart_Date()).after(sdf.parse(d.getFinish_Date())))
+				if(sdf.parse(d.getStart_Date()).after(sdf.parse(d.getFinish_Date())) || sdf.parse(d.getStart_Date()).equals(sdf.parse(d.getFinish_Date())))
 					return false;
 			}
 			else
@@ -1041,10 +1042,6 @@ public class SparkMain {
 	}
 
 	public static boolean checkUser(Korisnik k) {
-		if (k.getEmail().equals("p")) {
-			return false;
-		}
-		
 		if(k.getUloga() != null)
 		{
 			if(k.getUloga().equals(Uloga.SuperAdmin))
@@ -1100,5 +1097,34 @@ public class SparkMain {
 			return virtualne;
 		}
 	}
+	
+	
+	
+	public static ArrayList<VM> getVmList(Korisnik k) {
+		if (k.getUloga() == Uloga.Admin) {
+			ArrayList<VM> virtualneAdminove = new ArrayList<VM>();
+			for (String r : k.getOrganizacija().getResursi()) {
+				if (app.getVirtualneID(r) != null) {
+					virtualneAdminove.add(app.getVirtualneID(r));
+				}
+			}
+			return virtualneAdminove;
+		} else {
+			ArrayList<VM> virtualne = new ArrayList<VM>();
+			for (VM virt : app.getVirtualneList()) {
+				for (Organizacija org : app.getOrganizacijeList()) {
+					for (String resu : org.getResursi()) {
+						if (resu.equalsIgnoreCase(virt.getIme())) {
+							VM newVm = new VM(virt);
+							newVm.setIme(virt.getIme() + "&" + org.getIme());
+							virtualne.add(newVm);
+						}
+					}
+				}
+			}
+			return virtualne;
+		}
+	}
+
 
 }

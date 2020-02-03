@@ -132,10 +132,12 @@ Vue.component("izmena-brisanje-kategorija", {
 		{
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			validate_name_exist: false
+			var go = true;
 			
 			if(kat.ime.length === 0 )
 			{
-				this.validate_name = true;					
+				this.validate_name = true;	
+				go = false;
 			}
 			else
 			{
@@ -144,7 +146,8 @@ Vue.component("izmena-brisanje-kategorija", {
 			
 			if(kat.br_jezgara.length === 0 )
 			{
-				this.validate_br_jez = true;					
+				this.validate_br_jez = true;
+				go = false;
 			}
 			else
 			{
@@ -153,7 +156,8 @@ Vue.component("izmena-brisanje-kategorija", {
 			
 			if(kat.RAM.length === 0 )
 			{
-				this.validate_ram = true;					
+				this.validate_ram = true;
+				go = false;
 			}
 			else
 			{
@@ -162,7 +166,8 @@ Vue.component("izmena-brisanje-kategorija", {
 			
 			if(kat.GPU.length === 0 )
 			{
-				this.validate_gpu = true;					
+				this.validate_gpu = true;
+				go = false;
 			}
 			else
 			{
@@ -172,6 +177,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			if(isNaN(kat.br_jezgara))
 			{
 				this.validate_br_jez_num = true;
+				go = false;
 			}
 			else
 			{
@@ -181,6 +187,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			if(isNaN(kat.RAM))
 			{
 				this.validate_ram_num = true;
+				go = false;
 			}
 			else
 			{
@@ -189,6 +196,7 @@ Vue.component("izmena-brisanje-kategorija", {
 			if(isNaN(kat.GPU))
 			{
 				this.validate_gpu_num = true;
+				go = false;
 			}
 			else
 			{
@@ -197,9 +205,11 @@ Vue.component("izmena-brisanje-kategorija", {
 			
 			if(!this.validate_br_jez_num && !this.validate_ram_num && !this.validate_gpu_num)
 			{
+				
 				if(parseInt(kat.br_jezgara) <= 0)
 				{
 					this.validate_br_jez_sign = true;
+					go = false;
 				}
 				else
 				{
@@ -209,6 +219,7 @@ Vue.component("izmena-brisanje-kategorija", {
 				if(parseInt(kat.RAM) <= 0)
 				{
 					this.validate_ram_sign = true;
+					go = false;
 				}
 				else
 				{
@@ -218,24 +229,30 @@ Vue.component("izmena-brisanje-kategorija", {
 				if(parseInt(kat.GPU) <= 0)
 				{
 					this.validate_gpu_sign = true;
+					go = false;
 				}
 				else
 				{
 					this.validate_gpu_sign = false;
 				}
-				axios
-				.post('rest/kategorije/Izmena', {ime:''+kat.ime, br_jezgara: kat.br_jezgara, RAM: kat.RAM, GPU: kat.GPU}, {params:{imeOld:''+ime}})
-				.then(response => {
-						toast('Category (' + kat.ime + ') information is saved!');
-						this.$router.push({ name: 'CategoryView' });
+				
+				if(go)
+				{
+					axios
+					.post('rest/kategorije/Izmena', {ime:''+kat.ime, br_jezgara: kat.br_jezgara, RAM: kat.RAM, GPU: kat.GPU}, {params:{imeOld:''+ime}})
+					.then(response => {
+							toast('Category (' + kat.ime + ') information is saved!');
+							this.$router.push({ name: 'CategoryView' });
+							
+					}, error =>{
+						if(error.response.data.toString() === ("202"))
+						{
+							this.validate_name_exist = true; 
+						}
 						
-				}, error =>{
-					if(error.response.data.toString() === ("202"))
-					{
-						this.validate_name_exist = true; 
-					}
-					
-				});	
+					});	
+				}
+				
 			}
 			
 		},

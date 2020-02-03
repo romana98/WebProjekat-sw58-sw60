@@ -5,6 +5,7 @@ Vue.component("mesecni-racun", {
 			validate_date: false,
 			validate_date_s: false,
 			validate_date_f: false,
+			equal_date: false,
 			today:'',
 			today_text:'',
 			active:null,
@@ -91,6 +92,9 @@ Vue.component("mesecni-racun", {
 			<tr v-if="validate_date_f">
 				<td  colspan=2><label>Finish date is invalid!</label></td>
 			</tr>
+			<tr v-if="equal_date">
+				<td  colspan=2><label>Dates can't be equal!</label></td>
+			</tr>
 			<tr>
 			<td>
 				<button class="dugme" type="submit" v-on:click="getTable(d)">Submit</button>
@@ -139,6 +143,8 @@ Vue.component("mesecni-racun", {
 		},
 		getTable(d)
 		{
+			var go = true;
+			
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			this.validate_date = false;
 			this.isDates = false;
@@ -146,13 +152,25 @@ Vue.component("mesecni-racun", {
 			let d_s = new Date(d.start_Date);
 			let d_f = new Date(d.finish_Date);
 			let isTrue = d_s.getTime() > d_f.getTime();
+			
+			if(d.start_Date === d.finish_Date)
+			{
+				this.equal_date = true;
+				go = false;
+			}
+			else
+			{
+				this.equal_date = false;
+			}
 			if(isTrue)
 			{
 				this.validate_date = true;
+				go = false;
 			}
 			if(d_s.toDateString() ==='Invalid Date')
 			{
 				this.validate_date_s = true;
+				go = false;
 			}
 			else
 			{
@@ -161,6 +179,7 @@ Vue.component("mesecni-racun", {
 			if(d_f.toDateString() ==='Invalid Date')
 			{
 				this.validate_date_f = true;
+				go = false;
 			}
 			else
 			{
@@ -168,7 +187,7 @@ Vue.component("mesecni-racun", {
 			}
 			
 			
-			if(!this.validate_date && d_s.toDateString() !=='Invalid Date' && d_f.toDateString() !=='Invalid Date')
+			if(go)
 			{
 				axios
 				.post('rest/mesecni/getMesecniRacun',  {"start_Date":d.start_Date, "finish_Date":d.finish_Date})

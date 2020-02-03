@@ -173,7 +173,7 @@ Vue.component("izmena-brisanje-vm", {
 		
 		save : function(vm, ime)
 		{
-			
+			var go = true;
 			document.getElementById("form").setAttribute("onsubmit","return false;");
 			this.validate_date = false;
 			this.validate_date1 = false;
@@ -182,7 +182,8 @@ Vue.component("izmena-brisanje-vm", {
 			
 			if(vm.ime.length === 0 )
 			{
-				this.validate_name = true;					
+				this.validate_name = true;	
+				go = false;
 			}
 			else
 			{
@@ -199,30 +200,36 @@ Vue.component("izmena-brisanje-vm", {
 				if(isTrue)
 				{
 					this.validate_date = true;
+					go = false;
 				}
 				
 				if (d_f == 'Invalid Date' && --iterations && d_s != 'Invalid Date')
 				{
 					this.validate_date1 = true;
+					go = false;
 				}
 				if (d_s == 'Invalid Date' && d_f != 'Invalid Date')
 				{
 					this.validate_date2 = true;
+					go = false;
 				}
 			        
 			}
+			if(go)
+			{
+				axios
+				.post('rest/vm/Izmena',  {"ime":''+vm.ime, "datumi":vm.datumi}, {params:{"imeOld":''+ime}})
+				.then(response => {
+						toast('VM (' + vm.ime + ') information is saved!');
+						this.$router.push({ name: 'VMView' })
+				}, error=>{
+					if(error.response.data.toString() === ("202"))
+					{
+						this.validate_name_exist = true; 
+					}
+				});	
+			}
 			
-			axios
-			.post('rest/vm/Izmena',  {"ime":''+vm.ime, "datumi":vm.datumi}, {params:{"imeOld":''+ime}})
-			.then(response => {
-					toast('VM (' + vm.ime + ') information is saved!');
-					this.$router.push({ name: 'VMView' })
-			}, error=>{
-				if(error.response.data.toString() === ("202"))
-				{
-					this.validate_name_exist = true; 
-				}
-			});	
 			
 		},
 		
