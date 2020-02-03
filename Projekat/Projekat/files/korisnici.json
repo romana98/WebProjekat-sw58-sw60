@@ -41,11 +41,7 @@
         "korisnik1@super.com"
       ],
       "resursi": [
-        "VM2",
-        "Disc1",
-        "Disc2",
-        "Disc3",
-        "VM1"
+        "Disc3"
       ]
     },
     "uloga": "korisnik"
@@ -64,11 +60,7 @@
         "korisnik1@super.com"
       ],
       "resursi": [
-        "VM2",
-        "Disc1",
-        "Disc2",
-        "Disc3",
-        "VM1"
+        "Disc3"
       ]
     },
     "uloga": "korisnik"

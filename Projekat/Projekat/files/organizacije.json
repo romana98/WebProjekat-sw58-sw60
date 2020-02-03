@@ -8,9 +8,6 @@
       "korisnik1@super.com"
     ],
     "resursi": [
-      "VM2",
-      "Disc1",
-      "Disc2",
       "Disc3"
     ]
   },
@@ -32,7 +29,6 @@
       "admin@super.com"
     ],
     "resursi": [
-      "VM3",
       "VM4",
       "Disc5",
       "Disc7"

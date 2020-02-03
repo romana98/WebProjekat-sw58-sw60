@@ -572,6 +572,7 @@ public class SparkMain {
 			Files.UpisDisk(app.getDiskoviList());
 			Files.UpisVM(app.getVirtualneList());
 			Files.UpisOrganizacija(app.getOrganizacijeList());
+			Files.UpisKorisnik(app.getKorisniciList());
 			res.status(200);
 			return ("OK");
 		});
@@ -611,6 +612,7 @@ public class SparkMain {
 				Files.UpisDisk(app.getDiskoviList());
 				Files.UpisVM(app.getVirtualneList());
 				Files.UpisOrganizacija(app.getOrganizacijeList());
+				Files.UpisKorisnik(app.getKorisniciList());
 				res.status(200);
 				return ("OK");
 			}
