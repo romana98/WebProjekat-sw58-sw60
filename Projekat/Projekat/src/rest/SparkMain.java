@@ -456,6 +456,8 @@ public class SparkMain {
 				app.editVM(vm, name);
 				Files.UpisOrganizacija(app.getOrganizacijeList());
 				Files.UpisVM(app.getVirtualneList());
+				Files.UpisKorisnik(app.getKorisniciList());
+				Files.UpisDisk(app.getDiskoviList());
 				res.status(200);
 				return ("OK");
 			}
@@ -479,6 +481,7 @@ public class SparkMain {
 			Files.UpisVM(app.getVirtualneList());
 			Files.UpisDisk(app.getDiskoviList());
 			Files.UpisOrganizacija(app.getOrganizacijeList());
+			Files.UpisKorisnik(app.getKorisniciList());
 			return ("OK");
 		});
 
@@ -571,6 +574,20 @@ public class SparkMain {
 			Files.UpisOrganizacija(app.getOrganizacijeList());
 			res.status(200);
 			return ("OK");
+		});
+		
+		get("rest/diskovi/VMs", (req, res) ->{
+			res.type("application/json");
+			Session ss = req.session(true);
+			Korisnik k = ss.attribute("user");
+			ArrayList<String> vm = getVmList(k);
+			if(vm.isEmpty())
+			{
+				res.status(400);
+				return g.toJson(vm);
+			}
+			res.status(200);
+			return g.toJson(vm);
 		});
 
 		post("rest/diskovi/Izmena", (req, res) -> {
@@ -1100,27 +1117,19 @@ public class SparkMain {
 	
 	
 	
-	public static ArrayList<VM> getVmList(Korisnik k) {
+	public static ArrayList<String> getVmList(Korisnik k) {
 		if (k.getUloga() == Uloga.Admin) {
-			ArrayList<VM> virtualneAdminove = new ArrayList<VM>();
+			ArrayList<String> virtualneAdminove = new ArrayList<String>();
 			for (String r : k.getOrganizacija().getResursi()) {
 				if (app.getVirtualneID(r) != null) {
-					virtualneAdminove.add(app.getVirtualneID(r));
+					virtualneAdminove.add(app.getVirtualneID(r).getIme());
 				}
 			}
 			return virtualneAdminove;
 		} else {
-			ArrayList<VM> virtualne = new ArrayList<VM>();
+			ArrayList<String> virtualne = new ArrayList<String>();
 			for (VM virt : app.getVirtualneList()) {
-				for (Organizacija org : app.getOrganizacijeList()) {
-					for (String resu : org.getResursi()) {
-						if (resu.equalsIgnoreCase(virt.getIme())) {
-							VM newVm = new VM(virt);
-							newVm.setIme(virt.getIme() + "&" + org.getIme());
-							virtualne.add(newVm);
-						}
-					}
-				}
+				virtualne.add(virt.getIme());		
 			}
 			return virtualne;
 		}

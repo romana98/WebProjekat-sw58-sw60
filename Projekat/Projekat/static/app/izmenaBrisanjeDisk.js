@@ -2,6 +2,7 @@ Vue.component("izmena-brisanje-disk", {
 	data: function (){
 		return {
 			disk: null,
+			vms: null,
 			validate_name: false,
 			validate_name_exist: false,
 			validate_kapacitet_num: false,
@@ -92,7 +93,11 @@ Vue.component("izmena-brisanje-disk", {
 			</tr>
 			<tr>
 				<td>VM:</td>
-				<td >{{disk.mojaVirtualnaMasina.ime}}</td>
+				<td>
+					<select v-model="disk.mojaVirtualnaMasina.ime">
+						<option v-for="k in vms">{{k}}</option>		
+					</select>
+				</td>
 			</tr>
 			<tr>
 			<td>
@@ -279,10 +284,17 @@ Vue.component("izmena-brisanje-disk", {
 			
 		}
 		axios
-			.get('rest/diskovi/getDisk', { params: {"ime":''+this.ime}})
+			.get('rest/diskovi/VMs')
 			.then(response =>{
-				this.disk = response.data;
-			},error => {this.$router.push({ name: 'forbidden' })});	
+				this.vms = response.data;
+			},error => {this.$router.push({ name: 'badrequest' })});
+		
+		axios
+		.get('rest/diskovi/getDisk', { params: {"ime":''+this.ime}})
+		.then(response =>{
+			this.disk = response.data;
+		},error => {this.$router.push({ name: 'forbidden' })});
+		
 		axios
 		.get('rest/korisnici/getActiveUser')
 		.then(response =>{
