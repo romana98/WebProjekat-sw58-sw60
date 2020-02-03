@@ -11,13 +11,13 @@
       },
       "datumi": [],
       "diskovi": [],
-      "ime": ""
+      "ime": "VM3"
     },
     "ime": "Disc1"
   },
   {
     "tip": "ssd",
-    "kapacitet": 20,
+    "kapacitet": 22,
     "mojaVirtualnaMasina": {
       "kategorija": {
         "ime": "Category2",

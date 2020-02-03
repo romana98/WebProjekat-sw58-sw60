@@ -41,9 +41,12 @@
         "korisnik1@super.com"
       ],
       "resursi": [
+<<<<<<< HEAD
         "VM2",
         "Disc1",
         "Disc2",
+=======
+>>>>>>> 499c29b0f716f2f42b553428bfe584e19fdf160d
         "Disc3"
       ]
     },
@@ -63,9 +66,6 @@
         "korisnik1@super.com"
       ],
       "resursi": [
-        "VM2",
-        "Disc1",
-        "Disc2",
         "Disc3"
       ]
     },

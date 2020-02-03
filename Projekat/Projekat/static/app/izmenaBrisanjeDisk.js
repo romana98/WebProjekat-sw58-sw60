@@ -3,6 +3,7 @@ Vue.component("izmena-brisanje-disk", {
 		return {
 			disk: null,
 			vms: null,
+			vm: null,
 			validate_name: false,
 			validate_name_exist: false,
 			validate_kapacitet_num: false,
@@ -211,7 +212,7 @@ Vue.component("izmena-brisanje-disk", {
 			document.getElementById("form").setAttribute("onsubmit","return false;");
       		
 			axios
-			.post('rest/diskovi/Brisanje', {"ime":''+ime})
+			.post('rest/diskovi/Brisanje', {"ime":''+ime, "mojaVirtualnaMasina":''+ disk.mojaVirtualnaMasina})
 			.then(response=> {
 				toast('Disk (' + ime + ') deleted!'),
 				this.$router.push({ name: 'DiscView' })},
@@ -293,6 +294,7 @@ Vue.component("izmena-brisanje-disk", {
 		.get('rest/diskovi/getDisk', { params: {"ime":''+this.ime}})
 		.then(response =>{
 			this.disk = response.data;
+			this.vm = response.data.mojaVirtualnaMasina;
 		},error => {this.$router.push({ name: 'forbidden' })});
 		
 		axios

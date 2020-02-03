@@ -221,20 +221,24 @@ public class Aplikacija {
 					{
 						organizacijeList.get(i).getResursi().set(j, d.getIme());
 						organizacije.get(organizacijeList.get(i).getIme()).getResursi().set(j, d.getIme());
+						
+						for (int k = 0; k < korisniciList.size(); k++) {
+							if(korisniciList.get(k).getOrganizacija().getIme().equals(organizacijeList.get(i).getIme()))
+							{
+								korisniciList.get(k).getOrganizacija().setResursi(organizacijeList.get(i).getResursi());
+								korisnici.get(korisniciList.get(k).getEmail()).setOrganizacija(organizacijeList.get(i));;
+							}
+						}
 						break;
 					}
 					
 				}
 			}
 			
-
-			virtualne.get(diskoviList.get(index).getMojaVirtualnaMasina().getIme()).setDatumi(diskoviList.get(index).getMojaVirtualnaMasina().getDatumi());
 			for(int i = 0; i < virtualneList.size(); i++)
 			{
 				if(virtualneList.get(i).getIme().equals(d.getMojaVirtualnaMasina().getIme()))
-				{
-					virtualneList.get(i).setDatumi(d.getMojaVirtualnaMasina().getDatumi());
-					
+				{	
 					for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++) {
 						
 						if(virtualneList.get(i).getDiskovi().get(j).equals(name))
@@ -247,15 +251,85 @@ public class Aplikacija {
 
 					break;
 				}
+			}		
+
+		}
+		else
+		{
+			for(int i = 0; i < organizacijeList.size(); i++)
+			{
+				for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
+					if(organizacijeList.get(i).getResursi().get(j).equals(name))
+					{
+						organizacijeList.get(i).getResursi().remove(j);
+						organizacije.get(organizacijeList.get(i).getIme()).getResursi().remove(j);
+						
+						for (int k = 0; k < korisniciList.size(); k++) {
+							if(korisniciList.get(k).getOrganizacija().getIme().equals(organizacijeList.get(i).getIme()))
+							{
+								korisniciList.get(k).getOrganizacija().setResursi(organizacijeList.get(i).getResursi());
+								korisnici.get(korisniciList.get(k).getEmail()).setOrganizacija(organizacijeList.get(i));;
+							}
+						}
+						break;
+					}
+					
+				}
 			}
 			
+			for(int i = 0; i < organizacijeList.size(); i++)
+			{
+				for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
+					if(organizacijeList.get(i).getResursi().get(j).equals(d.getMojaVirtualnaMasina().getIme()))
+					{
+						organizacijeList.get(i).getResursi().set(j, d.getIme());
+						organizacije.get(organizacijeList.get(i).getIme()).getResursi().set(j, d.getIme());
+						
+						for (int k = 0; k < korisniciList.size(); k++) {
+							if(korisniciList.get(k).getOrganizacija().getIme().equals(organizacijeList.get(i).getIme()))
+							{
+								korisniciList.get(k).getOrganizacija().setResursi(organizacijeList.get(i).getResursi());
+								korisnici.get(korisniciList.get(k).getEmail()).setOrganizacija(organizacijeList.get(i));;
+							}
+						}
+						
+						break;
+					}
+					
+				}
+			}
+			
+			for(int i = 0; i < virtualneList.size(); i++)
+			{	
+				for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++) {
+					
+					if(virtualneList.get(i).getDiskovi().get(j).equals(name))
+					{
+						virtualneList.get(i).getDiskovi().remove(j);
+						virtualne.get(virtualneList.get(i).getIme()).getDiskovi().remove(j);
+						break; 
+					}
+				}
 
+			
+			}
+			
+			for(int i = 0; i < virtualneList.size(); i++)
+			{
+				if(virtualneList.get(i).getIme().equals(d.getMojaVirtualnaMasina().getIme()))
+				{	
+					virtualneList.get(i).getDiskovi().add(d.getIme());
+					virtualne.get(d.getMojaVirtualnaMasina().getIme()).getDiskovi().add(d.getIme());
+							
+				}
+			}	
+		
 		}
 		
 		diskoviList.get(index).setIme(d.getIme());
 		diskoviList.get(index).setKapacitet(d.getKapacitet());
 		diskoviList.get(index).setTip(d.getTip());
-		diskoviList.get(index).getMojaVirtualnaMasina().setDatumi(d.getMojaVirtualnaMasina().getDatumi());;
+		diskoviList.get(index).setMojaVirtualnaMasina(d.getMojaVirtualnaMasina());
 		
 		diskovi.remove(name);
 		diskovi.put(d.getIme(), diskoviList.get(index));
@@ -378,9 +452,7 @@ public class Aplikacija {
 				break;
 			}
 		}
-		
-		
-		
+				
 		for(int i = 0; i < organizacijeList.size(); i++)
 		{
 			for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
@@ -423,6 +495,14 @@ public class Aplikacija {
 		virtualne.put(virtualneList.get(indexVM).getIme(), virtualneList.get(indexVM));
 		organizacijeList.get(indexO).getResursi().remove(indexR);
 		organizacije.put(organizacijeList.get(indexO).getIme(), organizacijeList.get(indexO));
+		
+		for (int i = 0; i < korisniciList.size(); i++) {
+			if(korisniciList.get(i).getOrganizacija().getIme().equals(organizacijeList.get(indexO).getIme()))
+			{
+				korisniciList.get(i).getOrganizacija().setResursi(organizacijeList.get(indexO).getResursi());
+				korisnici.get(korisniciList.get(i).getEmail()).setOrganizacija(organizacijeList.get(indexO));;
+			}
+		}
 
 	}
 	
