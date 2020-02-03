@@ -11,8 +11,7 @@
       "VM2",
       "Disc1",
       "Disc2",
-      "Disc3",
-      "VM1"
+      "Disc3"
     ]
   },
   {
@@ -22,7 +21,9 @@
     "korisnici": [],
     "resursi": [
       "VM6",
-      "Disc4"
+      "Disc4",
+      "kbjb",
+      "VM1"
     ]
   },
   {

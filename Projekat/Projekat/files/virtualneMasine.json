@@ -179,5 +179,18 @@
     "datumi": [],
     "diskovi": [],
     "ime": "VM7"
+  },
+  {
+    "kategorija": {
+      "ime": "Category1",
+      "br_jezgara": 5,
+      "RAM": 40,
+      "GPU": 35
+    },
+    "datumi": [],
+    "diskovi": [
+      "Disc4"
+    ],
+    "ime": "kbjb"
   }
 ]
