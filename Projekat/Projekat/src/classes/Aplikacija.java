@@ -262,7 +262,7 @@ public class Aplikacija {
 					if(organizacijeList.get(i).getResursi().get(j).equals(name))
 					{
 						organizacijeList.get(i).getResursi().remove(j);
-						organizacije.get(organizacijeList.get(i).getIme()).getResursi().remove(j);
+						organizacije.get(organizacijeList.get(i).getIme()).setResursi(organizacijeList.get(i).getResursi());
 						
 						for (int k = 0; k < korisniciList.size(); k++) {
 							if(korisniciList.get(k).getOrganizacija().getIme().equals(organizacijeList.get(i).getIme()))
@@ -282,8 +282,8 @@ public class Aplikacija {
 				for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
 					if(organizacijeList.get(i).getResursi().get(j).equals(d.getMojaVirtualnaMasina().getIme()))
 					{
-						organizacijeList.get(i).getResursi().set(j, d.getIme());
-						organizacije.get(organizacijeList.get(i).getIme()).getResursi().set(j, d.getIme());
+						organizacijeList.get(i).getResursi().add(d.getIme());
+						organizacije.get(organizacijeList.get(i).getIme()).setResursi(organizacijeList.get(i).getResursi());
 						
 						for (int k = 0; k < korisniciList.size(); k++) {
 							if(korisniciList.get(k).getOrganizacija().getIme().equals(organizacijeList.get(i).getIme()))
@@ -306,7 +306,7 @@ public class Aplikacija {
 					if(virtualneList.get(i).getDiskovi().get(j).equals(name))
 					{
 						virtualneList.get(i).getDiskovi().remove(j);
-						virtualne.get(virtualneList.get(i).getIme()).getDiskovi().remove(j);
+						virtualne.get(virtualneList.get(i).getIme()).setDiskovi(virtualneList.get(i).getDiskovi());
 						break; 
 					}
 				}
@@ -319,7 +319,7 @@ public class Aplikacija {
 				if(virtualneList.get(i).getIme().equals(d.getMojaVirtualnaMasina().getIme()))
 				{	
 					virtualneList.get(i).getDiskovi().add(d.getIme());
-					virtualne.get(d.getMojaVirtualnaMasina().getIme()).getDiskovi().add(d.getIme());
+					virtualne.get(d.getMojaVirtualnaMasina().getIme()).setDiskovi(virtualneList.get(i).getDiskovi());
 							
 				}
 			}	
