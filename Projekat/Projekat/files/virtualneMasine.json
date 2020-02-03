@@ -193,5 +193,18 @@
       "Disc4"
     ],
     "ime": "kbjb"
+  },
+  {
+    "kategorija": {
+      "ime": "Category2",
+      "br_jezgara": 4,
+      "RAM": 10,
+      "GPU": 3
+    },
+    "datumi": [],
+    "diskovi": [
+      "Disc4"
+    ],
+    "ime": "VM55"
   }
 ]
