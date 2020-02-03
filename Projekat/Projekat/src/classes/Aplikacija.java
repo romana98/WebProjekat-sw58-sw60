@@ -155,6 +155,15 @@ public class Aplikacija {
 				{
 					organizacijeList.get(i).getResursi().set(j, vm.getIme());
 					organizacije.get(organizacijeList.get(i).getIme()).getResursi().set(j, vm.getIme());
+					
+					for (int k = 0; k < korisniciList.size(); k++) {
+						if(korisniciList.get(k).getOrganizacija().getIme().equals(organizacijeList.get(i).getIme()))
+						{
+							korisniciList.get(k).getOrganizacija().setResursi(organizacijeList.get(i).getResursi());
+							korisnici.get(korisniciList.get(k).getEmail()).setOrganizacija(organizacijeList.get(i));;
+						}
+					}
+					
 					break;
 				}
 				
@@ -175,6 +184,16 @@ public class Aplikacija {
 		virtualne.remove(name);
 		virtualne.put(vm.getIme(), virtualneList.get(index));
 		
+		for(int i = 0; i < diskoviList.size(); i++)
+		{
+			if(diskoviList.get(i).getMojaVirtualnaMasina().getIme().equals(name))
+			{
+				diskoviList.get(i).setMojaVirtualnaMasina(virtualneList.get(index));
+				diskovi.get(diskoviList.get(i).getIme()).setMojaVirtualnaMasina(virtualneList.get(index));
+				break;
+			}
+				
+		}
 		
 	}
 	
@@ -191,39 +210,46 @@ public class Aplikacija {
 			}
 		}
 		
-		for(int i = 0; i < organizacijeList.size(); i++)
+		
+		
+		if(d.getMojaVirtualnaMasina().getIme().equals(diskoviList.get(index).getMojaVirtualnaMasina().getIme()))
 		{
-			for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
-				if(organizacijeList.get(i).getResursi().get(j).equals(name))
+			for(int i = 0; i < organizacijeList.size(); i++)
+			{
+				for (int j = 0; j < organizacijeList.get(i).getResursi().size(); j++) {
+					if(organizacijeList.get(i).getResursi().get(j).equals(name))
+					{
+						organizacijeList.get(i).getResursi().set(j, d.getIme());
+						organizacije.get(organizacijeList.get(i).getIme()).getResursi().set(j, d.getIme());
+						break;
+					}
+					
+				}
+			}
+			
+
+			virtualne.get(diskoviList.get(index).getMojaVirtualnaMasina().getIme()).setDatumi(diskoviList.get(index).getMojaVirtualnaMasina().getDatumi());
+			for(int i = 0; i < virtualneList.size(); i++)
+			{
+				if(virtualneList.get(i).getIme().equals(d.getMojaVirtualnaMasina().getIme()))
 				{
-					organizacijeList.get(i).getResursi().set(j, d.getIme());
-					organizacije.get(organizacijeList.get(i).getIme()).getResursi().set(j, d.getIme());
+					virtualneList.get(i).setDatumi(d.getMojaVirtualnaMasina().getDatumi());
+					
+					for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++) {
+						
+						if(virtualneList.get(i).getDiskovi().get(j).equals(name))
+						{
+							virtualneList.get(i).getDiskovi().set(j, d.getIme());
+							virtualne.get(d.getMojaVirtualnaMasina().getIme()).getDiskovi().set(j, d.getIme());
+							break; 
+						}
+					}
+
 					break;
 				}
-				
 			}
-		}
-		
+			
 
-		virtualne.get(d.getMojaVirtualnaMasina().getIme()).setDatumi(d.getMojaVirtualnaMasina().getDatumi());
-		for(int i = 0; i < virtualneList.size(); i++)
-		{
-			if(virtualneList.get(i).getIme().equals(d.getMojaVirtualnaMasina().getIme()))
-			{
-				virtualneList.get(i).setDatumi(d.getMojaVirtualnaMasina().getDatumi());
-				
-				for (int j = 0; j < virtualneList.get(i).getDiskovi().size(); j++) {
-					
-					if(virtualneList.get(i).getDiskovi().get(j).equals(name))
-					{
-						virtualneList.get(i).getDiskovi().set(j, d.getIme());
-						virtualne.get(d.getMojaVirtualnaMasina().getIme()).getDiskovi().set(j, d.getIme());
-						break; 
-					}
-				}
-
-				break;
-			}
 		}
 		
 		diskoviList.get(index).setIme(d.getIme());
@@ -331,6 +357,14 @@ public class Aplikacija {
 		virtualne.remove(vm.getIme());
 		organizacijeList.get(indexO).getResursi().remove(indexOK);
 		organizacije.put(organizacijeList.get(indexO).getIme(), organizacijeList.get(indexO));
+		
+		for (int i = 0; i < korisniciList.size(); i++) {
+			if(korisniciList.get(i).getOrganizacija().getIme().equals(organizacijeList.get(indexO).getIme()))
+			{
+				korisniciList.get(i).getOrganizacija().setResursi(organizacijeList.get(indexO).getResursi());
+				korisnici.get(korisniciList.get(i).getEmail()).setOrganizacija(organizacijeList.get(indexO));;
+			}
+		}
 
 	}
 	
