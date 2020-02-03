@@ -274,6 +274,7 @@ Vue.component("izmena-brisanje-disk", {
 	
 		if(this.$route.params.disk_ime) 
 		{
+			console.log(this.$route.params.disk_ime);
 			this.ime = this.$route.params.disk_ime;
 			
 		}
