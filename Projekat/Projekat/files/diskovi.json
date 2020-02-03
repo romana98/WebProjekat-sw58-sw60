@@ -1,126 +1,70 @@
 [
   {
-    "tip": "hdd",
-    "kapacitet": 45,
+    "kapacitet": 4,
     "mojaVirtualnaMasina": {
       "kategorija": {
-        "ime": "",
-        "br_jezgara": 0,
-        "RAM": 0,
-        "GPU": 0
+        "ime": "Kategorija1",
+        "br_jezgara": 1,
+        "RAM": 2,
+        "GPU": 3
       },
       "datumi": [],
-      "diskovi": [],
-      "ime": "VM3"
+      "diskovi": [
+        "Disc1"
+      ],
+      "ime": "Org1VM1"
     },
     "ime": "Disc1"
   },
   {
-    "tip": "ssd",
-    "kapacitet": 22,
+    "kapacitet": 5,
     "mojaVirtualnaMasina": {
       "kategorija": {
-        "ime": "Category2",
-        "br_jezgara": 4,
-        "RAM": 10,
-        "GPU": 3
+        "ime": "Kategorija3",
+        "br_jezgara": 7,
+        "RAM": 8,
+        "GPU": 9
       },
       "datumi": [],
       "diskovi": [
         "Disc2"
       ],
-      "ime": "VM2"
+      "ime": "Org2VM1"
     },
     "ime": "Disc2"
   },
   {
-    "tip": "ssd",
-    "kapacitet": 70,
+    "kapacitet": 6,
     "mojaVirtualnaMasina": {
       "kategorija": {
-        "ime": "",
-        "br_jezgara": 0,
-        "RAM": 0,
-        "GPU": 0
+        "ime": "Kategorija1",
+        "br_jezgara": 1,
+        "RAM": 2,
+        "GPU": 3
       },
       "datumi": [],
-      "diskovi": [],
-      "ime": ""
+      "diskovi": [
+        "Disc3"
+      ],
+      "ime": "Org3VM1"
     },
     "ime": "Disc3"
   },
   {
-    "tip": "ssd",
-    "kapacitet": 5,
+    "kapacitet": 7,
     "mojaVirtualnaMasina": {
       "kategorija": {
-        "ime": "Category4",
-        "br_jezgara": 1,
-        "RAM": 10,
-        "GPU": 5
+        "ime": "Kategorija2",
+        "br_jezgara": 4,
+        "RAM": 5,
+        "GPU": 6
       },
       "datumi": [],
       "diskovi": [
         "Disc4"
       ],
-      "ime": "VM6"
+      "ime": "Org4VM1"
     },
     "ime": "Disc4"
-  },
-  {
-    "tip": "hdd",
-    "kapacitet": 33,
-    "mojaVirtualnaMasina": {
-      "kategorija": {
-        "ime": "Category1",
-        "br_jezgara": 5,
-        "RAM": 40,
-        "GPU": 30
-      },
-      "datumi": [],
-      "diskovi": [
-        "Disc5",
-        "Disc7"
-      ],
-      "ime": "VM3"
-    },
-    "ime": "Disc5"
-  },
-  {
-    "tip": "ssd",
-    "kapacitet": 65,
-    "mojaVirtualnaMasina": {
-      "kategorija": {
-        "ime": "Category2",
-        "br_jezgara": 4,
-        "RAM": 10,
-        "GPU": 3
-      },
-      "datumi": [],
-      "diskovi": [
-        "Disc6"
-      ],
-      "ime": "VM5"
-    },
-    "ime": "Disc6"
-  },
-  {
-    "tip": "hdd",
-    "kapacitet": 45,
-    "mojaVirtualnaMasina": {
-      "kategorija": {
-        "ime": "Category1",
-        "br_jezgara": 5,
-        "RAM": 40,
-        "GPU": 35
-      },
-      "datumi": [],
-      "diskovi": [
-        "Disc5",
-        "Disc7"
-      ],
-      "ime": "VM3"
-    },
-    "ime": "Disc7"
   }
 ]

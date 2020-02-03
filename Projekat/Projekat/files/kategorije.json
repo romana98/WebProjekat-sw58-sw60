@@ -1,38 +1,26 @@
 [
   {
-    "ime": "Category1",
-    "br_jezgara": 5,
-    "RAM": 40,
-    "GPU": 35
-  },
-  {
-    "ime": "Category2",
-    "br_jezgara": 4,
-    "RAM": 10,
+    "ime": "Kategorija1",
+    "br_jezgara": 1,
+    "RAM": 2,
     "GPU": 3
   },
   {
-    "ime": "Category3",
-    "br_jezgara": 6,
-    "RAM": 75,
-    "GPU": 22
+    "ime": "Kategorija2",
+    "br_jezgara": 4,
+    "RAM": 5,
+    "GPU": 6
   },
   {
-    "ime": "Category4",
-    "br_jezgara": 1,
-    "RAM": 10,
-    "GPU": 5
+    "ime": "Kategorija3",
+    "br_jezgara": 7,
+    "RAM": 8,
+    "GPU": 9
   },
   {
-    "ime": "Category5",
-    "br_jezgara": 3,
-    "RAM": 44,
-    "GPU": 33
-  },
-  {
-    "ime": "Micova Kategorija",
-    "br_jezgara": 5,
-    "RAM": 6,
-    "GPU": 88
+    "ime": "Kategorija4",
+    "br_jezgara": 10,
+    "RAM": 11,
+    "GPU": 12
   }
 ]
